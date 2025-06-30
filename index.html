@@ -1,0 +1,67 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quest Checklist</title>
+  <style>
+    body { font-family: sans-serif; margin: 20px; }
+    .tabs { margin-bottom: 20px; }
+    .tab { padding: 10px 20px; cursor: pointer; display: inline-block; border: 1px solid #ccc; border-bottom: none; }
+    .tab.active { background: #eee; }
+    .content { border: 1px solid #ccc; padding: 20px; }
+    .progress { margin: 10px 0; }
+  </style>
+</head>
+<body>
+  <div class="tabs">
+    <div class="tab active" data-target="main">Main Quests</div>
+    <div class="tab" data-target="side">Side Quests</div>
+  </div>
+
+  <div class="progress" id="progress"></div>
+
+  <div class="content" id="main" style="display: block;">
+    <h3>Main Quests</h3>
+    <ul>
+      <li><input type="checkbox" class="main"> Complete tutorial</li>
+      <li><input type="checkbox" class="main"> Escape facility</li>
+      <li><input type="checkbox" class="main"> Defeat first boss</li>
+    </ul>
+  </div>
+
+  <div class="content" id="side" style="display: none;">
+    <h3>Side Quests</h3>
+    <ul>
+      <li><input type="checkbox" class="side"> Find hidden room</li>
+      <li><input type="checkbox" class="side"> Collect secret item</li>
+    </ul>
+  </div>
+
+  <script>
+    const tabs = document.querySelectorAll('.tab');
+    const contents = document.querySelectorAll('.content');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        contents.forEach(c => c.style.display = 'none');
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.target).style.display = 'block';
+        updateProgress();
+      });
+    });
+
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(cb => cb.addEventListener('change', updateProgress));
+
+    function updateProgress() {
+      let activeTab = document.querySelector('.tab.active').dataset.target;
+      let checked = document.querySelectorAll(`#${activeTab} input[type="checkbox"]:checked`).length;
+      let total = document.querySelectorAll(`#${activeTab} input[type="checkbox"]').length;
+      document.getElementById('progress').textContent = `Completed: ${checked} / ${total}`;
+    }
+
+    updateProgress();
+  </script>
+</body>
+</html>
