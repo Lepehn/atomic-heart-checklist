@@ -3,130 +3,82 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Quest Checklist</title>
-<style>
-  body { 
-    font-family: sans-serif; 
-    margin: 20px; 
-    background-color: #121212; 
-    color: #ddd;
-  }
-  .tabs { margin-bottom: 20px; }
-  .tab {
-    padding: 10px 20px;
-    cursor: pointer;
-    display: inline-block;
-    border: 1px solid #444;
-    border-bottom: none;
-    background-color: #212121;
-    color: #ccc;
-    user-select: none;
-  }
-  .tab.active { 
-    background-color: #383838; 
-    color: #eee;
-  }
-  .content {
-    border: 1px solid #444;
-    padding: 20px;
-    display: none;
-    background-color: #212121;
-    color: #ddd;
-  }
-  .content.active { display: block; }
-  .progress {
-    margin: 10px 0;
-    font-weight: bold;
-  }
-</style>
+  <style>
+    body { font-family: sans-serif; margin: 20px; background: #121212; color: #ddd; }
+    h1 { text-align: center; margin-bottom: 20px; }
+    .tabs { text-align: center; margin-bottom: 20px; }
+    .tab { padding: 10px 20px; cursor: pointer; display: inline-block; background: #212121; border: 1px solid #444; border-bottom: none; user-select: none; }
+    .tab.active { background: #383838; }
+    .content { display: none; border: 1px solid #444; padding: 20px; background: #212121; }
+    .content.active { display: block; }
+    .progress { margin: 10px 0; font-weight: bold; }
+    input[type=checkbox]:checked + label { text-decoration: line-through; color: #888; }
+  </style>
 </head>
 <body>
-  <h1>Atomic Heart Checklist</h1>
+  <h1>My Quest Checklist</h1>
   <div class="tabs">
     <div class="tab active" data-target="main">Main Quests</div>
     <div class="tab" data-target="side">Side Quests</div>
   </div>
-
-  <div class="content active" id="main">
-    <h3>Main Quests</h3>
-    <div class="progress" id="progress-main"></div>
-    <ul>
-      <li><input type="checkbox" class="main" data-id="complete-tutorial"> Complete tutorial</li>
-      <li><input type="checkbox" class="main" data-id="escape-facility"> Escape facility</li>
-      <li><input type="checkbox" class="main" data-id="defeat-first-boss"> Defeat first boss</li>
-    </ul>
-  </div>
-
-  <div class="content" id="side">
-    <h3>Side Quests</h3>
-    <div class="progress" id="progress-side"></div>
-    <ul>
-      <li><input type="checkbox" class="side" data-id="find-hidden-room"> Find hidden room</li>
-      <li><input type="checkbox" class="side" data-id="collect-secret-item"> Collect secret item</li>
-    </ul>
-  </div>
-
+  <div class="content active" id="main"><h3>Main Quests</h3><div class="progress" id="progress-main"></div><ul id="main-list"></ul></div>
+  <div class="content" id="side"><h3>Side Quests</h3><div class="progress" id="progress-side"></div><ul id="side-list"></ul></div>
   <script>
-    const tabs = document.querySelectorAll('.tab');
-    const contents = document.querySelectorAll('.content');
+    const mainQuests = ["Ain't No Rest For The Wicked", "The Complex", "What The F**k Have I Gotten Myself Into?", "Wanted Dead or Alive", "Not So Fast Major!", "In Hot Pursuit", "Chronos Trigger", "Everything Illuminated", "They Want To Make A Green Mars", "Into The Fire", "In An Overgrown Park", "March of Flowers", "As You Sow, So Shall You Reap", "Locked Inside With Hostiles", "Run For Your Life", "Breath of Fresh Air", "Country House", "SDC2 Volan Cheat Sheet", "Morning Express", "Excellent", "A brand new World", "A Glass Darkly", "Hands Off", "Made in The USSR", "The Major, The Witch, and the Warehouse", "She Sells Moustache on the Seashore", "Red Arrow", "Tremors", "Uneasy Lies the Head that Wears a Crown", "Bug In The System", "The Show Must Go On", "Petrov of the Opera", "Sealed with Seven Seals", "Not a Password at All", "Ascending The Stage", "Madman In A Box", "Sky's The Limit", "Combat Granny", "Infirmary", "Blood Courier", "Everything Illuminated", "An Inconvenient Truth", "The Nut House", "The Final"];
 
-    // Load saved progress from localStorage
-    function loadProgress() {
-      document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-        const saved = localStorage.getItem(cb.dataset.id);
-        if (saved === 'true') {
-          cb.checked = true;
-        }
+    const sideQuests = [];
+
+    function createList(quests, containerId, type) {
+      const container = document.getElementById(containerId);
+      quests.forEach((quest, index) => {
+        const id = `${type}-${index}`;
+        const li = document.createElement('li');
+        li.innerHTML = `<input type="checkbox" id="${id}" data-id="${id}" class="${type}"><label for="${id}"> ${quest}</label>`;
+        container.appendChild(li);
       });
     }
 
-    // Save checkbox state to localStorage
+    function loadProgress() {
+      document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+        const saved = localStorage.getItem(cb.dataset.id);
+        if (saved === 'true') cb.checked = true;
+      });
+    }
+
     function saveProgress(cb) {
       localStorage.setItem(cb.dataset.id, cb.checked);
     }
 
-    // Update progress text for a given tab
     function updateProgress(tabId) {
       const container = document.getElementById(tabId);
       const checkboxes = container.querySelectorAll('input[type="checkbox"]');
       const checked = container.querySelectorAll('input[type="checkbox"]:checked').length;
-      const progressEl = document.getElementById(`progress-${tabId}`);
-      progressEl.textContent = `Completed: ${checked} / ${checkboxes.length}`;
+      document.getElementById(`progress-${tabId}`).textContent = `Completed: ${checked} / ${checkboxes.length}`;
     }
 
-    // Handle tab click
-    tabs.forEach(tab => {
+    document.querySelectorAll('.tab').forEach(tab => {
       tab.addEventListener('click', () => {
-        // Toggle active tab
-        tabs.forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
-
-        // Show/hide content
-        contents.forEach(c => c.classList.remove('active'));
-        const target = document.getElementById(tab.dataset.target);
-        target.classList.add('active');
-
-        // Update progress for the active tab
+        document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+        document.getElementById(tab.dataset.target).classList.add('active');
         updateProgress(tab.dataset.target);
       });
     });
 
-    // Handle checkbox changes
-    document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-      cb.addEventListener('change', () => {
-        saveProgress(cb);
+    createList(mainQuests, 'main-list', 'main');
+    createList(sideQuests, 'side-list', 'side');
 
-        // Update progress only for the visible tab
+    document.addEventListener('change', e => {
+      if (e.target.matches('input[type="checkbox"]')) {
+        saveProgress(e.target);
         const activeTab = document.querySelector('.tab.active').dataset.target;
         updateProgress(activeTab);
-      });
+      }
     });
 
-    // Initial setup
     loadProgress();
-
-    // Show initial progress for the default tab
     updateProgress('main');
   </script>
 </body>
 </html>
-
