@@ -3,29 +3,41 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Quest Checklist</title>
-  <style>
-    body { font-family: sans-serif; margin: 20px; }
-    .tabs { margin-bottom: 20px; }
-    .tab {
-      padding: 10px 20px;
-      cursor: pointer;
-      display: inline-block;
-      border: 1px solid #ccc;
-      border-bottom: none;
-      user-select: none;
-    }
-    .tab.active { background: #eee; }
-    .content {
-      border: 1px solid #ccc;
-      padding: 20px;
-      display: none;
-    }
-    .content.active { display: block; }
-    .progress {
-      margin: 10px 0;
-      font-weight: bold;
-    }
-  </style>
+<style>
+  body { 
+    font-family: sans-serif; 
+    margin: 20px; 
+    background-color: #121212; 
+    color: #ddd;
+  }
+  .tabs { margin-bottom: 20px; }
+  .tab {
+    padding: 10px 20px;
+    cursor: pointer;
+    display: inline-block;
+    border: 1px solid #444;
+    border-bottom: none;
+    background-color: #212121;
+    color: #ccc;
+    user-select: none;
+  }
+  .tab.active { 
+    background-color: #383838; 
+    color: #eee;
+  }
+  .content {
+    border: 1px solid #444;
+    padding: 20px;
+    display: none;
+    background-color: #212121;
+    color: #ddd;
+  }
+  .content.active { display: block; }
+  .progress {
+    margin: 10px 0;
+    font-weight: bold;
+  }
+</style>
 </head>
 <body>
   <div class="tabs">
