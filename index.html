@@ -5,13 +5,14 @@
   <title>Atomic Heart Checklist</title>
   <style>
     body { font-family: sans-serif; margin: 20px; background: #121212; color: #ddd; }
-    h1 { text-align: center; margin: 0 auto 20px; max-width: 1280px; border-radius: 8px; }
-    .tabs-wrapper { max-width: 600px; margin: 0 auto; display: flex; justify-content: center; }
-    .tabs { display: flex; gap: 10px; }
-    .tab { padding: 10px 20px; cursor: pointer; background: #212121; border: 1px solid #444; user-select: none; border-radius: 8px 8px 0 0; }
-    .tab.active { background: #383838; }
-    .spacer { height: 20px; }
-    .content { display: none; border: 1px solid #444; padding: 20px; background: #212121; max-width: 1280px; margin: 40px auto; border-radius: 8px; }
+    h1 { text-align: center; margin: 0 auto 20px; max-width: 600px; border-radius: 8px; }
+    .menu-container { display: flex; justify-content: flex-end; max-width: 600px; margin: 0 auto; }
+    .menu { position: relative; display: inline-block; }
+    .menu-button { background: #212121; border: 1px solid #444; padding: 10px 20px; cursor: pointer; border-radius: 8px; }
+    .dropdown { display: none; position: absolute; right: 0; background: #212121; border: 1px solid #444; border-radius: 8px; min-width: 160px; z-index: 1; }
+    .dropdown div { padding: 10px; cursor: pointer; }
+    .dropdown div:hover { background: #383838; }
+    .content { display: none; border: 1px solid #444; padding: 20px; background: #212121; max-width: 600px; margin: 40px auto; border-radius: 8px; }
     .content.active { display: block; }
     .progress { margin: 10px 0; font-weight: bold; }
     input[type=checkbox]:checked + label { text-decoration: line-through; color: #888; }
