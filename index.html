@@ -22,13 +22,33 @@
 </head>
 <body>
   <h1>Atomic Heart Checklist</h1>
-  <div class="tabs">
-    <div class="tab active" data-target="main">Main Quests</div>
-    <div class="tab" data-target="side">Side Quests</div>
+  <div class="menu-container">
+    <div class="menu">
+      <div class="menu-button">☰ Menu</div>
+      <div class="dropdown">
+        <div data-target="main">Main Quests</div>
+        <div data-target="side">Side Quests</div>
+      </div>
+    </div>
   </div>
   <div class="content active" id="main"><h3>Main Quests</h3><div class="progress" id="progress-main"></div><ul id="main-list"></ul></div>
   <div class="content" id="side"><h3>Side Quests</h3><div class="progress" id="progress-side"></div><ul id="side-list"></ul></div>
   <script>
+    const menuButton = document.querySelector('.menu-button');
+    const dropdown = document.querySelector('.dropdown');
+
+    menuButton.addEventListener('click', () => {
+      dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    });
+
+    dropdown.querySelectorAll('div').forEach(item => {
+      item.addEventListener('click', () => {
+        document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+        document.getElementById(item.dataset.target).classList.add('active');
+        updateProgress(item.dataset.target);
+        dropdown.style.display = 'none';
+      });
+    });
     const mainQuests = [
       "Ain't No Rest For The Wicked", 
       "The Complex", 
