@@ -27,12 +27,10 @@
       <div class="menu-button">☰ Menu</div>
       <div class="dropdown">
         <div data-target="main">Main Quests</div>
-        <div data-target="side">Side Quests</div>
         <div data-target="faq">FAQ</div>
       </div>
     </div>
     <div class="content active" id="main"><h3>Main Quests</h3><div class="progress" id="progress-main"></div><ul id="main-list"></ul></div>
-    <div class="content" id="side"><h3>Side Quests</h3><div class="progress" id="progress-side"></div><ul id="side-list"></ul></div>
     <div class="content" id="faq">
     <h3>FAQ</h3>
     <p>The foundation of this guide was based on Stephen McNabb's Dark Soul 2 Cheat Sheet source code.</p>
@@ -60,8 +58,6 @@
     });
 
     const mainQuests = ["Ain't No Rest For The Wicked", "The Complex", "What The F**k Have I Gotten Myself Into?", "Wanted Dead or Alive", "Not So Fast Major!", "In Hot Pursuit", "Chronos Trigger", "Everything Illuminated", "They Want To Make A Green Mars", "Into The Fire", "In An Overgrown Park", "March of Flowers", "As You Sow, So Shall You Reap", "Locked Inside With Hostiles", "Run For Your Life", "Breath of Fresh Air", "Country House", "SDC2 Volan Cheat Sheet", "Morning Express", "Excellent", "A brand new World", "A Glass Darkly", "Hands Off", "Made in The USSR", "The Major, The Witch, and the Warehouse", "She Sells Moustache on the Seashore", "Red Arrow", "Tremors", "Uneasy Lies the Head that Wears a Crown", "Bug In The System", "The Show Must Go On", "Petrov of the Opera", "Sealed with Seven Seals", "Not a Password at All", "Ascending The Stage", "Madman In A Box", "Sky's The Limit", "Combat Granny", "Infirmary", "Blood Courier", "Everything Illuminated", "An Inconvenient Truth", "The Nut House", "The Final"];
-
-    const sideQuests = [];
 
     function createList(quests, containerId, type) {
       const container = document.getElementById(containerId);
@@ -92,7 +88,6 @@
     }
 
     createList(mainQuests, 'main-list', 'main');
-    createList(sideQuests, 'side-list', 'side');
 
     document.addEventListener('change', e => {
       if (e.target.matches('input[type="checkbox"]')) {
