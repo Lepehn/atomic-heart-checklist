@@ -2,7 +2,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Quest Checklist</title>
+  <title>Atomic Heart Checklist</title>
   <style>
     body { font-family: sans-serif; margin: 20px; background: #121212; color: #ddd; }
     h1 { text-align: left; margin-bottom: 20px; }
@@ -16,7 +16,7 @@
   </style>
 </head>
 <body>
-  <h1>My Quest Checklist</h1>
+  <h1>Atomic Heart Checklist</h1>
   <div class="tabs">
     <div class="tab active" data-target="main">Main Quests</div>
     <div class="tab" data-target="side">Side Quests</div>
@@ -24,7 +24,52 @@
   <div class="content active" id="main"><h3>Main Quests</h3><div class="progress" id="progress-main"></div><ul id="main-list"></ul></div>
   <div class="content" id="side"><h3>Side Quests</h3><div class="progress" id="progress-side"></div><ul id="side-list"></ul></div>
   <script>
-    const mainQuests = ["Ain't No Rest For The Wicked", "The Complex", "What The F**k Have I Gotten Myself Into?", "Wanted Dead or Alive", "Not So Fast Major!", "In Hot Pursuit", "Chronos Trigger", "Everything Illuminated", "They Want To Make A Green Mars", "Into The Fire", "In An Overgrown Park", "March of Flowers", "As You Sow, So Shall You Reap", "Locked Inside With Hostiles", "Run For Your Life", "Breath of Fresh Air", "Country House", "SDC2 Volan Cheat Sheet", "Morning Express", "Excellent", "A brand new World", "A Glass Darkly", "Hands Off", "Made in The USSR", "The Major, The Witch, and the Warehouse", "She Sells Moustache on the Seashore", "Red Arrow", "Tremors", "Uneasy Lies the Head that Wears a Crown", "Bug In The System", "The Show Must Go On", "Petrov of the Opera", "Sealed with Seven Seals", "Not a Password at All", "Ascending The Stage", "Madman In A Box", "Sky's The Limit", "Combat Granny", "Infirmary", "Blood Courier", "Everything Illuminated", "An Inconvenient Truth", "The Nut House", "The Final"];
+    const mainQuests = [
+      "Ain't No Rest For The Wicked", 
+      "The Complex", 
+      "What The F**k Have I Gotten Myself Into?", 
+      "Wanted Dead or Alive", 
+      "Not So Fast Major!", 
+      "In Hot Pursuit", 
+      "Chronos Trigger", 
+      "Everything Illuminated", 
+      "They Want To Make A Green Mars", 
+      "Into The Fire", 
+      "In An Overgrown Park", 
+      "March of Flowers", 
+      "As You Sow, So Shall You Reap", 
+      "Locked Inside With Hostiles", 
+      "Run For Your Life", 
+      "Breath of Fresh Air", 
+      "Country House", 
+      "SDC2 Volan Cheat Sheet", 
+      "Morning Express", 
+      "Excellent", 
+      "A brand new World", 
+      "A Glass Darkly", 
+      "Hands Off", 
+      "Made in The USSR", 
+      "The Major, The Witch, and the Warehouse", 
+      "She Sells Moustache on the Seashore", 
+      "Red Arrow", 
+      "Tremors", 
+      "Uneasy Lies the Head that Wears a Crown", 
+      "Bug In The System", 
+      "The Show Must Go On", 
+      "Petrov of the Opera", 
+      "Sealed with Seven Seals", 
+      "Not a Password at All", 
+      "Ascending The Stage", 
+      "Madman In A Box", 
+      "Sky's The Limit", 
+      "Combat Granny", 
+      "Infirmary", 
+      "Blood Courier", 
+      "Everything Illuminated", 
+      "An Inconvenient Truth", 
+      "The Nut House", 
+      "The Final"
+      ];
 
     const sideQuests = [];
 
