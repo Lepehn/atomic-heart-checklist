@@ -12,7 +12,7 @@
     .dropdown { display: none; position: absolute; right: 0; background: #212121; border: 1px solid #444; border-radius: 8px; min-width: 160px; z-index: 1; }
     .dropdown div { padding: 10px; cursor: pointer; }
     .dropdown div:hover { background: #383838; }
-    .content { display: none; border: 1px solid #444; padding: 20px; background: #212121; margin-top: 40px; border-radius: 8px; }
+    .content { display: none; border: 1px solid #444; padding: 20px; background: #212121; margin-top: 40px; border-radius: 8px; max-width: 720px; margin-left: auto; margin-right: auto; }
     .content.active { display: block; }
     .progress { margin: 10px 0; font-weight: bold; }
     input[type=checkbox]:checked + label { text-decoration: line-through; color: #888; }
@@ -22,7 +22,7 @@
 </head>
 <body>
   <h1>Atomic Heart Checklist</h1>
-  <div class="menu-container">
+  <div class="content-container">
     <div class="menu">
       <div class="menu-button">☰ Menu</div>
       <div class="dropdown">
@@ -30,9 +30,9 @@
         <div data-target="side">Side Quests</div>
       </div>
     </div>
+    <div class="content active" id="main"><h3>Main Quests</h3><div class="progress" id="progress-main"></div><ul id="main-list"></ul></div>
+    <div class="content" id="side"><h3>Side Quests</h3><div class="progress" id="progress-side"></div><ul id="side-list"></ul></div>
   </div>
-  <div class="content active" id="main"><h3>Main Quests</h3><div class="progress" id="progress-main"></div><ul id="main-list"></ul></div>
-  <div class="content" id="side"><h3>Side Quests</h3><div class="progress" id="progress-side"></div><ul id="side-list"></ul></div>
   <script>
     const menuButton = document.querySelector('.menu-button');
     const dropdown = document.querySelector('.dropdown');
@@ -49,52 +49,8 @@
         dropdown.style.display = 'none';
       });
     });
-    const mainQuests = [
-      "Ain't No Rest For The Wicked", 
-      "The Complex", 
-      "What The F**k Have I Gotten Myself Into?", 
-      "Wanted Dead or Alive", 
-      "Not So Fast Major!", 
-      "In Hot Pursuit", 
-      "Chronos Trigger", 
-      "Everything Illuminated", 
-      "They Want To Make A Green Mars", 
-      "Into The Fire", 
-      "In An Overgrown Park", 
-      "March of Flowers", 
-      "As You Sow, So Shall You Reap", 
-      "Locked Inside With Hostiles", 
-      "Run For Your Life", 
-      "Breath of Fresh Air", 
-      "Country House", 
-      "SDC2 Volan Cheat Sheet", 
-      "Morning Express", 
-      "Excellent", 
-      "A brand new World", 
-      "A Glass Darkly", 
-      "Hands Off", 
-      "Made in The USSR", 
-      "The Major, The Witch, and the Warehouse", 
-      "She Sells Moustache on the Seashore", 
-      "Red Arrow", 
-      "Tremors", 
-      "Uneasy Lies the Head that Wears a Crown", 
-      "Bug In The System", 
-      "The Show Must Go On", 
-      "Petrov of the Opera", 
-      "Sealed with Seven Seals", 
-      "Not a Password at All", 
-      "Ascending The Stage", 
-      "Madman In A Box", 
-      "Sky's The Limit", 
-      "Combat Granny", 
-      "Infirmary", 
-      "Blood Courier", 
-      "Everything Illuminated", 
-      "An Inconvenient Truth", 
-      "The Nut House", 
-      "The Final"
-      ];
+
+    const mainQuests = ["Ain't No Rest For The Wicked", "The Complex", "What The F**k Have I Gotten Myself Into?", "Wanted Dead or Alive", "Not So Fast Major!", "In Hot Pursuit", "Chronos Trigger", "Everything Illuminated", "They Want To Make A Green Mars", "Into The Fire", "In An Overgrown Park", "March of Flowers", "As You Sow, So Shall You Reap", "Locked Inside With Hostiles", "Run For Your Life", "Breath of Fresh Air", "Country House", "SDC2 Volan Cheat Sheet", "Morning Express", "Excellent", "A brand new World", "A Glass Darkly", "Hands Off", "Made in The USSR", "The Major, The Witch, and the Warehouse", "She Sells Moustache on the Seashore", "Red Arrow", "Tremors", "Uneasy Lies the Head that Wears a Crown", "Bug In The System", "The Show Must Go On", "Petrov of the Opera", "Sealed with Seven Seals", "Not a Password at All", "Ascending The Stage", "Madman In A Box", "Sky's The Limit", "Combat Granny", "Infirmary", "Blood Courier", "Everything Illuminated", "An Inconvenient Truth", "The Nut House", "The Final"];
 
     const sideQuests = [];
 
@@ -126,24 +82,14 @@
       document.getElementById(`progress-${tabId}`).textContent = `Completed: ${checked} / ${checkboxes.length}`;
     }
 
-    document.querySelectorAll('.tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
-        document.getElementById(tab.dataset.target).classList.add('active');
-        updateProgress(tab.dataset.target);
-      });
-    });
-
     createList(mainQuests, 'main-list', 'main');
     createList(sideQuests, 'side-list', 'side');
 
     document.addEventListener('change', e => {
       if (e.target.matches('input[type="checkbox"]')) {
         saveProgress(e.target);
-        const activeTab = document.querySelector('.tab.active').dataset.target;
-        updateProgress(activeTab);
+        const activeContent = document.querySelector('.content.active').id;
+        updateProgress(activeContent);
       }
     });
 
