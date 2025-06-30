@@ -1,15 +1,30 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Quest Checklist</title>
   <style>
     body { font-family: sans-serif; margin: 20px; }
     .tabs { margin-bottom: 20px; }
-    .tab { padding: 10px 20px; cursor: pointer; display: inline-block; border: 1px solid #ccc; border-bottom: none; }
+    .tab {
+      padding: 10px 20px;
+      cursor: pointer;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-bottom: none;
+      user-select: none;
+    }
     .tab.active { background: #eee; }
-    .content { border: 1px solid #ccc; padding: 20px; }
-    .progress { margin: 10px 0; }
+    .content {
+      border: 1px solid #ccc;
+      padding: 20px;
+      display: none;
+    }
+    .content.active { display: block; }
+    .progress {
+      margin: 10px 0;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -18,22 +33,22 @@
     <div class="tab" data-target="side">Side Quests</div>
   </div>
 
-  <div class="progress" id="progress"></div>
-
-  <div class="content" id="main" style="display: block;">
+  <div class="content active" id="main">
     <h3>Main Quests</h3>
+    <div class="progress" id="progress-main"></div>
     <ul>
-      <li><input type="checkbox" class="main"> Complete tutorial</li>
-      <li><input type="checkbox" class="main"> Escape facility</li>
-      <li><input type="checkbox" class="main"> Defeat first boss</li>
+      <li><input type="checkbox" class="main" data-id="complete-tutorial"> Complete tutorial</li>
+      <li><input type="checkbox" class="main" data-id="escape-facility"> Escape facility</li>
+      <li><input type="checkbox" class="main" data-id="defeat-first-boss"> Defeat first boss</li>
     </ul>
   </div>
 
-  <div class="content" id="side" style="display: block;">
+  <div class="content" id="side">
     <h3>Side Quests</h3>
+    <div class="progress" id="progress-side"></div>
     <ul>
-      <li><input type="checkbox" class="side"> Find hidden room</li>
-      <li><input type="checkbox" class="side"> Collect secret item</li>
+      <li><input type="checkbox" class="side" data-id="find-hidden-room"> Find hidden room</li>
+      <li><input type="checkbox" class="side" data-id="collect-secret-item"> Collect secret item</li>
     </ul>
   </div>
 
@@ -41,27 +56,64 @@
     const tabs = document.querySelectorAll('.tab');
     const contents = document.querySelectorAll('.content');
 
+    // Load saved progress from localStorage
+    function loadProgress() {
+      document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+        const saved = localStorage.getItem(cb.dataset.id);
+        if (saved === 'true') {
+          cb.checked = true;
+        }
+      });
+    }
+
+    // Save checkbox state to localStorage
+    function saveProgress(cb) {
+      localStorage.setItem(cb.dataset.id, cb.checked);
+    }
+
+    // Update progress text for a given tab
+    function updateProgress(tabId) {
+      const container = document.getElementById(tabId);
+      const checkboxes = container.querySelectorAll('input[type="checkbox"]');
+      const checked = container.querySelectorAll('input[type="checkbox"]:checked').length;
+      const progressEl = document.getElementById(`progress-${tabId}`);
+      progressEl.textContent = `Completed: ${checked} / ${checkboxes.length}`;
+    }
+
+    // Handle tab click
     tabs.forEach(tab => {
       tab.addEventListener('click', () => {
+        // Toggle active tab
         tabs.forEach(t => t.classList.remove('active'));
-        contents.forEach(c => c.style.display = 'none');
         tab.classList.add('active');
-        document.getElementById(tab.dataset.target).style.display = 'block';
-        updateProgress();
+
+        // Show/hide content
+        contents.forEach(c => c.classList.remove('active'));
+        const target = document.getElementById(tab.dataset.target);
+        target.classList.add('active');
+
+        // Update progress for the active tab
+        updateProgress(tab.dataset.target);
       });
     });
 
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-    checkboxes.forEach(cb => cb.addEventListener('change', updateProgress));
+    // Handle checkbox changes
+    document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+      cb.addEventListener('change', () => {
+        saveProgress(cb);
 
-    function updateProgress() {
-      let activeTab = document.querySelector('.tab.active').dataset.target;
-      let checked = document.querySelectorAll(`#${activeTab} input[type="checkbox"]:checked`).length;
-      let total = document.querySelectorAll(`#${activeTab} input[type="checkbox"]`).length;
-      document.getElementById('progress').textContent = `Completed: ${checked} / ${total}`;
-    }
+        // Update progress only for the visible tab
+        const activeTab = document.querySelector('.tab.active').dataset.target;
+        updateProgress(activeTab);
+      });
+    });
 
-    updateProgress();
+    // Initial setup
+    loadProgress();
+
+    // Show initial progress for the default tab
+    updateProgress('main');
   </script>
 </body>
 </html>
+
