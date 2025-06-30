@@ -29,7 +29,7 @@
     </ul>
   </div>
 
-  <div class="content" id="side" style="display: none;">
+  <div class="content" id="side" style="display: block;">
     <h3>Side Quests</h3>
     <ul>
       <li><input type="checkbox" class="side"> Find hidden room</li>
@@ -57,7 +57,7 @@
     function updateProgress() {
       let activeTab = document.querySelector('.tab.active').dataset.target;
       let checked = document.querySelectorAll(`#${activeTab} input[type="checkbox"]:checked`).length;
-      let total = document.querySelectorAll(`#${activeTab} input[type="checkbox"]').length;
+      let total = document.querySelectorAll(`#${activeTab} input[type="checkbox"]`).length;
       document.getElementById('progress').textContent = `Completed: ${checked} / ${total}`;
     }
 
