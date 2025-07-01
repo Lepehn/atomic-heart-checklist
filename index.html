@@ -63,15 +63,70 @@
         updateProgress(item.dataset.target);
       });
     });
+
+    const mainQuests = [
+      { title: "Ain't No Rest For The Wicked", note: "Attend the ceremony." },
+      { title: "The Complex", note: "Investigate the lab complex." },
+      { title: "What The F**k Have I Gotten Myself Into?", note: "Survive the ambush." },
+      // Add remaining quests with notes as desired...
+    ];
     
-    const mainQuests = ["Ain't No Rest For The Wicked", "The Complex", "What The F**k Have I Gotten Myself Into?", "Wanted Dead or Alive", "Not So Fast Major!", "In Hot Pursuit", "Chronos Trigger", "Everything Illuminated", "They Want To Make A Green Mars", "Into The Fire", "In An Overgrown Park", "March of Flowers", "As You Sow, So Shall You Reap", "Locked Inside With Hostiles", "Run For Your Life", "Breath of Fresh Air", "Country House", "SDC2 Volan Cheat Sheet", "Morning Express", "Excellent", "A brand new World", "A Glass Darkly", "Hands Off", "Made in The USSR", "The Major, The Witch, and the Warehouse", "She Sells Moustache on the Seashore", "Red Arrow", "Tremors", "Uneasy Lies the Head that Wears a Crown", "Bug In The System", "The Show Must Go On", "Petrov of the Opera", "Sealed with Seven Seals", "Not a Password at All", "Ascending The Stage", "Madman In A Box", "Sky's The Limit", "Combat Granny", "Infirmary", "Blood Courier", "Everything Illuminated", "An Inconvenient Truth", "The Nut House", "The Final"];
+    const mainQuests = [
+      { title: "Ain't No Rest For The Wicked", note: ""},
+      { title: "The Complex", note: ""},
+      { title: "What The F**k Have I Gotten Myself Into?", note: ""},
+      { title: "Wanted Dead or Alive", note: ""},
+      { title: "Not So Fast Major!", note: ""},
+      { title: "In Hot Pursuit", note: ""},
+      { title: "Chronos Trigger", note: ""},
+      { title: "Everything Illuminated", note: ""},
+      { title: "They Want To Make A Green Mars", note: ""},
+      { title: "Into The Fire", note: ""},
+      { title: "In An Overgrown Park", note: ""},
+      { title: "March of Flowers", note: ""},
+      { title: "As You Sow, So Shall You Reap", note: ""},
+      { title: "Locked Inside With Hostiles", note: ""},
+      { title: "Run For Your Life", note: ""},
+      { title: "Breath of Fresh Air", note: ""},
+      { title: "Country House", note: ""},
+      { title: "SDC2 Volan Cheat Sheet", note: ""},
+      { title: "Morning Express", note: ""},
+      { title: "Excellent", note: ""},
+      { title: "A brand new World", note: ""},
+      { title: "A Glass Darkly", note: ""},
+      { title: "Hands Off", note: ""},
+      { title: "Made in The USSR", note: ""},
+      { title: "The Major, The Witch, and the Warehouse", note: ""},
+      { title: "She Sells Moustache on the Seashore", note: ""},
+      { title: "Red Arrow", note: ""},
+      { title: "Tremors", note: ""},
+      { title: "Uneasy Lies the Head that Wears a Crown", note: ""},
+      { title: "Bug In The System", note: ""},
+      { title: "The Show Must Go On", note: ""},
+      { title: "Petrov of the Opera", note: ""},
+      { title: "Sealed with Seven Seals", note: ""},
+      { title: "Not a Password at All", note: ""},
+      { title: "Ascending The Stage", note: ""},
+      { title: "Madman In A Box", note: ""},
+      { title: "Sky's The Limit", note: ""},
+      { title: "Combat Granny", note: ""},
+      { title: "Infirmary", note: ""},
+      { title: "Blood Courier", note: ""},
+      { title: "Everything Illuminated", note: ""},
+      { title: "An Inconvenient Truth", note: ""},
+      { title: "The Nut House", note: ""},
+      { title: "The Final"note: ""}
+    ];
 
     function createList(quests, containerId, type) {
       const container = document.getElementById(containerId);
       quests.forEach((quest, index) => {
         const id = `${type}-${index}`;
         const li = document.createElement('li');
-        li.innerHTML = `<input type="checkbox" id="${id}" data-id="${id}" class="${type}"><label for="${id}"> ${quest}</label>`;
+        li.innerHTML = `<input type="checkbox" id="${id}" data-id="${id}" class="${type}">
+        <label for="${id}"> ${quest}</label>`;
+        <div class="note">Note: ${quest.note}</div>
+        `;
         container.appendChild(li);
       });
     }
