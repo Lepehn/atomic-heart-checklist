@@ -116,9 +116,10 @@
       quests.forEach((quest, index) => {
         const id = `${type}-${index}`;
         const li = document.createElement('li');
-        li.innerHTML = `<input type="checkbox" id="${id}" data-id="${id}" class="${type}">
-        <label for="${id}"> ${quest}</label>`;
-        <div class="note">Note: ${quest.note}</div>
+        li.innerHTML = `
+          <input type="checkbox" id="${id}" data-id="${id}" class="${type}">
+          <label for="${id}"> ${quest.title}</label>
+          <div class="note">Note: ${quest.note}</div>
         `;
         container.appendChild(li);
       });
