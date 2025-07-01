@@ -20,7 +20,9 @@
     li { margin: 5px 0; }
     .note { font-size: inherit; color: #aaa; background: #1a1a1a; padding: 4px 8px; border-radius: 8px; display: block; margin-left: 20px; margin-top: 4px; width: fit-content; max-width: 100%; box-sizing: border-box; word-wrap: break-word; }
     .note:empty { display: none; }
-    .tag { font-size: 0.9em; color: #aaa; background: #1a1a1a; padding: 4px 8px; border-radius: 8px; display: inline-block; margin-left: 20px; }
+    .giver { font-size: inherit; color: #121212; background: #6b984d; padding: 4px 8px; border-radius: 4px; display: inline-block; margin-left: 20px; width: fit-content; max-width: 100%; box-sizing: border-box; word-wrap: break-word; }
+    .giver:empty { display: none; }
+    .tag { font-size: 0.9em; color: #121212; background: #279AF2; padding: 4px 8px; border-radius: 8px; display: inline-block; margin-left: 20px; }
   </style>
 </head>
 <body>
@@ -68,7 +70,7 @@
     });
 
     const mainQuests = [
-      { title: "Ain't No Rest For The Wicked", note: "Go to the parade"},
+      { title: "Ain't No Rest For The Wicked", note: "Go to the parade", giver: "Sechenov"},
       { title: "The Complex", note: ""},
       { title: "What The F**k Have I Gotten Myself Into?", note: ""},
       { title: "Wanted Dead or Alive", note: ""},
@@ -122,6 +124,7 @@
         li.innerHTML = `
           <input type="checkbox" id="${id}" data-id="${id}" class="${type}">
           <label for="${id}"> ${quest.title}</label>
+          <div class="giver">${quest.giver ? `${quest.giver}` : ''}</div>
           <div class="note">${quest.note ? `${quest.note}` : ''}</div>
         `;
         container.appendChild(li);
