@@ -32,10 +32,12 @@
       <div class="menu-button">☰ Menu</div>
       <div class="dropdown">
         <div data-target="main">Main Quests</div>
+        <div data-target="main">Bosses</div>
         <div data-target="faq">FAQ</div>
       </div>
     </div>
     <div class="content active" id="main"><h3>Main Quests</h3><div class="progress" id="progress-main"></div><ul id="main-list"></ul></div>
+    <div class="content active" id="main"><h3>Bosses</h3><div class="progress" id="progress-boss"></div><ul id="boss-list"></ul></div>
     <div class="content" id="faq">
     <h3>FAQ</h3>
     <p>The foundation of this guide was based on Stephen McNabb's Dark Soul 2 Cheat Sheet source code.</p>
@@ -48,23 +50,18 @@
   <script>
     const menuButton = document.querySelector('.menu-button');
     const dropdown = document.querySelector('.dropdown');
-
-    // Toggle dropdown visibility on menu button click
+    
     menuButton.addEventListener('click', () => {
       dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
     });
 
-    // Add click event to each dropdown item
     dropdown.querySelectorAll('div[data-target]').forEach(item => {
       item.addEventListener('click', () => {
-        // Show the selected content tab
         document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
         document.getElementById(item.dataset.target).classList.add('active');
 
-        // Hide dropdown menu after selecting
         dropdown.style.display = 'none';
 
-        // Update progress if applicable
         updateProgress(item.dataset.target);
       });
     });
@@ -116,6 +113,16 @@
       { title: "The Final", note: ""}
     ];
 
+    const bosses = [
+      {title: "Lab Tech"},
+      {title: "Large Mutant"},
+      {title: "Hedgie"},
+      {title: "Plyusch"},
+      {title: "Natasha"},
+      {title: "Dewdrop"},
+      {title: "The Twins"}
+      ];
+
     function createList(quests, containerId, type) {
       const container = document.getElementById(containerId);
       quests.forEach((quest, index) => {
@@ -150,6 +157,7 @@
     }
 
     createList(mainQuests, 'main-list', 'main');
+    createList(bosses, 'boss-list', 'boss');
 
     document.addEventListener('change', e => {
       if (e.target.matches('input[type="checkbox"]')) {
