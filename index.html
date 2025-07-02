@@ -23,6 +23,7 @@
     .giver { font-size: inherit; color: #121212; background: #6b984d; padding: 4px 8px; border-radius: 4px; display: inline-block; margin-left: 20px; width: fit-content; max-width: 100%; box-sizing: border-box; word-wrap: break-word; }
     .giver:empty { display: none; }
     .tag { font-size: 0.9em; color: #121212; background: #279AF2; padding: 4px 8px; border-radius: 8px; display: inline-block; margin-left: 20px; }
+    .tag:empty { display: none; }
   </style>
 </head>
 <body>
@@ -32,12 +33,14 @@
       <div class="menu-button">☰ Menu</div>
       <div class="dropdown">
         <div data-target="main">Main Quests</div>
-        <div data-target="main">Bosses</div>
+        <div data-target="boss">Bosses</div>
+        <div data-target="weapon">Weapons</div>
         <div data-target="faq">FAQ</div>
       </div>
     </div>
     <div class="content active" id="main"><h3>Main Quests</h3><div class="progress" id="progress-main"></div><ul id="main-list"></ul></div>
     <div class="content" id="boss"><h3>Bosses</h3><div class="progress" id="progress-boss"></div><ul id="boss-list"></ul></div>
+    <div class="content" id="weapon"><h3>Weapons</h3><div class="progress" id="progress-weapon"></div><ul id="weapon-list"></ul></div>
     <div class="content" id="faq">
     <h3>FAQ</h3>
     <p>The foundation of this guide was based on Stephen McNabb's Dark Soul 2 Cheat Sheet source code.</p>
@@ -74,7 +77,6 @@
       { title: "Not So Fast Major!", note: ""},
       { title: "In Hot Pursuit", note: ""},
       { title: "Chronos Trigger", note: ""},
-      { title: "Everything Illuminated", note: ""},
       { title: "They Want To Make A Green Mars", note: ""},
       { title: "Into The Fire", note: ""},
       { title: "In An Overgrown Park", note: ""},
@@ -122,6 +124,22 @@
       {title: "Dewdrop"},
       {title: "The Twins"}
       ];
+      
+     const weapons = [
+      {title: "PM", tag: "Pistol"},
+      {title: "Pashtet", tag: "Melee"},
+      {title: "Dominator", tag: "Cannon"},
+      {title: "Electro", tag: ["Pistol", "Energy"]},
+      {title: "Railgun", tag: ["Rifle", "Energy"]},
+      {title: "Fatboy", tag: "Cannon"},
+      {title: "Kalash", tag: "Rifle"},
+      {title: "Swede", tag: "Melee"},
+      {title: "Snowball", tag: "Melee"},
+      {title: "Zvezdochka", tag: "Melee"},
+      {title: "KS 21", tag: "Shotgun"},
+      {title: "KM-4 Kuzmich", tag: ["Shotgun", "DLC"]},
+      {title: "Fox", tag: "Melee"}
+      ];
 
     function createList(quests, containerId, type) {
       const container = document.getElementById(containerId);
@@ -132,6 +150,7 @@
           <input type="checkbox" id="${id}" data-id="${id}" class="${type}">
           <label for="${id}"> ${quest.title}</label>
           <div class="giver">${quest.giver ? `${quest.giver}` : ''}</div>
+          ${Array.isArray(quest.tag) ? quest.tag.map(t => `<div class="tag">${t}</div>`).join('') : (quest.tag ? `<div class="tag">${quest.tag}</div>` : '')}
           <div class="note">${quest.note ? `${quest.note}` : ''}</div>
         `;
         container.appendChild(li);
@@ -158,6 +177,7 @@
 
     createList(mainQuests, 'main-list', 'main');
     createList(bosses, 'boss-list', 'boss');
+    createList(weapons, 'weapon-list', 'weapon');
 
     document.addEventListener('change', e => {
       if (e.target.matches('input[type="checkbox"]')) {
