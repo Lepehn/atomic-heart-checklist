@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -76,6 +77,14 @@
 
     .content.active {
       display: block;
+    }
+
+    /* Progress counters */
+    .progress {
+      margin: 10px 0 10px 0;
+      font-weight: bold;
+      font-size: 1em;
+      color: #a0a0a0;
     }
 
     /* List & Checkbox */
@@ -161,18 +170,21 @@
     <!-- Main Quests -->
     <div class="content active" id="main">
       <h2>Main Quests</h2>
-      <ul id="main-quests"></ul>
+      <div class="progress" id="main-Progress">Completed 0 / 0</div>
+      <ul id="main-Quests"></ul>
     </div>
     
     <!-- Base Game Boss -->
     <div class="content" id="baseGameBoss">
       <h2>Bosses</h2>
+      <div class="progress" id="baseGame-Boss-Progress">Completed 0 / 0</div>
       <ul id="baseGame-Bosses"></ul>
     </div>
     
     <!-- Weapons -->
     <div class="content" id="weapon">
-      <h2>Bosses</h2>
+      <h2>Weapons</h2>
+      <div class="progress" id="weapon-Progress">Completed 0 / 0</div>
       <ul id="weapons"></ul>
     </div>
 
@@ -210,6 +222,7 @@
       });
     });
 
+    // Your data arrays
     const mainQuests = [
       { title: "Ain't No Rest For The Wicked", note: "Go to the parade", giver: "Sechenov"},
       { title: "The Complex", note: ""},
@@ -264,9 +277,9 @@
       {title: "Natasha", tag: "Required"},
       {title: "Dewdrop", tag: "Required"},
       {title: "The Twins", tag: "Required"}
-      ];
+    ];
       
-     const weapons = [
+    const weapons = [
       {title: "PM", tag: "Pistol"},
       {title: "Pashtet", tag: "Melee"},
       {title: "Dominator", tag: "Cannon"},
@@ -280,8 +293,9 @@
       {title: "KS 21", tag: "Shotgun"},
       {title: "KM-4 Kuzmich", tag: ["Shotgun", "DLC"]},
       {title: "Fox", tag: "Melee"}
-      ];
+    ];
 
+    // Create tag spans
     function createTag(text, className) {
       const span = document.createElement("span");
       span.className = `tag ${className}`;
@@ -289,6 +303,7 @@
       return span;
     }
 
+    // Create each checklist item, returns checkbox for progress updates
     function createChecklistItem(item, type, container) {
       const id = `${type}-${item.title.replace(/\s+/g, '-').toLowerCase()}`;
       const li = document.createElement("li");
@@ -297,8 +312,15 @@
       checkbox.type = "checkbox";
       checkbox.id = id;
       checkbox.checked = localStorage.getItem(id) === 'true';
+      const progressIdMap = {
+        'main-Quests': 'main-Progress',
+        'baseGame-Bosses': 'baseGame-Boss-Progress',
+        'weapons': 'weapon-Progress'
+      };
       checkbox.addEventListener('change', () => {
         localStorage.setItem(id, checkbox.checked);
+        const progressId = progressIdMap[container.id];
+        if(progressId) updateProgress(progressId, type);
       });
 
       const label = document.createElement("label");
@@ -325,26 +347,54 @@
       }
 
       container.appendChild(li);
+      return checkbox;
     }
-    
-    const mainQuestList = document.getElementById("main-quests");
+
+    // Update the progress text for a checklist
+    function updateProgress(progressId, type) {
+      const progressEl = document.getElementById(progressId);
+      if (!progressEl) return;
+
+      // Get the related list by converting progressId to listId
+      // e.g. main-progress → main-quests, boss-progress → baseGame-Bosses, weapon-progress → weapons
+      let listId;
+      if (progressId === 'main-Progress') listId = 'main-Quests';
+      else if (progressId === 'baseGame-Boss-Progress') listId = 'baseGame-Bosses';
+      else if (progressId === 'weapon-Progress') listId = 'weapons';
+      else return;
+
+      const list = document.getElementById(listId);
+      const checkboxes = list.querySelectorAll('input[type=checkbox]');
+
+      let completed = 0;
+      checkboxes.forEach(cb => {
+        if (cb.checked) completed++;
+      });
+
+      progressEl.textContent = `Completed ${completed} / ${checkboxes.length}`;
+    }
+
+    // Populate lists & update progress
+    const mainQuestList = document.getElementById("main-Quests");
     mainQuests.forEach(q => createChecklistItem(q, 'main', mainQuestList));
+    updateProgress('main-Progress', 'main');
 
     const baseGameBossList = document.getElementById("baseGame-Bosses");
     baseGameBosses.forEach(b => createChecklistItem(b, 'boss', baseGameBossList));
-    
+    updateProgress('baseGame-Boss-Progress', 'boss');
+
     const weaponList = document.getElementById("weapons");
     weapons.forEach(w => createChecklistItem(w, 'weapon', weaponList));
+    updateProgress('weapon-Progress', 'weapon');
 
+    // Insert GitHub links from templates after DOM loads
     window.addEventListener('DOMContentLoaded', () => {
       const faqTemplate = document.getElementById("github-link-template-faq");
       const footerTemplate = document.getElementById("github-link-template-footer");
 
-      // Clone templates
       const faqClone = faqTemplate.content.cloneNode(true);
       const footerClone = footerTemplate.content.cloneNode(true);
 
-      // Insert into containers
       document.getElementById("faq-link-container").appendChild(faqClone);
       document.getElementById("footer-link-container").appendChild(footerClone);
     });
