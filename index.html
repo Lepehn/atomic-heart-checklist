@@ -1,402 +1,532 @@
-<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Atomic Heart Checklist</title>
-  <style>
-    /* Base Styles */
-    body {
-      font-family: sans-serif;
-      margin: 20px;
-      background: #121212;
-      color: #ddd;
-    }
+  <head>
+    <meta name="google-site-verification" content="TM2JLp2z2ivvAbxCRiY7ekyg7shRkm4LJ23ywpbje1U" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Atomic Heart Checklist</title>
+    <style>
+      /* Base Styles */
+      body {
+        font-family: sans-serif;
+        margin: 20px;
+        background: #121212;
+        color: #ddd;
+      }
 
-    h1 {
-      text-align: center;
-      margin: 0 auto 20px;
-      max-width: 1280px;
-      border-radius: 8px;
-    }
+      h1 {
+        text-align: center;
+        margin: 0 auto 20px;
+        max-width: 1280px;
+        border-radius: 8px;
+      }
 
-    /* Container & Layout */
-    .content-container {
-      position: relative;
-      max-width: 1280px;
-      margin: 60px auto 0;
-    }
+      /* Container & Layout */
+      .content-container {
+        position: relative;
+        max-width: 1280px;
+        margin: 60px auto 0;
+      }
 
-    /* Menu */
-    .menu {
-      position: absolute;
-      top: -60px;
-      left: 0;
-    }
+      /* Menu */
+      .menu {
+        position: absolute;
+        top: -60px;
+        left: 0;
+      }
 
-    .menu-button {
-      background: #212121;
-      border: 0px solid #444;
-      padding: 10px 20px;
-      cursor: pointer;
-      border-radius: 8px;
-    }
+      .menu-button {
+        background: #212121;
+        border: 0px solid #444;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 8px;
+      }
 
-    .dropdown {
-      display: none;
-      position: absolute;
-      left: 0;
-      background: #383838;
-      border: 0px solid #444;
-      border-radius: 8px;
-      min-width: 160px;
-      z-index: 1;
-    }
+      .dropdown {
+        display: none;
+        position: absolute;
+        left: 0;
+        background: #383838;
+        border: 0px solid #444;
+        border-radius: 8px;
+        min-width: 160px;
+        z-index: 1;
+      }
 
-    .dropdown div {
-      padding: 10px;
-      cursor: pointer;
-    }
+      .dropdown div {
+        padding: 10px;
+        cursor: pointer;
+      }
 
-    .dropdown div:hover {
-      background: #383838;
-      border-radius: 8px;
-      color: #f7bf00;
-    }
+      .dropdown div:hover {
+        background: #383838;
+        border-radius: 8px;
+        color: #f7bf00;
+      }
 
-    /* Content */
-    .content {
-      display: none;
-      border: 0px solid #444;
-      padding: 20px;
-      background: #212121;
-      margin-top: 40px;
-      border-radius: 8px;
-      max-width: 1280px;
-      margin-left: auto;
-      margin-right: auto;
-    }
+      /* Content */
+      .content {
+        display: none;
+        border: 0px solid #444;
+        padding: 20px;
+        background: #212121;
+        border-radius: 8px;
+        max-width: 1280px;
+        margin-left: auto;
+        margin-right: auto;
+      }
 
-    .content.active {
-      display: block;
-    }
+      .content.active {
+        display: block;
+      }
 
-    /* List & Checkbox */
-    ul {
-      list-style: none;
-      padding: 0;
-    }
+      .content ul {
+        color: #a0a0a0;
+      }
 
-    li {
-      margin: 5px 0;
-    }
+      /* List & Checkbox */
+      ul {
+        list-style: none;
+        padding: 0;
+      }
 
-    input[type=checkbox]:checked + label {
-      text-decoration: line-through;
-      color: #888;
-    }
+      li {
+        margin: 5px 0;
+      }
 
-    /* Tags */
-    .tag {
-      font-size: 0.9em;
-      padding: 4px 8px;
-      border-radius: 8px;
-      display: inline-block;
-      margin-left: 10px;
-      color: #121212;
-    }
+      input[type="checkbox"]:checked + label {
+        text-decoration: line-through;
+        color: #555;
+      }
 
-    .tagRequired   { background: #ff8a80; }
-    .tagOptional   { background: #d8d8d4; }
-    .tagGiver      { background: #80d8ff; }
-    
-    .tagNote       {
-      color: #aaa;
-      background: #1a1a1a;
-      padding: 4px 8px; 
-      border-radius: 8px; 
-      display: block; 
-      margin-left: 20px; 
-      margin-top: 4px; 
-      width: fit-content; 
-      max-width: 100%; 
-      box-sizing: border-box; 
-      word-wrap: break-word; 
-     }
-     
-    .tagMelee      { background: #ffd180; }
-    .tagPistol     { background: #ffd180; }
-    .tagRifle      { background: #ffd180; }
-    .tagCannon     { background: #ffd180; }
-    .tagShotgun    { background: #ffd180; }
-    .tagEnergy	   { background: #ffd180; }
-    
-    .tagDLC      { background: #f7bf00; }
-  </style>
-</head>
-  
-<template id="github-link-template-faq">
-  <a href="https://github.com/Lepehn/atomic-heart-checklist" target="_blank" style="color: #88c0d0; text-decoration: none;">
-    GitHub repository
-  </a>
-</template>
-<template id="github-link-template-footer">
-  <a href="https://github.com/Lepehn/atomic-heart-checklist" target="_blank" style="color: #88c0d0; text-decoration: none;">
-    report an issue on GitHub
-  </a>
-</template>
-  
-<body>
-  <h1>Atomic Heart Checklist</h1>
-  
-  <div class="content-container">
-    <!-- Menu -->
-    <div class="menu">
-      <div class="menu-button">☰ Menu</div>
-      <div class="dropdown">
-        <div data-target="main">Main Quests</div>
-        <div data-target="baseGameBoss">Bosses</div>
-        <div data-target="weapon">Weapons</div>
-        <div data-target="faq">FAQ</div>
+      /* Tags */
+      .tag {
+        font-size: 0.9em;
+        padding: 4px 8px;
+        border-radius: 8px;
+        display: inline-block;
+        margin-left: 10px;
+        color: #121212;
+      }
+
+      .tagRequired {
+        background: #ff8a80;
+      }
+      .tagOptional {
+        background: #d8d8d4;
+      }
+      .tagGiver {
+        background: #80d8ff;
+      }
+
+      .tagNote {
+        color: #aaa;
+        background: #1a1a1a;
+        padding: 4px 8px;
+        border-radius: 8px;
+        display: block;
+        margin-left: 20px;
+        margin-top: 4px;
+        width: fit-content;
+        max-width: 100%;
+        box-sizing: border-box;
+        word-wrap: break-word;
+      }
+
+      .tagMelee      { background: #ffd180; }
+	  .tagPistol     { background: #ffd180; }
+	  .tagRifle      { background: #ffd180; }
+	  .tagCannon     { background: #ffd180; }
+	  .tagShotgun    { background: #ffd180; }
+	  .tagEnergy	 { background: #ffd180; }
+
+      .tagDLC {
+        background: #f7bf00;
+      }
+
+      /* Layout with Sidebar */
+      .content-container {
+        display: flex;
+        gap: 20px;
+        max-width: 1280px;
+        margin: 60px auto 0;
+      }
+
+      /* Sidebar Styling */
+      .sidebar {
+        text-align: center;
+        background: #212121;
+        border-radius: 8px;
+        padding: 20px;
+        width: 250;
+        height: 400;
+        flex-shrink: 0;
+        color: #ccc;
+        font-size: 0.95em;
+        margin-bottom: 20px;
+      }
+
+      .sidebar h3 {
+        margin-top: 20;
+        color: #a0a0a0;
+      }
+
+      .sidebar a {
+        color: #88c0d0;
+        text-decoration: none;
+      }
+      .sidebar a:hover {
+        text-decoration: underline;
+      }
+
+      .profile-bg {
+        width: 100%;
+        height: 100%;
+        background-image: url("https://cdn2.steamgriddb.com/thumb/53f249d8ba9cfab41868236dead77aba.jpg");
+        background-size: auto;
+        background-repeat: no-repeat;
+        background-position: center;
+        border-radius: 8px;
+      }
+
+      .tab-box {
+        background: #212121;
+        border-radius: 8px;
+        padding: 10px;
+      }
+
+      .tab-box2 {
+        background: #212121;
+        border-radius: 8px;
+        padding: 10px;
+        margin-bottom: 20px;
+      }
+
+      .tab-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .tab-buttons2 {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .tab-button {
+        padding: 10px;
+        background: #2a2a2a;
+        color: #ccc;
+        border-radius: 6px;
+        text-align: center;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+
+      .tab-button:hover,
+      .tab-button.active {
+        background: #383838;
+        color: #f7bf00;
+      }
+
+      .scrollable-list {
+        margin-top: 12px;
+        max-height: 400px; /* Adjust height as needed */
+        overflow-y: auto;
+        padding-right: 8px; /* Avoid cutting off scrollbar */
+        scrollbar-color: #383838 #1a1a1a;
+      }
+
+      /* Ensure content fills remaining space */
+      .content-section {
+        flex-grow: 1;
+      }
+    </style>
+  </head>
+  <template id="github-link-template-faq">
+    <a href="https://github.com/Lepehn/atomic-heart-checklist" target="_blank" style="color: #88c0d0; text-decoration: none;">
+      GitHub repository
+    </a>
+  </template>
+  <template id="github-link-template-footer">
+    <a href="https://github.com/Lepehn/atomic-heart-checklist" target="_blank" style="color: #88c0d0; text-decoration: none;">
+      report an issue on GitHub
+    </a>
+  </template>
+  <body>
+    <h1>Atomic Heart Checklist</h1>
+    <div class="content-container">
+      <div class="sidebar-wrapper">
+        <div class="sidebar">
+          <div class="profile-bg"></div>
+        </div>
+        <div class="tab-sidebar">
+          <div class="tab-box">
+            <div class="tab-buttons">
+              <div class="tab-button" data-target="faq">FAQ</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Main Quests -->
+      <div class="content-section">
+        <div class="tab-box2">
+          <div class="tab-buttons2">
+            <div class="tab-button" data-target="main">Main Quests</div>
+            <div class="tab-button" data-target="baseGameBoss">Bosses</div>
+            <div class="tab-button" data-target="weapon">Weapons</div>
+          </div>
+        </div>
+        <div class="content active" id="main">
+          <h2>Main Quests</h2>
+          <div class="progress" id="main-Progress">Completed 0 / 0</div>
+          <div class="scrollable-list">
+            <ul id="main-Quests"></ul>
+          </div>
+        </div>
+
+        <!-- Base Game Bosses -->
+        <div class="content" id="baseGameBoss">
+          <h2>Bosses</h2>
+          <div class="progress" id="baseGame-Boss-Progress">Completed 0 / 0</div>
+          <div class="scrollable-list">
+            <ul id="baseGame-Bosses"></ul>
+          </div>
+        </div>
+
+        <!-- Weapons -->
+        <div class="content" id="weapon">
+          <h2>Weapons</h2>
+          <div class="progress" id="weapon-Progress">Completed 0 / 0</div>
+          <div class="scrollable-list">
+            <ul id="weapons"></ul>
+          </div>
+        </div>
+
+        <!-- Cans -->
+        <div class="content" id="can">
+          <h2>Cans</h2>
+          <div class="progress" id="can-Progress">Completed 0 / 0</div>
+          <div class="scrollable-list">
+            <ul id="cans"></ul>
+          </div>
+        </div>
+
+        <!-- FAQ -->
+        <div class="content" id="faq">
+          <h3>FAQ</h3>
+          <p>This project was built by a fan and is inspired by similar checklists for other games like Dark Souls.</p>
+          <p>
+            <strong>I have feedback, how can I contribute?</strong><br />
+            You can visit the <span id="faq-link-container"></span> and report Issues or create a fork and submit a Pull Request.
+          </p>
+          <p>
+            <strong>Is this a guide?</strong><br />
+            No, this is not a full walkthrough or guide. It simply helps you stay organized while playing by letting you check off content as you complete it.
+          </p>
+          <p>
+            <strong>How does the checklist status get saved?</strong><br />
+            Your progress is saved locally in your browser using localStorage. This means your checklist will stay saved as long as you don’t clear your browser data.
+          </p>
+        </div>
       </div>
     </div>
 
-    <!-- Main Quests -->
-    <div class="content active" id="main">
-      <h2>Main Quests</h2>
-      <div class="progress" id="main-Progress">Completed 0 / 0</div>
-      <ul id="main-Quests"></ul>
-    </div>
-    
-    <!-- Base Game Boss -->
-    <div class="content" id="baseGameBoss">
-      <h2>Bosses</h2>
-      <div class="progress" id="baseGame-Boss-Progress">Completed 0 / 0</div>
-      <ul id="baseGame-Bosses"></ul>
-    </div>
-    
-    <!-- Weapons -->
-    <div class="content" id="weapon">
-      <h2>Weapons</h2>
-      <div class="progress" id="weapon-Progress">Completed 0 / 0</div>
-      <ul id="weapons"></ul>
-    </div>
+    <!-- Script -->
+    <script>
+      document.querySelectorAll(".tab-button").forEach((button) => {
+        button.addEventListener("click", () => {
+          // Remove active class from all buttons
+          document.querySelectorAll(".tab-button").forEach((btn) => btn.classList.remove("active"));
 
-    <!-- FAQ -->
-    <div class="content" id="faq">
-      <h3>FAQ</h3>
-      <p>The foundation of this guide was based on Stephen McNabb's Dark Soul 2 Cheat Sheet source code.</p>
-      <p>This checklist has been compiled using IGN and wiki pages.</p>
-      <p><strong>I have feedback, how can I contribute?</strong><br>
-        You can visit the <span id="faq-link-container"></span> and report Issues or create a fork and submit a Pull Request.
-      </p>
-      <p><strong>Is this a guide?</strong><br>
-        Nope, not really. This is a set of checklists and information that you can use while playing Atomic Heart.
-      </p>
-      <p><strong>How does the checklist status get saved?</strong><br>
-        The checklist is saved to your browser's local storage. Be careful when clearing your browser's cache as it will also destroy your saved progress.
-      </p>
-    </div>
-  </div>
-  
-  <!-- Script -->
-  <script>
-    const menuButton = document.querySelector('.menu-button');
-    const dropdown = document.querySelector('.dropdown');
+          // Add active class to clicked button
+          button.classList.add("active");
 
-    menuButton.addEventListener('click', () => {
-      dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-    });
-
-    dropdown.querySelectorAll('div[data-target]').forEach(item => {
-      item.addEventListener('click', () => {
-        document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
-        document.getElementById(item.dataset.target).classList.add('active');
-        dropdown.style.display = 'none';
-      });
-    });
-
-    // Your data arrays
-    const mainQuests = [
-      { title: "Ain't No Rest For The Wicked", note: "Go to the parade", giver: "Sechenov"},
-      { title: "The Complex", note: ""},
-      { title: "What The F**k Have I Gotten Myself Into?", note: ""},
-      { title: "Wanted Dead or Alive", note: ""},
-      { title: "Not So Fast Major!", note: ""},
-      { title: "In Hot Pursuit", note: ""},
-      { title: "Chronos Trigger", note: ""},
-      { title: "They Want To Make A Green Mars", note: ""},
-      { title: "Into The Fire", note: ""},
-      { title: "In An Overgrown Park", note: ""},
-      { title: "March of Flowers", note: ""},
-      { title: "As You Sow, So Shall You Reap", note: ""},
-      { title: "Locked Inside With Hostiles", note: ""},
-      { title: "Run For Your Life", note: ""},
-      { title: "Breath of Fresh Air", note: ""},
-      { title: "Country House", note: ""},
-      { title: "SDC2 Volan Cheat Sheet", note: ""},
-      { title: "Morning Express", note: ""},
-      { title: "Excellent", note: ""},
-      { title: "A brand new World", note: ""},
-      { title: "A Glass Darkly", note: ""},
-      { title: "Hands Off", note: ""},
-      { title: "Made in The USSR", note: ""},
-      { title: "The Major, The Witch, and the Warehouse", note: ""},
-      { title: "She Sells Moustache on the Seashore", note: ""},
-      { title: "Red Arrow", note: ""},
-      { title: "Tremors", note: ""},
-      { title: "Uneasy Lies the Head that Wears a Crown", note: ""},
-      { title: "Bug In The System", note: ""},
-      { title: "The Show Must Go On", note: ""},
-      { title: "Petrov of the Opera", note: ""},
-      { title: "Sealed with Seven Seals", note: ""},
-      { title: "Not a Password at All", note: ""},
-      { title: "Ascending The Stage", note: ""},
-      { title: "Madman In A Box", note: ""},
-      { title: "Sky's The Limit", note: ""},
-      { title: "Combat Granny", note: ""},
-      { title: "Infirmary", note: ""},
-      { title: "Blood Courier", note: ""},
-      { title: "Everything Illuminated", note: ""},
-      { title: "An Inconvenient Truth", note: ""},
-      { title: "The Nut House", note: ""},
-      { title: "The Final", note: ""}
-    ];
-
-    const baseGameBosses = [
-      {title: "Lab Tech", tag: "Required"},
-      {title: "Large Mutant", tag: "Required"},
-      {title: "Hedgie", tag: "Required"},
-      {title: "Plyusch", tag: "Required"},
-      {title: "Natasha", tag: "Required"},
-      {title: "Dewdrop", tag: "Required"},
-      {title: "The Twins", tag: "Required"}
-    ];
-      
-    const weapons = [
-      {title: "PM", tag: "Pistol"},
-      {title: "Pashtet", tag: "Melee"},
-      {title: "Dominator", tag: "Cannon"},
-      {title: "Electro", tag: ["Pistol", "Energy"]},
-      {title: "Railgun", tag: ["Rifle", "Energy"]},
-      {title: "Fatboy", tag: "Cannon"},
-      {title: "Kalash", tag: "Rifle"},
-      {title: "Swede", tag: "Melee"},
-      {title: "Snowball", tag: "Melee"},
-      {title: "Zvezdochka", tag: "Melee"},
-      {title: "KS 21", tag: "Shotgun"},
-      {title: "KM-4 Kuzmich", tag: ["Shotgun", "DLC"]},
-      {title: "Fox", tag: "Melee"}
-    ];
-
-    // Create tag spans
-    function createTag(text, className) {
-      const span = document.createElement("span");
-      span.className = `tag ${className}`;
-      span.textContent = text;
-      return span;
-    }
-
-    // Create each checklist item, returns checkbox for progress updates
-    function createChecklistItem(item, type, container) {
-      const id = `${type}-${item.title.replace(/\s+/g, '-').toLowerCase()}`;
-      const li = document.createElement("li");
-
-      const checkbox = document.createElement("input");
-      checkbox.type = "checkbox";
-      checkbox.id = id;
-      checkbox.checked = localStorage.getItem(id) === 'true';
-      const progressIdMap = {
-        'main-Quests': 'main-Progress',
-        'baseGame-Bosses': 'baseGame-Boss-Progress',
-        'weapons': 'weapon-Progress'
-      };
-      checkbox.addEventListener('change', () => {
-        localStorage.setItem(id, checkbox.checked);
-        const progressId = progressIdMap[container.id];
-        if(progressId) updateProgress(progressId, type);
-      });
-
-      const label = document.createElement("label");
-      label.setAttribute("for", id);
-      label.textContent = ` ${item.title}`;
-
-      li.appendChild(checkbox);
-      li.appendChild(label);
-
-      if (item.giver) li.appendChild(createTag(item.giver, "tagGiver"));
-      if (item.note) li.appendChild(createTag(item.note, "tagNote"));
-
-      if (type === 'boss') {
-        const className = item.tag === "Required" ? "tagRequired" : "tagOptional";
-        li.appendChild(createTag(item.tag, className));
-      }
-
-      if (type === 'weapon') {
-        const tags = Array.isArray(item.tag) ? item.tag : [item.tag];
-        tags.forEach(t => {
-          const className = `tag${t.replace(/\s+/g, '')}`; // e.g. Melee → tagMelee
-          li.appendChild(createTag(t, className));
+          // Switch tab content
+          document.querySelectorAll(".content").forEach((c) => c.classList.remove("active"));
+          document.getElementById(button.dataset.target).classList.add("active");
         });
+      });
+      
+      const mainQuests = [
+        { title: "Ain't No Rest For The Wicked", note: "Go to the parade", giver: "Sechenov"},
+        { title: "The Complex", note: ""},
+        { title: "What The F**k Have I Gotten Myself Into?", note: ""},
+        { title: "Wanted Dead or Alive", note: ""},
+        { title: "Not So Fast Major!", note: ""},
+        { title: "In Hot Pursuit", note: ""},
+        { title: "Chronos Trigger", note: ""},
+        { title: "They Want To Make A Green Mars", note: ""},
+        { title: "Into The Fire", note: ""},
+        { title: "In An Overgrown Park", note: ""},
+        { title: "March of Flowers", note: ""},
+        { title: "As You Sow, So Shall You Reap", note: ""},
+        { title: "Locked Inside With Hostiles", note: ""},
+        { title: "Run For Your Life", note: ""},
+        { title: "Breath of Fresh Air", note: ""},
+        { title: "Country House", note: ""},
+        { title: "SDC2 Volan Cheat Sheet", note: ""},
+        { title: "Morning Express", note: ""},
+        { title: "Excellent", note: ""},
+        { title: "A brand new World", note: ""},
+        { title: "A Glass Darkly", note: ""},
+        { title: "Hands Off", note: ""},
+        { title: "Made in The USSR", note: ""},
+        { title: "The Major, The Witch, and the Warehouse", note: ""},
+        { title: "She Sells Moustache on the Seashore", note: ""},
+        { title: "Red Arrow", note: ""},
+        { title: "Tremors", note: ""},
+        { title: "Uneasy Lies the Head that Wears a Crown", note: ""},
+        { title: "Bug In The System", note: ""},
+        { title: "The Show Must Go On", note: ""},
+        { title: "Petrov of the Opera", note: ""},
+        { title: "Sealed with Seven Seals", note: ""},
+        { title: "Not a Password at All", note: ""},
+        { title: "Ascending The Stage", note: ""},
+        { title: "Madman In A Box", note: ""},
+        { title: "Sky's The Limit", note: ""},
+        { title: "Combat Granny", note: ""},
+        { title: "Infirmary", note: ""},
+        { title: "Blood Courier", note: ""},
+        { title: "Everything Illuminated", note: ""},
+        { title: "An Inconvenient Truth", note: ""},
+        { title: "The Nut House", note: ""},
+        { title: "The Final", note: ""}
+      ];
+
+      const baseGameBosses = [
+        {title: "Lab Tech", tag: "Required"},
+        {title: "Large Mutant", tag: "Required"},
+        {title: "Hedgie", tag: "Required"},
+        {title: "Plyusch", tag: "Required"},
+        {title: "Natasha", tag: "Required"},
+        {title: "Dewdrop", tag: "Required"},
+        {title: "The Twins", tag: "Required"}
+      ];
+
+      const weapons = [
+        {title: "PM", tag: "Pistol"},
+        {title: "Pashtet", tag: "Melee"},
+        {title: "Dominator", tag: "Cannon"},
+        {title: "Electro", tag: ["Pistol", "Energy"]},
+        {title: "Railgun", tag: ["Rifle", "Energy"]},
+        {title: "Fatboy", tag: "Cannon"},
+        {title: "Kalash", tag: "Rifle"},
+        {title: "Swede", tag: "Melee"},
+        {title: "Snowball", tag: "Melee"},
+        {title: "Zvezdochka", tag: "Melee"},
+        {title: "KS 21", tag: "Shotgun"},
+        {title: "KM-4 Kuzmich", tag: ["Shotgun", "DLC"]},
+        {title: "Fox", tag: "Melee"}
+      ];
+
+      function createTag(text, className) {
+        const span = document.createElement("span");
+        span.className = `tag ${className}`;
+        span.textContent = text;
+        return span;
       }
 
-      container.appendChild(li);
-      return checkbox;
-    }
+      function createChecklistItem(item, type, container) {
+        const id = `${type}-${item.title.replace(/\s+/g, "-").toLowerCase()}`;
+        const li = document.createElement("li");
 
-    // Update the progress text for a checklist
-    function updateProgress(progressId, type) {
-      const progressEl = document.getElementById(progressId);
-      if (!progressEl) return;
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.id = id;
+        checkbox.checked = localStorage.getItem(id) === "true";
+        const progressIdMap = {
+          "main-Quests": "main-Progress",
+          "baseGame-Bosses": "baseGame-Boss-Progress",
+          "weapons": 'weapon-Progress'
+        };
+        checkbox.addEventListener("change", () => {
+          localStorage.setItem(id, checkbox.checked);
+          const progressId = progressIdMap[container.id];
+          if (progressId) updateProgress(progressId, type);
+        });
 
-      // Get the related list by converting progressId to listId
-      // e.g. main-progress → main-quests, boss-progress → baseGame-Bosses, weapon-progress → weapons
-      let listId;
-      if (progressId === 'main-Progress') listId = 'main-Quests';
-      else if (progressId === 'baseGame-Boss-Progress') listId = 'baseGame-Bosses';
-      else if (progressId === 'weapon-Progress') listId = 'weapons';
-      else return;
+        const label = document.createElement("label");
+        label.setAttribute("for", id);
+        label.textContent = ` ${item.title}`;
 
-      const list = document.getElementById(listId);
-      const checkboxes = list.querySelectorAll('input[type=checkbox]');
+        li.appendChild(checkbox);
+        li.appendChild(label);
 
-      let completed = 0;
-      checkboxes.forEach(cb => {
-        if (cb.checked) completed++;
+        if (item.giver) li.appendChild(createTag(item.giver, "tagGiver"));
+        if (item.note) li.appendChild(createTag(item.note, "tagNote"));
+
+        if (type === "boss") {
+          const className = item.tag === "Required" ? "tagRequired" : "tagOptional";
+          li.appendChild(createTag(item.tag, className));
+        }
+
+        if (type === "weapon") {
+          const tags = Array.isArray(item.tag) ? item.tag : [item.tag];
+          tags.forEach((t) => {
+            if (!t) return;
+            const className = `tag${t.replace(/\s+/g, "")}`;
+            li.appendChild(createTag(t, className));
+          });
+        }
+
+        container.appendChild(li);
+        return checkbox;
+      }
+
+      // Update the progress text for a checklist
+      function updateProgress(progressId, type) {
+        const progressEl = document.getElementById(progressId);
+        if (!progressEl) return;
+
+        // Get the related list by converting progressId to listId
+        // e.g. main-progress → main-quests, boss-progress → baseGame-Bosses, weapon-progress → weapons
+        let listId;
+        if (progressId === "main-Progress") listId = "main-Quests";
+        else if (progressId === "baseGame-Boss-Progress") listId = "baseGame-Bosses";
+        else if (progressId === "weapon-Progress") listId = "weapons";
+        else return;
+
+        const list = document.getElementById(listId);
+        const checkboxes = list.querySelectorAll("input[type=checkbox]");
+
+        let completed = 0;
+        checkboxes.forEach((cb) => {
+          if (cb.checked) completed++;
+        });
+
+        progressEl.textContent = `Completed ${completed} / ${checkboxes.length}`;
+      }
+
+      const mainQuestList = document.getElementById("main-Quests");
+      mainQuests.forEach((q) => createChecklistItem(q, "main", mainQuestList));
+      updateProgress("main-Progress", "main");
+
+      const baseGameBossList = document.getElementById("baseGame-Bosses");
+      baseGameBosses.forEach(b => createChecklistItem(b, 'boss', baseGameBossList));
+      updateProgress('baseGame-Boss-Progress', 'boss');
+
+      const weaponList = document.getElementById("weapons");
+      weapons.forEach(w => createChecklistItem(w, 'weapon', weaponList));
+      updateProgress('weapon-Progress', 'weapon');
+
+      window.addEventListener("DOMContentLoaded", () => {
+        const faqTemplate = document.getElementById("github-link-template-faq");
+        const footerTemplate = document.getElementById("github-link-template-footer");
+
+        // Clone templates
+        const faqClone = faqTemplate.content.cloneNode(true);
+        const footerClone = footerTemplate.content.cloneNode(true);
+
+        // Insert into containers
+        document.getElementById("faq-link-container").appendChild(faqClone);
+        document.getElementById("footer-link-container").appendChild(footerClone);
       });
+    </script>
 
-      progressEl.textContent = `Completed ${completed} / ${checkboxes.length}`;
-    }
-
-    // Populate lists & update progress
-    const mainQuestList = document.getElementById("main-Quests");
-    mainQuests.forEach(q => createChecklistItem(q, 'main', mainQuestList));
-    updateProgress('main-Progress', 'main');
-
-    const baseGameBossList = document.getElementById("baseGame-Bosses");
-    baseGameBosses.forEach(b => createChecklistItem(b, 'boss', baseGameBossList));
-    updateProgress('baseGame-Boss-Progress', 'boss');
-
-    const weaponList = document.getElementById("weapons");
-    weapons.forEach(w => createChecklistItem(w, 'weapon', weaponList));
-    updateProgress('weapon-Progress', 'weapon');
-
-    // Insert GitHub links from templates after DOM loads
-    window.addEventListener('DOMContentLoaded', () => {
-      const faqTemplate = document.getElementById("github-link-template-faq");
-      const footerTemplate = document.getElementById("github-link-template-footer");
-
-      const faqClone = faqTemplate.content.cloneNode(true);
-      const footerClone = footerTemplate.content.cloneNode(true);
-
-      document.getElementById("faq-link-container").appendChild(faqClone);
-      document.getElementById("footer-link-container").appendChild(footerClone);
-    });
-  </script>
-
-  <!-- Footer -->
-  <footer style="text-align: center; margin-top: 40px; font-size: 0.9em; color: #aaa;">
-    Check out the project or <span id="footer-link-container"></span>.
-  </footer>
-</body>
+    <!-- Footer -->
+    <footer style="text-align: center; margin-top: 40px; font-size: 0.9em; color: #aaa;">Check out the project or <span id="footer-link-container"></span>.</footer>
+  </body>
 </html>
