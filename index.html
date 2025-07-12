@@ -528,6 +528,7 @@
         const STORAGE_PREFIX = "atomic-heart";
 
         const sortedData = {
+        prefix: STORAGE_PREFIX,
         main: [],
         boss: [],
         weapon: []
@@ -557,7 +558,6 @@
       }
 
       function importChecklist() {
-        const STORAGE_PREFIX = "atomic-heart";
         const fileInput = document.getElementById("import-file");
         fileInput.click();
 
@@ -570,11 +570,20 @@
             try {
               const imported = JSON.parse(e.target.result);
 
-              for (const category in imported) {
-                if (!imported.hasOwnProperty(category)) continue;
+              const STORAGE_PREFIX = "atomic-heart";
 
-                imported[category].forEach((title) => {
-                  const key = `${STORAGE_PREFIX}-${category}-${title.toLowerCase().replace(/\s+/g, "-")}`;
+              if (imported.prefix !== STORAGE_PREFIX) {
+                alert(`This checklist file is for a different game or project ("${imported.prefix}"). Import aborted.`);
+                return;
+              }
+
+              for (const category in imported) {
+                if (category === "prefix") continue;
+                const items = imported[category];
+                if (!Array.isArray(items)) continue;
+
+                items.forEach((slug) => {
+                  const key = `${STORAGE_PREFIX}-${category}-${slug}`;
                   localStorage.setItem(key, "true");
                 });
               }
