@@ -426,7 +426,8 @@
       }
 
       function createChecklistItem(item, type, container) {
-        const id = `${type}-${item.title.replace(/\s+/g, "-").toLowerCase()}`;
+        const STORAGE_PREFIX = "atomic-heart";
+        const id = `${STORAGE_PREFIX}-${type}-${item.title.replace(/\s+/g, "-").toLowerCase()}`;
         const li = document.createElement("li");
 
         const checkbox = document.createElement("input");
@@ -523,23 +524,27 @@
       
       function exportChecklist() {
         const categories = ["main", "boss", "weapon"];
-        const sortedData = {};
+        
+        const STORAGE_PREFIX = "atomic-heart";
+
+        const sortedData = {
+        main: [],
+        boss: [],
+        weapon: []
+      	};
 
         categories.forEach((category) => {
           const entries = [];
 
           for (let i = 0; i < localStorage.length; i++) {
             const key = localStorage.key(i);
-            if (key.startsWith(`${category}-`)) {
-              entries.push({ key, value: localStorage.getItem(key) });
+            if (key.startsWith(`${STORAGE_PREFIX}-${category}-`) && localStorage.getItem(key) === "true") {
+            	const cleanTitle = key.slice(`${STORAGE_PREFIX}-${category}-`.length);
+      			sortedData[category].push(cleanTitle);
             }
           }
-
-          entries.sort((a, b) => a.key.localeCompare(b.key));
-
-          entries.forEach((entry) => {
-            sortedData[entry.key] = entry.value;
-          });
+          
+          sortedData[category].sort();
         });
 
         const blob = new Blob([JSON.stringify(sortedData, null, 2)], { type: "application/json" });
@@ -552,6 +557,7 @@
       }
 
       function importChecklist() {
+        const STORAGE_PREFIX = "atomic-heart";
         const fileInput = document.getElementById("import-file");
         fileInput.click();
 
@@ -563,20 +569,25 @@
           reader.onload = (e) => {
             try {
               const imported = JSON.parse(e.target.result);
-              for (const key in imported) {
-                if (imported.hasOwnProperty(key)) {
-                  localStorage.setItem(key, imported[key]);
-                }
+
+              for (const category in imported) {
+                if (!imported.hasOwnProperty(category)) continue;
+
+                imported[category].forEach((title) => {
+                  const key = `${STORAGE_PREFIX}-${category}-${title.toLowerCase().replace(/\s+/g, "-")}`;
+                  localStorage.setItem(key, "true");
+                });
               }
+
               alert("Checklist progress imported! Refresh the page to see updates.");
             } catch (err) {
               alert("Failed to import: Invalid file format.");
             }
           };
+
           reader.readAsText(file);
         };
       }
-    </script>
     </script>
 
     <!-- Footer -->
