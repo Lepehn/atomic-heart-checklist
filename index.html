@@ -260,11 +260,12 @@
           <div class="tab-box">
             <div class="tab-buttons">
               <div class="tab-button" data-target="faq">FAQ</div>
+              <div class="tab-button" onclick="exportChecklist()">Export Progress</div>
+              <div class="tab-button" onclick="importChecklist()">Import Progress <input type="file" id="import-file" style="display: none;" /></div>
             </div>
           </div>
         </div>
       </div>
-      <!-- Main Quests -->
       <div class="content-section">
         <div class="tab-box2">
           <div class="tab-buttons2">
@@ -273,6 +274,7 @@
             <div class="tab-button" data-target="weapon">Weapons</div>
           </div>
         </div>
+        <!-- Main Quests -->
         <div class="content active" id="main">
           <h2>Main Quests</h2>
           <div class="progress" id="main-Progress">Completed 0 / 0</div>
@@ -332,15 +334,15 @@
     <script>
       document.querySelectorAll(".tab-button").forEach((button) => {
         button.addEventListener("click", () => {
-          // Remove active class from all buttons
-          document.querySelectorAll(".tab-button").forEach((btn) => btn.classList.remove("active"));
+          // Only run tab-switching code if data-target exists
+          const target = button.dataset.target;
+          if (!target) return;
 
-          // Add active class to clicked button
+          document.querySelectorAll(".tab-button").forEach((btn) => btn.classList.remove("active"));
           button.classList.add("active");
 
-          // Switch tab content
           document.querySelectorAll(".content").forEach((c) => c.classList.remove("active"));
-          document.getElementById(button.dataset.target).classList.add("active");
+          document.getElementById(target).classList.add("active");
         });
       });
       
@@ -518,6 +520,63 @@
         document.getElementById("faq-link-container").appendChild(faqClone);
         document.getElementById("footer-link-container").appendChild(footerClone);
       });
+      
+      function exportChecklist() {
+        const categories = ["main", "boss", "weapon"];
+        const sortedData = {};
+
+        categories.forEach((category) => {
+          const entries = [];
+
+          for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key.startsWith(`${category}-`)) {
+              entries.push({ key, value: localStorage.getItem(key) });
+            }
+          }
+
+          entries.sort((a, b) => a.key.localeCompare(b.key));
+
+          entries.forEach((entry) => {
+            sortedData[entry.key] = entry.value;
+          });
+        });
+
+        const blob = new Blob([JSON.stringify(sortedData, null, 2)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "atomic-heart-checklist.json";
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+
+      function importChecklist() {
+        const fileInput = document.getElementById("import-file");
+        fileInput.click();
+
+        fileInput.onchange = (event) => {
+          const file = event.target.files[0];
+          if (!file) return;
+
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            try {
+              const imported = JSON.parse(e.target.result);
+              for (const key in imported) {
+                if (imported.hasOwnProperty(key)) {
+                  localStorage.setItem(key, imported[key]);
+                }
+              }
+              alert("Checklist progress imported! Refresh the page to see updates.");
+            } catch (err) {
+              alert("Failed to import: Invalid file format.");
+            }
+          };
+          reader.readAsText(file);
+        };
+      }
+    </script>
     </script>
 
     <!-- Footer -->
