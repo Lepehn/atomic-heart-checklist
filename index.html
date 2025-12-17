@@ -1,605 +1,974 @@
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta name="google-site-verification" content="TM2JLp2z2ivvAbxCRiY7ekyg7shRkm4LJ23ywpbje1U" />
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Atomic Heart Checklist</title>
-    <style>
-      *,
-      *::before,
-      *::after {
-        box-sizing: border-box;
-      }
+<head>
+<meta charset="UTF-8">
+<title>Atomic Heart Checklist</title>
 
-      body {
-        font-family: sans-serif;
-        font-size: clamp(14px, 2vw, 16px);
-        margin: 20px;
-        background: #121212;
-        color: #ddd;
-      }
+<style>
+:root {
+  /* Core Colors*/
+  --background: #141414;
+  --card: #1E1E1E;
+  --card-inlay: #1a1a1a;
+  --button: #262626;
+  --hover: #383838;
+  --border: #222;
+  --radius: 8px;
+  
+  /* Fonts */
+  --font-main: Arial, sans-serif;
+  --font-size-small: 14px;
+  --font-size-medium: 16px;
+  --font-size-large: 18px;
+  --font-size-extra-large: 24px;
 
-      h1 {
-        text-align: center;
-        margin: 0 auto 20px;
-        max-width: 1280px;
-        border-radius: 8px;
-      }
+  /* Text Colors */
+  --text: #fff;
+  --text-muted: #999;
 
-      /* Container & Layout */
-      .content-container {
-      display: flex;
-      flex-direction: row; /* horizontal layout by default */
-      align-items: flex-start;
-      gap: 20px;
-      max-width: 1280px;
-      width: 100%;
-      margin: 60px auto 0;
-      padding: 0 10px;
-    }
+  /* Status Colors */
+  --status-completed: #278041;
+  --status-inprogress: #1177a3;
+  --status-notstarted: #616161;
+  --status-onhold: #a62327;
+  --status-hundred: #689a2e;
+  --progressbar: #4caf50;
+  --status-text: var(--text);
+}
 
-      /* Content */
-      .content {
-        display: none;
-        border: none;
-        padding: 20px;
-        background: #212121;
-        border-radius: 8px;
-        width: 100%;
-        max-width: 1280px;
-        margin-left: auto;
-        margin-right: auto;
-      }
+body {
+  margin: 0;
+  margin-bottom: 120px;
+  background: var(--background);
+  font-family: var(--font-main);
+  color: var(--text);
+}
 
-      .content.active {
-        display: block;
-      }
+/* Navigation */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  border-bottom: 1px solid var(--border);
+}
+.navbar .logo { font-size: var(--font-size-extra-large); font-weight: bold;}
+.navbar .menu { display: flex; gap: 30px; }
+.navbar .menu a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: var(--font-size-medium);
+  cursor: pointer;
+}
+.navbar .menu a.active { color: var(--text); }
 
-      .content ul {
-        color: #a0a0a0;
-      }
+/* Layout */
+.container {
+  max-width: 1920px;
+  width: 100%;
+  margin: 60px auto 0;
+  padding: 0 20px;
+}
 
-      ul {
-        list-style: none;
-        padding: 0;
-      }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  margin-top: 30px;
+}
+.grid2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 25px;
+  margin-top: 30px;
+}
 
-      li {
-        margin: 5px 0;
-      }
+/* Cards */
+.card {
+  background: var(--card);
+  padding: 20px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+}
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 10px;
+}
+.card-header h3 {
+  margin: 0;
+  font-size: var(--font-size-large);
+}
 
-      input[type="checkbox"]:checked + label {
-        text-decoration: line-through;
-        color: #555;
-      }
+/* Charts */
+.chart-status,
+.chart-platform,
+.card canvas {
+  display: block;
+  margin: 0 auto;
+  width: 100% !important;
+  max-height: 250px;
+}
 
-      /* Tags */
-      .tag {
-        font-size: clamp(0.8em, 1.5vw, 0.95em);
-        padding: 4px 8px;
-        border-radius: 8px;
-        display: inline-block;
-        margin-left: 10px;
-        color: #121212;
-      }
+.games { grid-column: span 2; }
 
-      .tagRequired {
-        background: #ff8a80;
-      }
-      .tagOptional {
-        background: #d8d8d4;
-      }
-      .tagGiver {
-        background: #80d8ff;
-      }
+/* Buttons */
+.button-report,
+.button-delete svg {
+  background: var(--button);
+  padding: 6px 12px;
+  border-radius: var(--radius);
+  font-size: var(--font-size-small);
+  cursor: pointer;
+  color: var(--text);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.button-report:hover,
+.button-delete svg:hover {
+  background: var(--hover);
+}
 
-      .tagNote {
-        color: #aaa;
-        background: #1a1a1a;
-        padding: 4px 8px;
-        border-radius: 8px;
-        display: block;
-        margin-left: 20px;
-        margin-top: 4px;
-        width: fit-content;
-        max-width: 100%;
-        word-wrap: break-word;
-      }
+/* Table */
+table { width: 100%; border-collapse: collapse; }
+table td, table th {
+  padding: 12px 6px;
+  border-bottom: 1px solid var(--border);
+  font-size: var(--font-size-small);
+}
+table th { color: var(--text-muted); text-align: left; }
 
-      .tagMelee      { background: #ffd180; }
-	  .tagPistol     { background: #ffd180; }
-	  .tagRifle      { background: #ffd180; }
-	  .tagCannon     { background: #ffd180; }
-	  .tagShotgun    { background: #ffd180; }
-	  .tagEnergy	 { background: #ffd180; }
+/* Lists */
+ul { padding-left: 20px; }
+ul li { margin-bottom: 8px; font-size: var(--font-size-medium); }
 
-      .tagDLC {
-        background: #f7bf00;
-      }
+/* Scroll */
+.scrollable-list-small,
+.scrollable-list-large {
+  margin-top: 12px;
+  overflow-y: auto;
+  padding-right: 8px;
+  scrollbar-color: var(--hover) var(--card-inlay);
+}
+.scrollable-list-small { max-height: 160px; }
+.scrollable-list-large { max-height: 400px; }
 
-      /* Sidebar Styling */
-      .sidebar-wrapper {
-        width: 100%;
-        max-width: 324px;
-        height: 100%;
-        max-height: 496px;
-        flex-shrink: 0;
-      }
+#gameSearch { padding:6px; width:300px; border-radius: var(--radius); border:1px solid var(--border); background: var(--card-inlay); color: var(--text); font-size:var(--font-size-small); }
 
-      .sidebar {
-        background: #212121;
-        border-radius: 8px;
-        padding: 20px;
-        width: 100%;
-        color: #ccc;
-        font-size: clamp(0.9em, 1.5vw, 0.95em);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
+/* Selects */
+.statusSelect {
+  padding: 6px 12px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  font-size: var(--font-size-small);
+  background: var(--button);
+  color: var(--text-muted);
+}
 
-      .profile-bg {
-        width: 100%;
-        aspect-ratio: 3 / 4;
-        background-image: url("https://images.igdb.com/igdb/image/upload/t_1080p_2x/co68ag.webp");
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-position: center;
-        border-radius: 8px;
-        flex-shrink: 0;
-      }
+.statusSelect {
+  color: var(--status-text);
+}
 
-      .sidebar h3 {
-        margin-top: 20px;
-        color: #a0a0a0;
-      }
+/* Status Colors */
+.statusNotStarted { background: var(--status-notstarted); }
+.statusInProgress { background: var(--status-inprogress); }
+.statusCompleted { background: var(--status-completed); }
+.statusOnHold { background: var(--status-onhold); }
+.statusHundred { background: var(--status-hundred); }
 
-      .sidebar a {
-        color: #88c0d0;
-        text-decoration: none;
-      }
-      .sidebar a:hover {
-        text-decoration: underline;
-      }
+/* Notes */
+.note { 
+  padding: 6px 12px;
+  border-radius: var(--radius);
+  font-size: var(--font-size-small);
+  color:#aaa; 
+  background:#1a1a1a; 
+  margin-top:8px; 
+  margin-bottom:8px; 
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  word-wrap: break-word;
+}
 
-      /* Tabs & Buttons */
-      .tab-box {
-        background: #212121;
-        border-radius: 8px;
-        padding: 10px;
-        margin-top: 20px;
-      }
+/* Tags */
+.tag {
+  padding: 4px 8px;
+  border-radius: var(--radius);
+  font-size: var(--font-size-small);
+}
 
-      .tab-box2 {
-        background: #212121;
-        border-radius: 8px;
-        padding: 10px;
-        margin-bottom: 20px;
-      }
+/* Tag Colors */
+.tag.Required {
+  background: #8a2be2;
+  color: white;
+}
 
-      .tab-buttons {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        width: 100%;
-      }
+.tag.Pistol {
+  background: #2979ff;
+  color: white;
+}
 
-      .tab-buttons2 {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 8px;
-        overflow-x: auto;
-      }
+.tag.Melee {
+  background: #d32f2f;
+  color: white;
+}
 
-      .tab-button {
-        padding: 10px;
-        background: #2a2a2a;
-        color: #ccc;
-        border-radius: 6px;
-        text-align: center;
-        cursor: pointer;
-        transition: background 0.2s;
-        flex-shrink: 0;
-      }
+.tag.Rifle {
+  background: #388e3c;
+  color: white;
+}
 
-      .tab-button:hover,
-      .tab-button.active {
-        background: #383838;
-        color: #f7bf00;
-      }
+.tag.Shotgun {
+  background: #ff9800;
+  color: black;
+}
 
-      .scrollable-list {
-        margin-top: 12px;
-        max-height: 400px;
-        overflow-y: auto;
-        padding-right: 8px;
-        scrollbar-color: #383838 #1a1a1a;
-      }
+.tag.Energy {
+  background: #00acc1;
+  color: black;
+}
 
-      .content-section {
-        flex-grow: 1;
-        width: 100%;
-      }
+.tag.Cannon {
+  background: #7b1fa2;
+  color: white;
+}
 
-      /* Responsive Layout */
-      @media (max-width: 768px) {
-        .content-container {
-          flex-direction: column;
-        }
-        
-        .sidebar-wrapper {
-        margin-bottom: 75px;
-        }
+.tag.DLC {
+  background: #c51162;
+  color: white;
+}
 
-        .sidebar-wrapper,
-        .content-section {
-          width: 100%;
-        }
-      }
+/* Progress Bar */
+.progress-bar {
+  background: var(--card-inlay);
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+.progress-bar-fill {
+  background: var(--progressbar);
+  height: 100%;
+  width: 0%;
+  transition: width 0.4s ease;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 40;
+}
+.modal-content {
+  background: var(--card);
+  padding: 20px;
+  border-radius: var(--radius);
+  width: 320px;
+  max-width: 95%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.modal-content select,
+.modal-content button {
+  padding: 8px;
+  border-radius: var(--radius);
+  border: none;
+  font-size: var(--font-size-small);
+  background: var(--button);
+  color: var(--text);
+}
+#closeModal { background: var(--button); }
+
+/* Cerulean Theme */
+body.alt-theme {
+  /* Core Colors */
+  --background: #0F1C23;
+  --card: #162933;
+  --card-inlay: #13262C;
+  --button: #1D3B48;
+  --hover: #2A4F63;
+  --border: #1A3642;
+  --radius: 8px;
+
+  /* Text Colors */
+  --text: #fff;
+  --text-muted: #999;
+  
+  /* Status Colors */
+  --status-text: var(--text);
+}
+
+/* Scandi Theme */
+body.scandi-theme {
+  /* Core Colors */
+  --background: #efe8dd;
+  --card: #cab3a0;
+  --card-inlay: #decabd;
+  --button: #decabd;
+  --hover: #edeae5;
+  --border: #decabd;
+  --radius: 8px;
+
+  /* Text Colors */
+  --text: #434341;
+  --text-muted: #373A3A;
+  
+  /* Status Colors */
+  --status-text: var(--hover);
+}
+
+/* Scandi Theme */
+body.discord-theme {
+  /* Core Colors */
+  --background: #121214;
+  --card: #1A1A1E;
+  --card-inlay: #17171B;
+  --button: #212125;
+  --hover: #323235;
+  --border: #222;
+  --radius: 8px;
+
+  /* Text Colors */
+  --text: #fff;
+  --text-muted: #999;
+  
+  /* Status Colors */
+  --status-text: var(--hover);
+}
+
+/* Responsive */
+@media (max-width:900px){
+  .grid { grid-template-columns: 1fr; }
+  .games { grid-column: auto; }
+}
+
+#importBtn .material-symbols-outlined {
+  font-size: 18px;
+  vertical-align: middle;
+  line-height: 0;
+}
+
+#exportBtn .material-symbols-outlined {
+  font-size: 18px;
+  vertical-align: middle;
+  line-height: 0;
+}
+
+#openAddGame .material-symbols-outlined {
+  font-size: 18px;
+  vertical-align: middle;
+  line-height: 0;
+}
+
+.card .material-symbols-outlined {
+  font-size: 24px;
+  vertical-align: bottom;
+  line-height: 1;
+}
+
+.menu .material-symbols-outlined {
+  font-size: 24px;
+  vertical-align: middle;
+  line-height: 0;
+}
+
 </style>
-  </head>
-  <template id="github-link-template-faq">
-    <a href="https://github.com/Lepehn/atomic-heart-checklist" target="_blank" style="color: #88c0d0; text-decoration: none;">
-      GitHub repository
-    </a>
-  </template>
-  <template id="github-link-template-footer">
-    <a href="https://github.com/Lepehn/atomic-heart-checklist" target="_blank" style="color: #88c0d0; text-decoration: none;">
-      report an issue on GitHub
-    </a>
-  </template>
-  <body>
-    <h1>Atomic Heart Checklist</h1>
-    <div class="content-container">
-      <div class="sidebar-wrapper">
-        <div class="sidebar">
-          <div class="profile-bg"></div>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=add,check,delete,download,list,progress_activity,settings,upload" />
+</head>
+
+<body>
+
+<div class="navbar">
+  <div class="logo">.checklist</div>
+  <div class="menu">
+    <a class="active" href="#">Dashboard</a>
+    <a href="#">Stats</a>
+    <a href="#" id="openSettingsModal">Settings</a>
+  </div>
+  <div class="logo">/atomic-heart</div>
+</div>
+
+<div class="container">
+  <!-- Dashboard content -->
+  <div id="dashboardContent">
+  <h1>Dashboard</h1>
+      <div class="grid">
+      <div class="card">
+        <div class="card-header"><h3><span class="material-symbols-outlined">check</span> Recently Completed</h3></div>
+        <div class="scrollable-list-small" id="recentlyPlayed"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><h3><span class="material-symbols-outlined">progress_activity</span> In Progress</h3></div>
+        <div class="scrollable-list-small" id="inProgress"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><h3><span class="material-symbols-outlined">list</span> Summary</h3></div>
+        <ul id="summary"></ul>
+      </div>
+      
+            <div class="card games">
+        <div class="card-header">
+          <h3>Atomic Heart Checklist</h3>
+          <span class="button-report" id="exportBtn">          
+           <span class="material-symbols-outlined">download</span>Export
+          </span>
+          
+          <span class="button-report" id="importBtn">
+           <span class="material-symbols-outlined">upload</span>Import
+          </span>
+          
+          <input type="file" id="importJSON" accept=".json" style="display:none;">
+          <input type="text" id="gameSearch" placeholder="Search...">
         </div>
-        <div class="tab-sidebar">
-          <div class="tab-box">
-            <div class="tab-buttons">
-              <div class="tab-button" data-target="faq">FAQ</div>
-              <div class="tab-button" onclick="exportChecklist()">Export Progress</div>
-              <div class="tab-button" onclick="importChecklist()">Import Progress <input type="file" id="import-file" style="display: none;" /></div>
-            </div>
-          </div>
+        
+       <span class="button-report" data-cat="main">Main Quests</span>
+       <span class="button-report" data-cat="bosses">Bosses</span>
+       <span class="button-report" data-cat="weapons">Weapons</span>
+       
+        <div class="scrollable-list-large">
+        <ul id="questCategoryContainer"></ul>
+          <table id="questsTable">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Type</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
         </div>
       </div>
-      <div class="content-section">
-        <div class="tab-box2">
-          <div class="tab-buttons2">
-            <div class="tab-button" data-target="main">Main Quests</div>
-            <div class="tab-button" data-target="baseGameBoss">Bosses</div>
-            <div class="tab-button" data-target="weapon">Weapons</div>
-          </div>
-        </div>
-        <!-- Main Quests -->
-        <div class="content active" id="main">
-          <h2>Main Quests</h2>
-          <div class="progress" id="main-Progress">Completed 0 / 0</div>
-          <div class="scrollable-list">
-            <ul id="main-Quests"></ul>
-          </div>
-        </div>
-
-        <!-- Base Game Bosses -->
-        <div class="content" id="baseGameBoss">
-          <h2>Bosses</h2>
-          <div class="progress" id="baseGame-Boss-Progress">Completed 0 / 0</div>
-          <div class="scrollable-list">
-            <ul id="baseGame-Bosses"></ul>
-          </div>
-        </div>
-
-        <!-- Weapons -->
-        <div class="content" id="weapon">
-          <h2>Weapons</h2>
-          <div class="progress" id="weapon-Progress">Completed 0 / 0</div>
-          <div class="scrollable-list">
-            <ul id="weapons"></ul>
-          </div>
-        </div>
-
-        <!-- Cans -->
-        <div class="content" id="can">
-          <h2>Cans</h2>
-          <div class="progress" id="can-Progress">Completed 0 / 0</div>
-          <div class="scrollable-list">
-            <ul id="cans"></ul>
-          </div>
-        </div>
-
-        <!-- FAQ -->
-        <div class="content" id="faq">
-          <h3>FAQ</h3>
-          <p>This project was built by a fan and is inspired by similar checklists for other games like Dark Souls.</p>
-          <p>
-            <strong>I have feedback, how can I contribute?</strong><br />
-            You can visit the <span id="faq-link-container"></span> and report Issues or create a fork and submit a Pull Request.
-          </p>
-          <p>
-            <strong>Is this a guide?</strong><br />
-            No, this is not a full walkthrough or guide. It simply helps you stay organized while playing by letting you check off content as you complete it.
-          </p>
-          <p>
-            <strong>How does the checklist status get saved?</strong><br />
-            Your progress is saved locally in your browser using localStorage. This means your checklist will stay saved as long as you don’t clear your browser data.
-          </p>
+      
+      <div class="card" style="max-height:120px">
+        <div class="card-header"><h3>Completion Goal</h3></div>
+        <div class="completion-goal" id="completionText"></div>
+        <div class="progress-bar">
+          <div class="progress-bar-fill" id="completionBar"></div>
         </div>
       </div>
     </div>
+  </div>
+  
+    <!-- Stats content -->
+  <div id="statsContent" style="display:none;">
+    <h1>Game Stats</h1>
+    <div class="grid2">
+      <div class="card" style="max-height:360px">
+        <div class="card-header"><h3>Overall Status</h3></div>
+        <canvas id="categoryChart" class="chart-status"></canvas>
+      </div>
+      <div class="card" style="max-height:120px">
+        <div class="card-header"><h3>Completion Goal</h3></div>
+        <div class="completion-goal" id="completionTextStats"></div>
+        <div class="progress-bar">
+      		<div class="progress-bar-fill" id="completionBarStats"></div>
+       </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-    <!-- Script -->
-    <script>
-      document.querySelectorAll(".tab-button").forEach((button) => {
-        button.addEventListener("click", () => {
-          // Only run tab-switching code if data-target exists
-          const target = button.dataset.target;
-          if (!target) return;
+<!-- Settings Modal -->
+<div id="settingsModal" class="modal">
+  <div class="modal-content">
+    <h3>Settings</h3>
 
-          document.querySelectorAll(".tab-button").forEach((btn) => btn.classList.remove("active"));
-          button.classList.add("active");
+    <h4>Choose Theme</h4>
+    <button class="theme-btn" data-theme="default">Woodsmoke</button>
+    <button class="theme-btn" data-theme="alt">Cerulean</button>
+    <button class="theme-btn" data-theme="scandi">Scandi</button>
+    <button class="theme-btn" data-theme="discord-dark">Discord Dark</button>
 
-          document.querySelectorAll(".content").forEach((c) => c.classList.remove("active"));
-          document.getElementById(target).classList.add("active");
-        });
-      });
-      
-      const mainQuests = [
-        { title: "Ain't No Rest For The Wicked", note: "Go to the parade", giver: "Sechenov"},
-        { title: "The Complex", note: ""},
-        { title: "What The F**k Have I Gotten Myself Into?", note: ""},
-        { title: "Wanted Dead or Alive", note: ""},
-        { title: "Not So Fast Major!", note: ""},
-        { title: "In Hot Pursuit", note: ""},
-        { title: "Chronos Trigger", note: ""},
-        { title: "They Want To Make A Green Mars", note: ""},
-        { title: "Into The Fire", note: ""},
-        { title: "In An Overgrown Park", note: ""},
-        { title: "March of Flowers", note: ""},
-        { title: "As You Sow, So Shall You Reap", note: ""},
-        { title: "Locked Inside With Hostiles", note: ""},
-        { title: "Run For Your Life", note: ""},
-        { title: "Breath of Fresh Air", note: ""},
-        { title: "Country House", note: ""},
-        { title: "SDC2 Volan Cheat Sheet", note: ""},
-        { title: "Morning Express", note: ""},
-        { title: "Excellent", note: ""},
-        { title: "A brand new World", note: ""},
-        { title: "A Glass Darkly", note: ""},
-        { title: "Hands Off", note: ""},
-        { title: "Made in The USSR", note: ""},
-        { title: "The Major, The Witch, and the Warehouse", note: ""},
-        { title: "She Sells Moustache on the Seashore", note: ""},
-        { title: "Red Arrow", note: ""},
-        { title: "Tremors", note: ""},
-        { title: "Uneasy Lies the Head that Wears a Crown", note: ""},
-        { title: "Bug In The System", note: ""},
-        { title: "The Show Must Go On", note: ""},
-        { title: "Petrov of the Opera", note: ""},
-        { title: "Sealed with Seven Seals", note: ""},
-        { title: "Not a Password at All", note: ""},
-        { title: "Ascending The Stage", note: ""},
-        { title: "Madman In A Box", note: ""},
-        { title: "Sky's The Limit", note: ""},
-        { title: "Combat Granny", note: ""},
-        { title: "Infirmary", note: ""},
-        { title: "Blood Courier", note: ""},
-        { title: "Everything Illuminated", note: ""},
-        { title: "An Inconvenient Truth", note: ""},
-        { title: "The Nut House", note: ""},
-        { title: "The Final", note: ""}
-      ];
+    <button id="closeSettingsModal">Close</button>
+  </div>
+</div>
 
-      const baseGameBosses = [
-        {title: "Lab Tech", tag: "Required"},
-        {title: "Large Mutant", tag: "Required"},
-        {title: "Hedgie", tag: "Required"},
-        {title: "Plyusch", tag: "Required"},
-        {title: "Natasha", tag: "Required"},
-        {title: "Dewdrop", tag: "Required"},
-        {title: "The Twins", tag: "Required"}
-      ];
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+/*----------- stats ----------*/
+let categoryChart;
 
-      const weapons = [
-        {title: "PM", tag: "Pistol"},
-        {title: "Pashtet", tag: "Melee"},
-        {title: "Dominator", tag: "Cannon"},
-        {title: "Electro", tag: ["Pistol", "Energy"]},
-        {title: "Railgun", tag: ["Rifle", "Energy"]},
-        {title: "Fatboy", tag: "Cannon"},
-        {title: "Kalash", tag: "Rifle"},
-        {title: "Swede", tag: "Melee"},
-        {title: "Snowball", tag: "Melee"},
-        {title: "Zvezdochka", tag: "Melee"},
-        {title: "KS 21", tag: "Shotgun"},
-        {title: "KM-4 Kuzmich", tag: ["Shotgun", "DLC"]},
-        {title: "Fox", tag: "Melee"}
-      ];
+function updateStats() {
 
-      function createTag(text, className) {
-        const span = document.createElement("span");
-        span.className = `tag ${className}`;
-        span.textContent = text;
-        return span;
+  // Helper: calculate completion %
+  function completionPercent(list) {
+    let completed = 0;
+
+    list.forEach(q => {
+      if (q.status === "Completed" || q.status === "Hundred") {
+        completed++;
       }
+    });
 
-      function createChecklistItem(item, type, container) {
-        const STORAGE_PREFIX = "atomic-heart";
-        const id = `${STORAGE_PREFIX}-${type}-${item.title.replace(/\s+/g, "-").toLowerCase()}`;
-        const li = document.createElement("li");
+    return list.length
+      ? Math.round((completed / list.length) * 100)
+      : 0;
+  }
 
-        const checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.id = id;
-        checkbox.checked = localStorage.getItem(id) === "true";
-        const progressIdMap = {
-          "main-Quests": "main-Progress",
-          "baseGame-Bosses": "baseGame-Boss-Progress",
-          "weapons": 'weapon-Progress'
-        };
-        checkbox.addEventListener("change", () => {
-          localStorage.setItem(id, checkbox.checked);
-          const progressId = progressIdMap[container.id];
-          if (progressId) updateProgress(progressId, type);
-        });
+  /* -------- CATEGORY DATA -------- */
+  const categoryLabels = [
+    "Main Quests",
+    "Bosses",
+    "Weapons"
+  ];
 
-        const label = document.createElement("label");
-        label.setAttribute("for", id);
-        label.textContent = ` ${item.title}`;
+  const categoryValues = [
+    completionPercent(quests.main),
+    completionPercent(quests.bosses),
+    completionPercent(quests.weapons)
+  ];
 
-        li.appendChild(checkbox);
-        li.appendChild(label);
+  /* -------- Chart setup -------- */
+  const ctx = document.getElementById("categoryChart")?.getContext("2d");
+  if (!ctx) return;
 
-        if (item.giver) li.appendChild(createTag(item.giver, "tagGiver"));
-        if (item.note) li.appendChild(createTag(item.note, "tagNote"));
+  const cardInlay = getComputedStyle(document.documentElement)
+    .getPropertyValue("--card-inlay")
+    .trim();
 
-        if (type === "boss") {
-          const className = item.tag === "Required" ? "tagRequired" : "tagOptional";
-          li.appendChild(createTag(item.tag, className));
-        }
+  const textColor = getComputedStyle(document.documentElement)
+    .getPropertyValue("--text")
+    .trim();
 
-        if (type === "weapon") {
-          const tags = Array.isArray(item.tag) ? item.tag : [item.tag];
-          tags.forEach((t) => {
-            if (!t) return;
-            const className = `tag${t.replace(/\s+/g, "")}`;
-            li.appendChild(createTag(t, className));
-          });
-        }
+  Chart.defaults.color = textColor;
 
-        container.appendChild(li);
-        return checkbox;
-      }
+  if (categoryChart) categoryChart.destroy();
 
-      // Update the progress text for a checklist
-      function updateProgress(progressId, type) {
-        const progressEl = document.getElementById(progressId);
-        if (!progressEl) return;
-
-        // Get the related list by converting progressId to listId
-        // e.g. main-progress → main-quests, boss-progress → baseGame-Bosses, weapon-progress → weapons
-        let listId;
-        if (progressId === "main-Progress") listId = "main-Quests";
-        else if (progressId === "baseGame-Boss-Progress") listId = "baseGame-Bosses";
-        else if (progressId === "weapon-Progress") listId = "weapons";
-        else return;
-
-        const list = document.getElementById(listId);
-        const checkboxes = list.querySelectorAll("input[type=checkbox]");
-
-        let completed = 0;
-        checkboxes.forEach((cb) => {
-          if (cb.checked) completed++;
-        });
-
-        progressEl.textContent = `Completed ${completed} / ${checkboxes.length}`;
-      }
-
-      const mainQuestList = document.getElementById("main-Quests");
-      mainQuests.forEach((q) => createChecklistItem(q, "main", mainQuestList));
-      updateProgress("main-Progress", "main");
-
-      const baseGameBossList = document.getElementById("baseGame-Bosses");
-      baseGameBosses.forEach(b => createChecklistItem(b, 'boss', baseGameBossList));
-      updateProgress('baseGame-Boss-Progress', 'boss');
-
-      const weaponList = document.getElementById("weapons");
-      weapons.forEach(w => createChecklistItem(w, 'weapon', weaponList));
-      updateProgress('weapon-Progress', 'weapon');
-
-      window.addEventListener("DOMContentLoaded", () => {
-        const faqTemplate = document.getElementById("github-link-template-faq");
-        const footerTemplate = document.getElementById("github-link-template-footer");
-
-        // Clone templates
-        const faqClone = faqTemplate.content.cloneNode(true);
-        const footerClone = footerTemplate.content.cloneNode(true);
-
-        // Insert into containers
-        document.getElementById("faq-link-container").appendChild(faqClone);
-        document.getElementById("footer-link-container").appendChild(footerClone);
-      });
-      
-      function exportChecklist() {
-        const categories = ["main", "boss", "weapon"];
-        
-        const STORAGE_PREFIX = "atomic-heart";
-
-        const sortedData = {
-        prefix: STORAGE_PREFIX,
-        main: [],
-        boss: [],
-        weapon: []
-      	};
-
-        categories.forEach((category) => {
-          const entries = [];
-
-          for (let i = 0; i < localStorage.length; i++) {
-            const key = localStorage.key(i);
-            if (key.startsWith(`${STORAGE_PREFIX}-${category}-`) && localStorage.getItem(key) === "true") {
-            	const cleanTitle = key.slice(`${STORAGE_PREFIX}-${category}-`.length);
-      			sortedData[category].push(cleanTitle);
-            }
+  categoryChart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: categoryLabels,
+      datasets: [{
+        label: "Completion %",
+        data: categoryValues,
+        backgroundColor: "#1177a3"
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 100,
+          ticks: {
+            callback: v => v + "%"
           }
-          
-          sortedData[category].sort();
-        });
-
-        const blob = new Blob([JSON.stringify(sortedData, null, 2)], { type: "application/json" });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "atomic-heart-checklist.json";
-        a.click();
-        URL.revokeObjectURL(url);
+        }
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => ctx.parsed.y + "%"
+          }
+        }
       }
-
-      function importChecklist() {
-        const fileInput = document.getElementById("import-file");
-        fileInput.click();
-
-        fileInput.onchange = (event) => {
-          const file = event.target.files[0];
-          if (!file) return;
-
-          const reader = new FileReader();
-          reader.onload = (e) => {
-            try {
-              const imported = JSON.parse(e.target.result);
-
-              const STORAGE_PREFIX = "atomic-heart";
-
-              if (imported.prefix !== STORAGE_PREFIX) {
-                alert(`This checklist file is for a different game or project ("${imported.prefix}"). Import aborted.`);
-                return;
-              }
-
-              for (const category in imported) {
-                if (category === "prefix") continue;
-                const items = imported[category];
-                if (!Array.isArray(items)) continue;
-
-                items.forEach((slug) => {
-                  const key = `${STORAGE_PREFIX}-${category}-${slug}`;
-                  localStorage.setItem(key, "true");
-                });
-              }
-
-              alert("Checklist progress imported! Refresh the page to see updates.");
-            } catch (err) {
-              alert("Failed to import: Invalid file format.");
-            }
-          };
-
-          reader.readAsText(file);
-        };
+    },
+    plugins: [{
+      beforeDraw: chart => {
+        const ctx = chart.ctx;
+        ctx.save();
+        ctx.fillStyle = cardInlay;
+        ctx.fillRect(0, 0, chart.width, chart.height);
+        ctx.restore();
       }
-    </script>
+    }]
+  });
+}
 
-    <!-- Footer -->
-    <footer style="text-align: center; margin-top: 40px; font-size: 0.9em; color: #aaa;">Check out the project or <span id="footer-link-container"></span>.</footer>
-  </body>
+/* -----------------------
+   HARD-CODED QUEST DATA
+   ----------------------- */
+const quests = {
+  main: [
+    { name: "Ain't No Rest For The Wicked", tag: "Required", status: "NotStarted", note: ""},
+    { name: "The Complex", tag: "Required", status: "NotStarted", note: "" },
+    { name: "What The F**k Have I Gotten Myself Into?", tag: "Required", status: "NotStarted", note: "" },
+    { name: "Wanted Dead or Alive", tag: "Required", status: "NotStarted", note: "" },
+    { name: "Not So Fast Major!", tag: "Required", status: "NotStarted", note: "" },
+    { name: "In Hot Pursuit", tag: "Required", status: "NotStarted", note: "" },
+    { name: "Chronos Trigger", tag: "Required", status: "NotStarted", note: "" },
+    { name: "They Want To Make A Green Mars", tag: "Required", status: "NotStarted", note: "" },
+    { name: "Into The Fire", tag: "Required", status: "NotStarted", note: "" },
+    { name: "In An Overgrown Park", tag: "Required", status: "NotStarted", note: "" },
+    { name: "March of Flowers", tag: "Required", status: "NotStarted", note: "" },
+    { name: "As You Sow, So Shall You Reap", tag: "Required", status: "NotStarted", note: "" },
+    { name: "Locked Inside With Hostiles", tag: "Required", status: "NotStarted", note: "" },
+    { name: "Run For Your Life", tag: "Required", status: "NotStarted", note: "" },
+    { name: "Breath of Fresh Air", tag: "Required", status: "NotStarted", note: "" },
+    { name: "Country House", tag: "Required", status: "NotStarted", note: "" },
+    { name: "SDC2 Volan Cheat Sheet", tag: "Required", status: "NotStarted", note: "" },
+    { name: "Morning Express", tag: "Required", status: "NotStarted", note: "" },
+    { name: "Excellent", tag: "Required", status: "NotStarted", note: "" },
+    { name: "A brand new World", tag: "Required", status: "NotStarted", note: "" },
+    { name: "A Glass Darkly", tag: "Required", status: "NotStarted", note: "" },
+    { name: "Hands Off", tag: "Required", status: "NotStarted", note: "" },
+    { name: "Made in The USSR", tag: "Required", status: "NotStarted", note: "" },
+    { name: "The Major, The Witch, and the Warehouse", tag: "Required", status: "NotStarted", note: "" },
+    { name: "She Sells Moustache on the Seashore", tag: "Required", status: "NotStarted", note: "" },
+    { name: "Red Arrow", tag: "Required", status: "NotStarted", note: "" },
+    { name: "Tremors", tag: "Required", status: "NotStarted", note: "" },
+    { name: "Uneasy Lies the Head that Wears a Crown", tag: "Required", status: "NotStarted", note: "" },
+    { name: "Bug In The System", tag: "Required", status: "NotStarted", note: "" },
+    { name: "The Show Must Go On", tag: "Required", status: "NotStarted", note: "" },
+    { name: "Petrov of the Opera", tag: "Required", status: "NotStarted", note: "" },
+    { name: "Sealed with Seven Seals", tag: "Required", status: "NotStarted", note: "" },
+    { name: "Not a Password at All", tag: "Required", status: "NotStarted", note: "" },
+    { name: "Ascending The Stage", tag: "Required", status: "NotStarted", note: "" },
+    { name: "Madman In A Box", tag: "Required", status: "NotStarted", note: "" },
+    { name: "Sky's The Limit", tag: "Required", status: "NotStarted", note: "" },
+    { name: "Combat Granny", tag: "Required", status: "NotStarted", note: "" },
+    { name: "Infirmary", tag: "Required", status: "NotStarted", note: "" },
+    { name: "Blood Courier", tag: "Required", status: "NotStarted", note: "" },
+    { name: "Everything Illuminated", tag: "Required", status: "NotStarted", note: "" },
+    { name: "An Inconvenient Truth", tag: "Required", status: "NotStarted", note: "" },
+    { name: "The Nut House", tag: "Required", status: "NotStarted", note: "" },
+    { name: "The Final", tag: "Required", status: "NotStarted", note: "" }
+  ],
+   bosses: [
+    {name: "Lab Tech", tag: "Required", status: "NotStarted"},
+    {name: "Large Mutant", tag: "Required", status: "NotStarted"},
+    {name: "Hedgie", tag: "Required", status: "NotStarted"},
+    {name: "Plyusch", tag: "Required", status: "NotStarted"},
+    {name: "Natasha", tag: "Required", status: "NotStarted"},
+    {name: "Dewdrop", tag: "Required", status: "NotStarted"},
+    {name: "The Twins", tag: "Required", status: "NotStarted"},
+    {name: "Colossus BEA-D", tag: "DLC", status: "NotStarted"},
+    {name: "GOOSE", tag: "DLC", status: "NotStarted"},
+    {name: "Gingerbread Man", tag: "DLC", status: "NotStarted"},
+    {name: "GOOSE (2nd)", tag: "DLC", status: "NotStarted"},
+    {name: "Robo-Girl", tag: "DLC", status: "NotStarted"},
+  ],
+  weapons: [
+    {name: "PM", tag: "Pistol", status: "NotStarted"},
+    {name: "Pashtet", tag: "Melee", status: "NotStarted"},
+    {name: "Dominator", tag: "Cannon", status: "NotStarted"},
+    {name: "Electro", tag: "Pistol, Energy", status: "NotStarted"},
+    {name: "Railgun", tag: "Rifle, Energy", status: "NotStarted"},
+    {name: "Fatboy", tag: "Cannon", status: "NotStarted"},
+    {name: "Kalash", tag: "Rifle", status: "NotStarted"},
+    {name: "Swede", tag: "Melee", status: "NotStarted"},
+    {name: "Snowball", tag: "Melee", status: "NotStarted"},
+    {name: "Zvezdochka", tag: "Melee", status: "NotStarted"},
+    {name: "KS 21", tag: "Shotgun", status: "NotStarted"},
+    {name: "KM-4 Kuzmich", tag: "Shotgun, DLC", status: "NotStarted"},
+    {name: "Fox", tag: "Melee", status: "NotStarted"}
+  ]
+};
+
+let currentCategory = "main";
+
+function renderTable() {
+  const tbody = document.querySelector("#questsTable tbody");
+
+  const recentList = document.getElementById('recentlyPlayed');
+  const inProgressList = document.getElementById('inProgress');
+  const summaryBox = document.getElementById('summary');
+  const completionText = document.getElementById('completionText');
+  const completionBar = document.getElementById('completionBar');
+  const completionTextStats = document.getElementById('completionTextStats');
+  const completionBarStats = document.getElementById('completionBarStats');
+
+  recentList.innerHTML = '';
+  inProgressList.innerHTML = '';
+  summaryBox.innerHTML = '';
+
+  let totalQuests = 0;
+  let completed = 0;
+  let inProgress = 0;
+  let notStarted = 0;
+  let onHold = 0;
+  let hundred = 0;
+
+  const recentFrag = document.createDocumentFragment();
+  const inProgressFrag = document.createDocumentFragment();
+
+  /* ---------------------------
+      TABLE RENDER
+  ---------------------------- */
+tbody.innerHTML = quests[currentCategory].map((q, i) => {
+
+  // FIX: convert tag string → array inside the map
+  const tags = Array.isArray(q.tag)
+    ? q.tag
+    : q.tag.split(",").map(t => t.trim());
+
+  return `
+    <tr>
+      <td>
+        <div>${q.name}</div> 
+        ${q.note && q.note.trim() !== "" ? `<div class="note">${q.note}</div>` : ""}
+      </td>
+      <td>${currentCategory}</td>
+      <td>
+        ${tags.map(t => `
+          <span class="tag ${t.replace(/\s+/g, '-')}" data-type="${t}">${t}</span>
+        `).join("")}
+      </td>
+      <td>
+        <select class="statusSelect status${q.status}" data-cat="${currentCategory}" data-index="${i}">
+          <option value="NotStarted" ${q.status==="NotStarted"?"selected":""}>Not Started</option>
+          <option value="InProgress" ${q.status==="InProgress"?"selected":""}>In Progress</option>
+          <option value="OnHold" ${q.status==="OnHold"?"selected":""}>On Hold</option>
+          <option value="Completed" ${q.status==="Completed"?"selected":""}>Completed</option>
+          <option value="Hundred" ${q.status==="Hundred"?"selected":""}>100%</option>
+        </select>
+      </td>
+    </tr>
+  `;
+}).join("");
+
+  /* ---------------------------
+      COUNT STATUSES
+  ---------------------------- */
+  quests[currentCategory].forEach(q => {
+    totalQuests++;
+
+    switch (q.status) {
+      case "Completed":
+        completed++;
+        const r1 = document.createElement("li");
+        r1.textContent = q.name;
+        recentFrag.appendChild(r1);
+        break;
+
+      case "Hundred":
+        hundred++;
+        completed++;
+        const r2 = document.createElement("li");
+        r2.textContent = q.name + " (100%)";
+        recentFrag.appendChild(r2);
+        break;
+
+      case "InProgress":
+        inProgress++;
+        const ip = document.createElement("li");
+        ip.textContent = q.name;
+        inProgressFrag.appendChild(ip);
+        break;
+
+      case "NotStarted":
+        notStarted++;
+        break;
+
+      case "OnHold":
+        onHold++;
+        break;
+    }
+  });
+
+  /* ---------------------------
+      APPEND LISTS
+  ---------------------------- */
+  recentList.appendChild(recentFrag);
+  inProgressList.appendChild(inProgressFrag);
+
+  /* ---------------------------
+      COMPLETION BAR
+  ---------------------------- */
+  let total = 0;
+  let done = 0;
+
+  // Count ALL quests across ALL categories
+  Object.values(quests).forEach(category => {
+    category.forEach(q => {
+      total++;
+
+      if (q.status === "Completed" || q.status === "Hundred") {
+        done++;
+      }
+    });
+  });
+
+  const percent = total ? (done / total) * 100 : 0;
+
+  // Dashboard bar
+  if (completionBar) completionBar.style.width = percent + "%";
+  if (completionText) completionText.textContent = `${done} / ${total} Completed`;
+
+  // Stats page bar
+  if (completionBarStats) completionBarStats.style.width = percent + "%";
+  if (completionTextStats) completionTextStats.textContent = `${done} / ${total} Completed`;
+
+  /* ---------------------------
+      SUMMARY BOX
+  ---------------------------- */
+  if (summaryBox) {
+    summaryBox.innerHTML = `
+      <li>Total: ${totalQuests}</li>
+      <li>100%: ${hundred}</li>
+      <li>Completed: ${completed}</li>
+      <li>In Progress: ${inProgress}</li>
+      <li>Not Started: ${notStarted}</li>
+      <li>On Hold: ${onHold}</li>
+    `;
+  }
+}
+
+// Update status when dropdown changes
+document.addEventListener("change", e => {
+  if (e.target.matches("select[data-cat]")) {
+    const cat = e.target.dataset.cat;
+    const index = e.target.dataset.index;
+    quests[cat][index].status = e.target.value;
+    localStorage.setItem("atomic-heart-checklist", JSON.stringify(quests));
+    renderTable();
+  }
+});
+
+/* ---------- Search ---------- */
+const searchInput = document.getElementById('gameSearch');
+
+searchInput.addEventListener('input', () => {
+  const query = searchInput.value.toLowerCase();
+  const tbody = document.querySelector('#questsTable tbody');
+
+  Array.from(tbody.querySelectorAll('tr')).forEach(row => {
+    const title = row.cells[0]?.textContent.toLowerCase() || '';
+    const tags = row.cells[2]?.textContent.toLowerCase() || '';
+
+    // safe access to selects (may be missing in some row types)
+    const statusSelect = row.cells[3]?.querySelector('select');
+
+    const statusVal = (statusSelect?.value || '').toLowerCase();
+    // human-friendly label for matching (so "hundred" matches "100%")
+    let statusLabel = statusVal;
+    if (statusVal === 'hundred') statusLabel = '100%';
+    if (statusVal === 'inprogress') statusLabel = 'in progress';
+    if (statusVal === 'notstarted') statusLabel = 'not started';
+    if (statusVal === 'onhold') statusLabel = 'on hold';
+    if (statusVal === 'completed') statusLabel = 'completed';
+
+    const match =
+      title.includes(query) ||
+      statusVal.includes(query) ||
+      statusLabel.includes(query) ||
+      tags.includes(query);
+
+    row.style.display = match ? '' : 'none';
+  });
+});
+
+/* ---------- theme handling -----------*/
+const SettingsModal = document.getElementById("settingsModal");
+const openSettings = document.getElementById("openSettingsModal");
+const closeSettings = document.getElementById("closeSettingsModal");
+
+// Open modal
+openSettings.addEventListener("click", (e) => {
+  e.preventDefault();
+  SettingsModal.style.display = "flex";
+});
+
+// Close modal
+closeSettings.addEventListener("click", () => {
+  SettingsModal.style.display = "none";
+});
+
+// Click outside modal closes it
+SettingsModal.addEventListener("click", (e) => {
+  if (e.target === SettingsModal) SettingsModal.style.display = "none";
+});
+
+// Theme buttons
+document.querySelectorAll(".theme-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const theme = btn.dataset.theme;
+
+    if (theme === "alt") {
+      document.body.classList.add("alt-theme");
+    } else {
+      document.body.classList.remove("alt-theme");
+    }
+    
+    if (theme === "scandi") {
+      document.body.classList.add("scandi-theme");
+    } else {
+      document.body.classList.remove("scandi-theme");
+    }
+
+    if (theme === "discord-dark") {
+      document.body.classList.add("discord-theme");
+    } else {
+      document.body.classList.remove("discord-theme");
+    }
+
+    localStorage.setItem("theme", theme);
+  });
+});
+
+// Load saved theme
+if (localStorage.getItem("theme") === "alt") {
+  document.body.classList.add("alt-theme");
+}
+
+if (localStorage.getItem("theme") === "scandi") {
+  document.body.classList.add("scandi-theme");
+}
+
+if (localStorage.getItem("theme") === "discord-dark") {
+  document.body.classList.add("discord-theme");
+}
+
+/* ---------- tab handling -----------*/
+const dashboardContent = document.getElementById('dashboardContent');
+const statsContent = document.getElementById('statsContent');
+
+const menuLinks = document.querySelectorAll('.navbar .menu a');
+const dashboardLink = [...menuLinks].find(a => a.textContent.trim() === 'Dashboard');
+const statsLink = [...menuLinks].find(a => a.textContent.trim() === 'Stats');
+
+function showDashboard() {
+  dashboardContent.style.display = 'block';
+  statsContent.style.display = 'none';
+  dashboardLink.classList.add('active');
+  statsLink.classList.remove('active');
+}
+
+function showStats() {
+  dashboardContent.style.display = 'none';
+  statsContent.style.display = 'block';
+  statsLink.classList.add('active');
+  dashboardLink.classList.remove('active');
+  updateStats();
+}
+
+dashboardLink.addEventListener('click', e => { e.preventDefault(); showDashboard(); });
+statsLink.addEventListener('click', e => { e.preventDefault(); showStats(); });
+
+// Save/load progress
+const saved = JSON.parse(localStorage.getItem("atomic-heart-checklist"));
+if (saved) Object.assign(quests, saved);
+
+// Handle category buttons
+document.querySelectorAll(".button-report[data-cat]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    currentCategory = btn.dataset.cat;
+    renderTable();
+  });
+});
+
+/* ---------- init ---------- */
+renderTable();
+</script>
+
+</body>
 </html>
