@@ -34,6 +34,21 @@
   --status-hundred: #689a2e;
   --progressbar: #4caf50;
   --status-text: var(--text);
+
+    /* Tag Colors */
+  --tag-required: #1177a3;
+  --tag-optional: #616161;
+  --tag-collectible: #616161;
+  
+  --tag-pistol: #2979ff;
+  --tag-melee: #d32f2f;
+  --tag-rifle: #388e3c;
+  --tag-shotgun: #ff9800;
+  --tag-energy: #00acc1;
+  --tag-cannon: #7b1fa2;
+  
+  --tag-dlc: #c51162;
+  --tag-ng: #d79934;
 }
 
 body {
@@ -120,6 +135,7 @@ body {
 .button-delete svg {
   background: var(--button);
   padding: 6px 12px;
+  margin-bottom: 6px;
   border-radius: var(--radius);
   font-size: var(--font-size-small);
   cursor: pointer;
@@ -196,50 +212,70 @@ ul li { margin-bottom: 8px; font-size: var(--font-size-medium); }
 }
 
 /* Tags */
+.tag-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
 .tag {
+  display: inline-flex;
+  align-items: center;
   padding: 4px 8px;
   border-radius: var(--radius);
   font-size: var(--font-size-small);
+  line-height: 1;
+  white-space: nowrap;
 }
 
 /* Tag Colors */
 .tag.Required {
-  background: #8a2be2;
+  background: var(--tag-required);
+  color: var(--status-text);
+}
+
+.tag.Optional {
+  background: var(--tag-optional);
+  color: var(--status-text);
+}
+
+.tag.Collectible {
+  background: var(--tag-collectible);
   color: var(--status-text);
 }
 
 .tag.Pistol {
-  background: #2979ff;
+  background: var(--tag-pistol);
   color: var(--status-text);
 }
 
 .tag.Melee {
-  background: #d32f2f;
+  background: var(--tag-melee);
   color: var(--status-text);
 }
 
 .tag.Rifle {
-  background: #388e3c;
+  background: var(--tag-rifle);
   color: var(--status-text);
 }
 
 .tag.Shotgun {
-  background: #ff9800;
+  background: var(--tag-shotgun);
   color: var(--status-text);
 }
 
 .tag.Energy {
-  background: #00acc1;
+  background: var(--tag-energy);
   color: var(--status-text);
 }
 
 .tag.Cannon {
-  background: #7b1fa2;
+  background: var(--tag-cannon);
   color: var(--status-text);
 }
 
 .tag.DLC {
-  background: #c51162;
+  background: var(--tag-dlc);
   color: var(--status-text);
 }
 
@@ -713,9 +749,13 @@ tbody.innerHTML = quests[currentCategory].map((q, i) => {
       </td>
       <td>${currentCategory}</td>
       <td>
-        ${tags.map(t => `
-          <span class="tag ${t.replace(/\s+/g, '-')}" data-type="${t}">${t}</span>
-        `).join("")}
+        <div class="tag-container">
+          ${tags.map(t => `
+            <span class="tag ${t.replace(/\s+/g, '-')}" data-type="${t}">
+              ${t}
+            </span>
+          `).join("")}
+        </div>
       </td>
       <td>
         <select class="statusSelect status${q.status}" data-cat="${currentCategory}" data-index="${i}">
