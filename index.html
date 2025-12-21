@@ -39,6 +39,8 @@
   --tag-required: #1177a3;
   --tag-optional: #616161;
   --tag-collectible: #616161;
+  --tag-dlc: #c51162;
+  --tag-ng: #d79934;
   
   --tag-pistol: #2979ff;
   --tag-melee: #d32f2f;
@@ -46,9 +48,6 @@
   --tag-shotgun: #ff9800;
   --tag-energy: #00acc1;
   --tag-cannon: #7b1fa2;
-  
-  --tag-dlc: #c51162;
-  --tag-ng: #d79934;
 }
 
 body {
@@ -244,6 +243,16 @@ ul li { margin-bottom: 8px; font-size: var(--font-size-medium); }
   color: var(--status-text);
 }
 
+.tag.DLC {
+  background: var(--tag-dlc);
+  color: var(--status-text);
+}
+
+.tag.NG {
+  background: var(--tag-ng);
+  color: var(--status-text);
+}
+
 .tag.Pistol {
   background: var(--tag-pistol);
   color: var(--status-text);
@@ -271,11 +280,6 @@ ul li { margin-bottom: 8px; font-size: var(--font-size-medium); }
 
 .tag.Cannon {
   background: var(--tag-cannon);
-  color: var(--status-text);
-}
-
-.tag.DLC {
-  background: var(--tag-dlc);
   color: var(--status-text);
 }
 
