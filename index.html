@@ -774,6 +774,8 @@ tbody.innerHTML = quests[currentCategory].map((q, i) => {
   `;
 }).join("");
 
+applyFilters();
+
   /* ---------------------------
       COUNT STATUSES
   ---------------------------- */
@@ -869,33 +871,31 @@ document.addEventListener("change", e => {
     quests[cat][index].status = e.target.value;
     localStorage.setItem("atomic-heart-checklist", JSON.stringify(quests));
     renderTable();
+    applyFilters();
   }
 });
 
-/* ---------- Search ---------- */
-const searchInput = document.getElementById('gameSearch');
-
-searchInput.addEventListener('input', () => {
+/* ---------- search -----------*/
+function applyFilters() {
   const query = searchInput.value.toLowerCase();
   const tbody = document.querySelector('#questsTable tbody');
 
   Array.from(tbody.querySelectorAll('tr')).forEach(row => {
     const title = row.cells[0]?.textContent.toLowerCase() || '';
-    const tags = row.cells[2]?.textContent.toLowerCase() || '';
+    const tags  = row.cells[2]?.textContent.toLowerCase() || '';
 
-    // safe access to selects (may be missing in some row types)
     const statusSelect = row.cells[3]?.querySelector('select');
-
     const statusVal = (statusSelect?.value || '').toLowerCase();
-    // human-friendly label for matching (so "hundred" matches "100%")
+
+    // human-readable aliases
     let statusLabel = statusVal;
-    if (statusVal === 'hundred') statusLabel = '100%';
-    if (statusVal === 'inprogress') statusLabel = 'in progress';
-    if (statusVal === 'notstarted') statusLabel = 'not started';
-    if (statusVal === 'onhold') statusLabel = 'on hold';
-    if (statusVal === 'completed') statusLabel = 'completed';
+    if (statusVal === 'hundred')     statusLabel = '100%';
+    if (statusVal === 'inprogress')  statusLabel = 'in progress';
+    if (statusVal === 'notstarted')  statusLabel = 'not started';
+    if (statusVal === 'onhold')      statusLabel = 'on hold';
 
     const match =
+      !query ||
       title.includes(query) ||
       statusVal.includes(query) ||
       statusLabel.includes(query) ||
@@ -903,7 +903,12 @@ searchInput.addEventListener('input', () => {
 
     row.style.display = match ? '' : 'none';
   });
-});
+}
+
+const searchInput = document.getElementById('gameSearch');
+
+// Search typing
+searchInput.addEventListener('input', applyFilters);
 
 /* ---------- theme handling -----------*/
 const SettingsModal = document.getElementById("settingsModal");
