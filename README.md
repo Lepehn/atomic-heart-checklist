@@ -1,7 +1,7 @@
 # 📋 atomic-heart-checklist
 https://lepehn.github.io/atomic-heart-checklist/
 
-A sleek, lightweight checklist web app to help you track quests, bosses, and weapons in **Atomic Heart**. Inspired by fan-made guides for games like *Dark Souls* and *Bloodborne*, this project helps you stay organized without spoilers or unnecessary fluff.
+A sleek, lightweight checklist web app to help you track progress in **Atomic Heart**. Inspired by fan-made guides for games like *Dark Souls* and *Bloodborne*, this project helps you stay organized without spoilers or unnecessary fluff.
 
 ## 🧩 Features
 
