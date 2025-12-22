@@ -537,101 +537,25 @@ body.discord-theme {
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-/*----------- stats ----------*/
-let categoryChart;
+/* =====================================================
+   GAME CONFIG
+   ===================================================== */
 
-function updateStats() {
+const GAME = {
+  id: "atomic-heart",
+  storageKey: "atomic-heart-checklist",
 
-  // Helper: calculate completion %
-  function completionPercent(list) {
-    let completed = 0;
+  statuses: ["NotStarted", "InProgress", "OnHold", "Completed", "Hundred"],
 
-    list.forEach(q => {
-      if (q.status === "Completed" || q.status === "Hundred") {
-        completed++;
-      }
-    });
+  completedStatuses: ["Completed", "Hundred"],
 
-    return list.length
-      ? Math.round((completed / list.length) * 100)
-      : 0;
-  }
+  categories: {
+    main: "Main Quests",
+    bosses: "Bosses",
+    weapons: "Weapons"
+  },
 
-  /* -------- CATEGORY DATA -------- */
-  const categoryLabels = [
-    "Main Quests",
-    "Bosses",
-    "Weapons"
-  ];
-
-  const categoryValues = [
-    completionPercent(quests.main),
-    completionPercent(quests.bosses),
-    completionPercent(quests.weapons)
-  ];
-
-  /* -------- Chart setup -------- */
-  const ctx = document.getElementById("categoryChart")?.getContext("2d");
-  if (!ctx) return;
-
-  const cardInlay = getComputedStyle(document.documentElement)
-    .getPropertyValue("--card-inlay")
-    .trim();
-
-  const textColor = getComputedStyle(document.documentElement)
-    .getPropertyValue("--text")
-    .trim();
-
-  Chart.defaults.color = textColor;
-
-  if (categoryChart) categoryChart.destroy();
-
-  categoryChart = new Chart(ctx, {
-    type: "bar",
-    data: {
-      labels: categoryLabels,
-      datasets: [{
-        label: "Completion %",
-        data: categoryValues,
-        backgroundColor: "#1177a3"
-      }]
-    },
-    options: {
-      responsive: true,
-      scales: {
-        y: {
-          beginAtZero: true,
-          max: 100,
-          ticks: {
-            callback: v => v + "%"
-          }
-        }
-      },
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          callbacks: {
-            label: ctx => ctx.parsed.y + "%"
-          }
-        }
-      }
-    },
-    plugins: [{
-      beforeDraw: chart => {
-        const ctx = chart.ctx;
-        ctx.save();
-        ctx.fillStyle = cardInlay;
-        ctx.fillRect(0, 0, chart.width, chart.height);
-        ctx.restore();
-      }
-    }]
-  });
-}
-
-/* -----------------------
-   HARD-CODED QUEST DATA
-   ----------------------- */
-const quests = {
+  data: {
   main: [
     { name: "Ain't No Rest For The Wicked", tag: "Required", status: "NotStarted", note: ""},
     { name: "The Complex", tag: "Required", status: "NotStarted", note: "" },
@@ -677,7 +601,7 @@ const quests = {
     { name: "The Nut House", tag: "Required", status: "NotStarted", note: "" },
     { name: "The Final", tag: "Required", status: "NotStarted", note: "" }
   ],
-   bosses: [
+  bosses: [
     {name: "Lab Tech", tag: "Required", status: "NotStarted"},
     {name: "Large Mutant", tag: "Required", status: "NotStarted"},
     {name: "Hedgie", tag: "Required", status: "NotStarted"},
@@ -706,151 +630,193 @@ const quests = {
     {name: "KM-4 Kuzmich", tag: "Shotgun, DLC", status: "NotStarted"},
     {name: "Fox", tag: "Melee", status: "NotStarted"}
   ]
+ }
 };
 
-let currentCategory = "main";
+
+/* =====================================================
+   STATE
+   ===================================================== */
+
+let currentCategory = Object.keys(GAME.categories)[0];
+let categoryChart;
+
+
+/* =====================================================
+   STORAGE
+   ===================================================== */
+
+const saved = JSON.parse(localStorage.getItem(GAME.storageKey));
+if (saved) Object.assign(GAME.data, saved);
+
+function saveGame() {
+  localStorage.setItem(GAME.storageKey, JSON.stringify(GAME.data));
+}
+
+
+/* =====================================================
+   HELPERS
+   ===================================================== */
+
+function isCompleted(status) {
+  return GAME.completedStatuses.includes(status);
+}
+
+function splitTags(tag) {
+  return Array.isArray(tag) ? tag : tag.split(",").map(t => t.trim());
+}
+
+function completionPercent(list) {
+  const done = list.filter(q => isCompleted(q.status)).length;
+  return list.length ? Math.round((done / list.length) * 100) : 0;
+}
+
+
+/* =====================================================
+   STATS + CHART
+   ===================================================== */
+
+function updateStats() {
+  const labels = [];
+  const values = [];
+
+  for (const key in GAME.categories) {
+    if (!GAME.data[key]) continue;
+    labels.push(GAME.categories[key]);
+    values.push(completionPercent(GAME.data[key]));
+  }
+
+  const ctx = document.getElementById("categoryChart")?.getContext("2d");
+  if (!ctx) return;
+
+  const cardInlay = getComputedStyle(document.documentElement)
+    .getPropertyValue("--card-inlay")
+    .trim();
+
+  const textColor = getComputedStyle(document.documentElement)
+    .getPropertyValue("--text")
+    .trim();
+
+  Chart.defaults.color = textColor;
+  if (categoryChart) categoryChart.destroy();
+
+  categoryChart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels,
+      datasets: [{
+        label: "Completion %",
+        data: values,
+        backgroundColor: "#1177a3"
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 100,
+          ticks: { callback: v => v + "%" }
+        }
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: { label: c => c.parsed.y + "%" }
+        }
+      }
+    },
+    plugins: [{
+      beforeDraw(chart) {
+        const ctx = chart.ctx;
+        ctx.save();
+        ctx.fillStyle = cardInlay;
+        ctx.fillRect(0, 0, chart.width, chart.height);
+        ctx.restore();
+      }
+    }]
+  });
+}
+
+
+/* =====================================================
+   TABLE + DASHBOARD RENDER
+   ===================================================== */
 
 function renderTable() {
   const tbody = document.querySelector("#questsTable tbody");
 
-  const recentList = document.getElementById('recentlyPlayed');
-  const inProgressList = document.getElementById('inProgress');
-  const summaryBox = document.getElementById('summary');
-  const completionText = document.getElementById('completionText');
-  const completionBar = document.getElementById('completionBar');
-  const completionTextStats = document.getElementById('completionTextStats');
-  const completionBarStats = document.getElementById('completionBarStats');
+  const recentList = document.getElementById("recentlyPlayed");
+  const inProgressList = document.getElementById("inProgress");
+  const summaryBox = document.getElementById("summary");
+  const completionText = document.getElementById("completionText");
+  const completionBar = document.getElementById("completionBar");
+  const completionTextStats = document.getElementById("completionTextStats");
+  const completionBarStats = document.getElementById("completionBarStats");
 
-  recentList.innerHTML = '';
-  inProgressList.innerHTML = '';
-  summaryBox.innerHTML = '';
+  recentList.innerHTML = "";
+  inProgressList.innerHTML = "";
 
-  let totalQuests = 0;
-  let completed = 0;
-  let inProgress = 0;
-  let notStarted = 0;
-  let onHold = 0;
-  let hundred = 0;
+  let totalQuests = 0, completed = 0, inProgress = 0, notStarted = 0, onHold = 0, hundred = 0;
 
   const recentFrag = document.createDocumentFragment();
   const inProgressFrag = document.createDocumentFragment();
 
-  /* ---------------------------
-      TABLE RENDER
-  ---------------------------- */
-tbody.innerHTML = quests[currentCategory].map((q, i) => {
+  tbody.innerHTML = GAME.data[currentCategory].map((q, i) => {
+    const tags = splitTags(q.tag);
 
-  // FIX: convert tag string → array inside the map
-  const tags = Array.isArray(q.tag)
-    ? q.tag
-    : q.tag.split(",").map(t => t.trim());
+    return `
+      <tr>
+        <td>
+          <div>${q.name}</div>
+          ${q.note ? `<div class="note">${q.note}</div>` : ""}
+        </td>
+        <td>${GAME.categories[currentCategory]}</td>
+        <td>
+          <div class="tag-container">
+            ${tags.map(t => `<span class="tag ${t.replace(/\s+/g, "-")}">${t}</span>`).join("")}
+          </div>
+        </td>
+        <td>
+          <select class="statusSelect status${q.status}" data-index="${i}">
+            ${GAME.statuses.map(s =>
+              `<option value="${s}" ${q.status === s ? "selected" : ""}>
+                ${s === "Hundred" ? "100%" : s.replace(/([A-Z])/g, " $1").trim()}
+              </option>`
+            ).join("")}
+          </select>
+        </td>
+      </tr>
+    `;
+  }).join("");
 
-  return `
-    <tr>
-      <td>
-        <div>${q.name}</div> 
-        ${q.note && q.note.trim() !== "" ? `<div class="note">${q.note}</div>` : ""}
-      </td>
-      <td>${currentCategory}</td>
-      <td>
-        <div class="tag-container">
-          ${tags.map(t => `
-            <span class="tag ${t.replace(/\s+/g, '-')}" data-type="${t}">
-              ${t}
-            </span>
-          `).join("")}
-        </div>
-      </td>
-      <td>
-        <select class="statusSelect status${q.status}" data-cat="${currentCategory}" data-index="${i}">
-          <option value="NotStarted" ${q.status==="NotStarted"?"selected":""}>Not Started</option>
-          <option value="InProgress" ${q.status==="InProgress"?"selected":""}>In Progress</option>
-          <option value="OnHold" ${q.status==="OnHold"?"selected":""}>On Hold</option>
-          <option value="Completed" ${q.status==="Completed"?"selected":""}>Completed</option>
-          <option value="Hundred" ${q.status==="Hundred"?"selected":""}>100%</option>
-        </select>
-      </td>
-    </tr>
-  `;
-}).join("");
-
-applyFilters();
-
-  /* ---------------------------
-      COUNT STATUSES
-  ---------------------------- */
-  quests[currentCategory].forEach(q => {
+  GAME.data[currentCategory].forEach(q => {
     totalQuests++;
 
     switch (q.status) {
-      case "Completed":
-        completed++;
-        const r1 = document.createElement("li");
-        r1.textContent = q.name;
-        recentFrag.appendChild(r1);
-        break;
-
-      case "Hundred":
-        hundred++;
-        completed++;
-        const r2 = document.createElement("li");
-        r2.textContent = q.name + " (100%)";
-        recentFrag.appendChild(r2);
-        break;
-
-      case "InProgress":
-        inProgress++;
-        const ip = document.createElement("li");
-        ip.textContent = q.name;
-        inProgressFrag.appendChild(ip);
-        break;
-
-      case "NotStarted":
-        notStarted++;
-        break;
-
-      case "OnHold":
-        onHold++;
-        break;
+      case "Completed": completed++; recentFrag.appendChild(li(q.name)); break;
+      case "Hundred": hundred++; completed++; recentFrag.appendChild(li(q.name + " (100%)")); break;
+      case "InProgress": inProgress++; inProgressFrag.appendChild(li(q.name)); break;
+      case "NotStarted": notStarted++; break;
+      case "OnHold": onHold++; break;
     }
   });
 
-  /* ---------------------------
-      APPEND LISTS
-  ---------------------------- */
   recentList.appendChild(recentFrag);
   inProgressList.appendChild(inProgressFrag);
 
-  /* ---------------------------
-      COMPLETION BAR
-  ---------------------------- */
-  let total = 0;
-  let done = 0;
-
-  // Count ALL quests across ALL categories
-  Object.values(quests).forEach(category => {
-    category.forEach(q => {
-      total++;
-
-      if (q.status === "Completed" || q.status === "Hundred") {
-        done++;
-      }
-    });
-  });
+  let total = 0, done = 0;
+  Object.values(GAME.data).forEach(cat =>
+    cat.forEach(q => { total++; if (isCompleted(q.status)) done++; })
+  );
 
   const percent = total ? (done / total) * 100 : 0;
 
-  // Dashboard bar
   if (completionBar) completionBar.style.width = percent + "%";
   if (completionText) completionText.textContent = `${done} / ${total} Completed`;
-
-  // Stats page bar
   if (completionBarStats) completionBarStats.style.width = percent + "%";
   if (completionTextStats) completionTextStats.textContent = `${done} / ${total} Completed`;
 
-  /* ---------------------------
-      SUMMARY BOX
-  ---------------------------- */
   if (summaryBox) {
     summaryBox.innerHTML = `
       <li>Total: ${totalQuests}</li>
@@ -861,21 +827,34 @@ applyFilters();
       <li>On Hold: ${onHold}</li>
     `;
   }
+
+  applyFilters();
 }
 
-// Update status when dropdown changes
+function li(text) {
+  const el = document.createElement("li");
+  el.textContent = text;
+  return el;
+}
+
+
+/* =====================================================
+   EVENTS
+   ===================================================== */
+
 document.addEventListener("change", e => {
-  if (e.target.matches("select[data-cat]")) {
-    const cat = e.target.dataset.cat;
-    const index = e.target.dataset.index;
-    quests[cat][index].status = e.target.value;
-    localStorage.setItem("atomic-heart-checklist", JSON.stringify(quests));
-    renderTable();
-    applyFilters();
-  }
+  if (!e.target.matches(".statusSelect")) return;
+
+  const index = e.target.dataset.index;
+  GAME.data[currentCategory][index].status = e.target.value;
+
+  saveGame();
+  renderTable();
 });
 
-/* ---------- search -----------*/
+const searchInput = document.getElementById("gameSearch");
+searchInput.addEventListener("input", applyFilters);
+
 function applyFilters() {
   const query = searchInput.value.toLowerCase();
   const tbody = document.querySelector('#questsTable tbody');
@@ -887,7 +866,7 @@ function applyFilters() {
     const statusSelect = row.cells[3]?.querySelector('select');
     const statusVal = (statusSelect?.value || '').toLowerCase();
 
-    // human-readable aliases
+    // Map value to human-readable label
     let statusLabel = statusVal;
     if (statusVal === 'hundred')     statusLabel = '100%';
     if (statusVal === 'inprogress')  statusLabel = 'in progress';
@@ -905,12 +884,35 @@ function applyFilters() {
   });
 }
 
-const searchInput = document.getElementById('gameSearch');
+document.querySelectorAll(".button-report[data-cat]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    currentCategory = btn.dataset.cat;
+    renderTable();
+  });
+});
 
-// Search typing
-searchInput.addEventListener('input', applyFilters);
 
-/* ---------- theme handling -----------*/
+/* =====================================================
+   TABS
+   ===================================================== */
+
+const dashboardContent = document.getElementById("dashboardContent");
+const statsContent = document.getElementById("statsContent");
+
+document.querySelectorAll(".navbar .menu a").forEach(a => {
+  a.addEventListener("click", e => {
+    e.preventDefault();
+    const isStats = a.textContent.trim() === "Stats";
+    dashboardContent.style.display = isStats ? "none" : "block";
+    statsContent.style.display = isStats ? "block" : "none";
+    if (isStats) updateStats();
+  });
+});
+
+
+/* =====================================================
+   SETTINGS
+   ===================================================== */
 const SettingsModal = document.getElementById("settingsModal");
 const openSettings = document.getElementById("openSettingsModal");
 const closeSettings = document.getElementById("closeSettingsModal");
@@ -971,47 +973,12 @@ if (localStorage.getItem("theme") === "discord-dark") {
   document.body.classList.add("discord-theme");
 }
 
-/* ---------- tab handling -----------*/
-const dashboardContent = document.getElementById('dashboardContent');
-const statsContent = document.getElementById('statsContent');
 
-const menuLinks = document.querySelectorAll('.navbar .menu a');
-const dashboardLink = [...menuLinks].find(a => a.textContent.trim() === 'Dashboard');
-const statsLink = [...menuLinks].find(a => a.textContent.trim() === 'Stats');
+/* =====================================================
+   INIT
+   ===================================================== */
 
-function showDashboard() {
-  dashboardContent.style.display = 'block';
-  statsContent.style.display = 'none';
-  dashboardLink.classList.add('active');
-  statsLink.classList.remove('active');
-}
-
-function showStats() {
-  dashboardContent.style.display = 'none';
-  statsContent.style.display = 'block';
-  statsLink.classList.add('active');
-  dashboardLink.classList.remove('active');
-  updateStats();
-}
-
-dashboardLink.addEventListener('click', e => { e.preventDefault(); showDashboard(); });
-statsLink.addEventListener('click', e => { e.preventDefault(); showStats(); });
-
-// Save/load progress
-const saved = JSON.parse(localStorage.getItem("atomic-heart-checklist"));
-if (saved) Object.assign(quests, saved);
-
-// Handle category buttons
-document.querySelectorAll(".button-report[data-cat]").forEach(btn => {
-  btn.addEventListener("click", () => {
-    currentCategory = btn.dataset.cat;
-    renderTable();
-  });
-});
-
-/* ---------- init ---------- */
 renderTable();
 </script>
-
 </body>
 </html>
