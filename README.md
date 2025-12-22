@@ -9,7 +9,7 @@ A sleek, lightweight checklist web app to help you track quests, bosses, and wea
   - Main Quests
   - Bosses
   - Weapons
-  - 🗂️ Filter by type:
+- 🗂️ Filter by type:
   - Bosses
   - Weapons
   - DLC
