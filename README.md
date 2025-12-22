@@ -1,21 +1,34 @@
-# atomic-heart-checklist
+# 📋 atomic-heart-checklist
 https://lepehn.github.io/atomic-heart-checklist/
 
 A sleek, lightweight checklist web app to help you track quests, bosses, and weapons in **Atomic Heart**. Inspired by fan-made guides for games like *Dark Souls* and *Bloodborne*, this project helps you stay organized without spoilers or unnecessary fluff.
 
----
-
-## 📋 Features
+## 🧩 Features
 
 - ✅ Track progress across:
   - Main Quests
   - Bosses
   - Weapons
+  - 🗂️ Filter by type:
+  - Bosses
+  - Weapons
+  - DLC
+- 🗂️ Filter by status:
+  - Not Started
+  - In Progress
+  - On Hold
+  - Completed
+- 📦 Export and import your checklist list as a `.json` file
+- 📊 View progress tracking per type
+- 📈 Stats with:
+  - Bar chart for **Overall Status**
+  - Total overall counts and **completion percentages**
+- 🎯 See percentage completed overall and by type
+- 🧾 See completed, in progress, and summary of status totals
+- 🖱️ Tab-based navigation for type-specific lists
+- 🔄 Responsive charts with consistent sizing and aspect ratio
 - 💾 Progress saved locally in your browser
 - 📱 Responsive layout (desktop & mobile friendly)
-- 🖤 Stylish, dark-themed UI
-
----
 
 ## 💾 Saving Your Progress
 
