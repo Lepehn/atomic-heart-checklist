@@ -1,19 +1,40 @@
-Copyright (c) 2025 Aaron Smith
+Website & Source Code License Agreement
+
+Copyright © 2025–2026 Aaron Smith
 
 All rights reserved.
 
-This source code and all associated files are the exclusive property of the
-copyright holder. Permission is granted to view this repository on GitHub
-for personal, non-commercial use only.
+This website, its design, layout, structure, visual appearance, and all
+associated source code (including but not limited to HTML, CSS, JavaScript,
+backend code, build scripts, assets, and configuration files) (collectively,
+the “Work”) are the exclusive property of the copyright holder.
 
-You may NOT:
-  • Fork this repository
-  • Copy or reproduce any part of the source code or files
-  • Modify, adapt, or create derivative works
-  • Redistribute, republish, or host the content elsewhere
-  • Sell, license, or commercially use any part of this project
+No rights are granted to use, copy, modify, distribute, or otherwise exploit
+the Work, except as explicitly stated below.
 
-No rights are granted beyond the ability to view the repository as hosted.
-Any unauthorized use is strictly prohibited.
+Permitted Use:
+- You may view the publicly accessible website and view the source code
+  as presented through a web browser for personal, non-commercial reference only.
 
-For any permissions beyond viewing, explicit written consent is required.
+Prohibited Uses (without explicit written permission):
+- Copying, reproducing, or extracting any portion of the source code
+- Cloning, downloading, or locally storing the source code or website files
+- Reusing the website’s design, layout, structure, styling, or visual identity
+- Modifying, adapting, or creating derivative works based on the Work
+- Redistributing, republishing, or hosting the Work or any portion thereof
+- Using the Work as a reference to create substantially similar websites,
+  applications, or source code
+- Using the Work for commercial purposes, including client work or paid services
+
+Any use beyond passive viewing requires prior written permission from the
+copyright holder.
+
+This license must be included in all authorized copies or excerpts of the Work.
+
+THE WORK IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDER
+BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE
+WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+
