@@ -385,9 +385,8 @@ document.getElementById("importJSON").addEventListener("change", e => {
       alert("Import successful!");
     } catch (err) {
       alert("Invalid save file.");
-    }
-
-    e.target.value = ""; // reset input
+    } finaly {
+       e.target.value = ""; // reset input
   };
 
   reader.readAsText(file);
@@ -400,3 +399,4 @@ document.getElementById("importJSON").addEventListener("change", e => {
 
 
 renderTable();
+
