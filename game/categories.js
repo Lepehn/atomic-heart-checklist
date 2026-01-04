@@ -1,5 +1,5 @@
 export const CATEGORIES = {
   main: "Main Quests",
-  bosses: "Bosses",
-  weapons: "Weapons"
+  boss: "Bosses",
+  weapon: "Weapons"
 };
