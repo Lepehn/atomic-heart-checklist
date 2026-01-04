@@ -1,0 +1,52 @@
+ :root {
+ /* Tag Colors */
+  --tag-required: #1177a3;
+  --tag-optional: #616161;
+  --tag-collectible: #616161;
+  
+  --tag-dlc: #c51162;
+  --tag-ng: #d79934;
+}
+
+/* Tags */
+.tag-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: var(--radius);
+  font-size: var(--font-size-small);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* Tag Colors */
+.tag.Required {
+  background: var(--tag-required);
+  color: var(--status-text);
+}
+
+.tag.Optional {
+  background: var(--tag-optional);
+  color: var(--status-text);
+}
+
+.tag.Collectible {
+  background: var(--tag-collectible);
+  color: var(--status-text);
+}
+
+.tag.DLC {
+  background: var(--tag-dlc);
+  color: var(--status-text);
+}
+
+.tag.NG {
+  background: var(--tag-ng);
+  color: var(--status-text);
+}

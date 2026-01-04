@@ -1,0 +1,56 @@
+/* Cerulean Theme */
+body.alt-theme {
+  /* Core Colors */
+  --background: #0F1C23;
+  --card: #162933;
+  --card-inlay: #13262C;
+  --button: #1D3B48;
+  --hover: #2A4F63;
+  --border: #1A3642;
+  --radius: 8px;
+
+  /* Text Colors */
+  --text: #fff;
+  --text-muted: #999;
+  
+  /* Status Colors */
+  --status-text: var(--text);
+}
+
+/* Scandi Theme */
+body.scandi-theme {
+  /* Core Colors */
+  --background: #efe8dd;
+  --card: #cab3a0;
+  --card-inlay: #decabd;
+  --button: #decabd;
+  --hover: #edeae5;
+  --border: #decabd;
+  --radius: 8px;
+
+  /* Text Colors */
+  --text: #434341;
+  --text-muted: #373A3A;
+  
+  /* Status Colors */
+  --status-text: var(--hover);
+}
+
+/* Scandi Theme */
+body.discord-theme {
+  /* Core Colors */
+  --background: #121214;
+  --card: #1A1A1E;
+  --card-inlay: #17171B;
+  --button: #212125;
+  --hover: #323235;
+  --border: #222;
+  --radius: 8px;
+
+  /* Text Colors */
+  --text: #fff;
+  --text-muted: #999;
+  
+  /* Status Colors */
+  --status-text: var(--text);
+}

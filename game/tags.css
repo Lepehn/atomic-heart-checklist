@@ -1,0 +1,38 @@
+ :root {
+  --tag-pistol: #2979ff;
+  --tag-melee: #d32f2f;
+  --tag-rifle: #388e3c;
+  --tag-shotgun: #ff9800;
+  --tag-energy: #00acc1;
+  --tag-cannon: #7b1fa2;
+ }
+
+.tag.Pistol {
+  background: var(--tag-pistol);
+  color: var(--status-text);
+}
+
+.tag.Melee {
+  background: var(--tag-melee);
+  color: var(--status-text);
+}
+
+.tag.Rifle {
+  background: var(--tag-rifle);
+  color: var(--status-text);
+}
+
+.tag.Shotgun {
+  background: var(--tag-shotgun);
+  color: var(--status-text);
+}
+
+.tag.Energy {
+  background: var(--tag-energy);
+  color: var(--status-text);
+}
+
+.tag.Cannon {
+  background: var(--tag-cannon);
+  color: var(--status-text);
+}
