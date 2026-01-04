@@ -361,7 +361,6 @@ document.getElementById("importJSON").addEventListener("change", e => {
   reader.onload = () => {
     try {
       const imported = JSON.parse(reader.result);
-
       let playthroughs;
 
       // 🧠 NEW MULTI-PT FORMAT
@@ -376,6 +375,26 @@ document.getElementById("importJSON").addEventListener("change", e => {
         };
       }
 
+      // 🔒 UNIVERSAL NAME CHECK
+      const hasNameKey = (obj) => {
+        if (obj && typeof obj === "object") {
+          if ("name" in obj) return true;
+          for (const val of Object.values(obj)) {
+            if (hasNameKey(val)) return true;
+          }
+        } else if (Array.isArray(obj)) {
+          for (const item of obj) {
+            if (hasNameKey(item)) return true;
+          }
+        }
+        return false;
+      };
+
+      if (!hasNameKey(playthroughs)) {
+        throw new Error("Invalid save file: missing required 'name' fields");
+      }
+
+      // ✅ Only assign after validation
       GAME.playthroughs = playthroughs;
 
       saveGame();
@@ -384,9 +403,11 @@ document.getElementById("importJSON").addEventListener("change", e => {
 
       alert("Import successful!");
     } catch (err) {
-      alert("Invalid save file.");
-    } finaly {
-       e.target.value = ""; // reset input
+      console.error(err);
+      alert("Invalid save file. Import cancelled.");
+    } finally {
+      e.target.value = ""; // reset input
+    }
   };
 
   reader.readAsText(file);
@@ -399,4 +420,5 @@ document.getElementById("importJSON").addEventListener("change", e => {
 
 
 renderTable();
+
 
