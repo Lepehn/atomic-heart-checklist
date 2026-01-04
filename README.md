@@ -9,9 +9,15 @@ A sleek, lightweight checklist web app to help you track progress in **Atomic He
   - Main Quests
   - Bosses
   - Weapons
+  - Chipers
+  - Talking Bodies
+  - DLC
 - 🗂️ Filter by type:
+  - Main Quests
   - Bosses
   - Weapons
+  - Chipers
+  - Talking Bodies
   - DLC
 - 🗂️ Filter by status:
   - Not Started
