@@ -1,4 +1,4 @@
-export const bosses = [
+export const boss = [
     {name: "Lab Tech", tag: "Required", status: "NotStarted"},
     {name: "Large Mutant", tag: "Required", status: "NotStarted"},
     {name: "Hedgie", tag: "Required", status: "NotStarted"},
@@ -12,3 +12,4 @@ export const bosses = [
     {name: "GOOSE (2nd)", tag: "DLC", status: "NotStarted"},
     {name: "Robo-Girl", tag: "DLC", status: "NotStarted"},
 ];
+
