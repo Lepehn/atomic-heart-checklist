@@ -1,4 +1,4 @@
-export const weapons = [
+export const weapon = [
     {name: "PM", tag: "Pistol", status: "NotStarted"},
     {name: "Pashtet", tag: "Melee", status: "NotStarted"},
     {name: "Dominator", tag: "Cannon", status: "NotStarted"},
@@ -13,3 +13,4 @@ export const weapons = [
     {name: "KM-4 Kuzmich", tag: "Shotgun, DLC", status: "NotStarted"},
     {name: "Fox", tag: "Melee", status: "NotStarted"}
 ];
+
