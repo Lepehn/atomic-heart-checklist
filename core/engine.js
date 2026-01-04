@@ -362,17 +362,21 @@ document.getElementById("importJSON").addEventListener("change", e => {
     try {
       const imported = JSON.parse(reader.result);
 
+      let playthroughs;
+
       // 🧠 NEW MULTI-PT FORMAT
       if (imported.playthroughs) {
-        GAME.playthroughs = imported.playthroughs;
+        playthroughs = imported.playthroughs;
       }
       // 🧠 OLD FORMAT → MIGRATE TO PT1
       else {
-        GAME.playthroughs = {
+        playthroughs = {
           1: imported,
           2: structuredClone(GAME.data)
         };
       }
+
+      GAME.playthroughs = playthroughs;
 
       saveGame();
       renderTable();
@@ -393,5 +397,6 @@ document.getElementById("importJSON").addEventListener("change", e => {
 /* =====================================================
    INIT
    ===================================================== */
+
 
 renderTable();
