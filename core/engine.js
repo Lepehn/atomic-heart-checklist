@@ -363,11 +363,11 @@ document.getElementById("importJSON").addEventListener("change", e => {
       const imported = JSON.parse(reader.result);
       let playthroughs;
 
-      // 🧠 NEW MULTI-PT FORMAT
+      // NEW MULTI-PT FORMAT
       if (imported.playthroughs) {
         playthroughs = imported.playthroughs;
       }
-      // 🧠 OLD FORMAT → MIGRATE TO PT1
+      // OLD FORMAT → MIGRATE TO PT1
       else {
         playthroughs = {
           1: imported,
@@ -375,26 +375,22 @@ document.getElementById("importJSON").addEventListener("change", e => {
         };
       }
 
-      // 🔒 UNIVERSAL NAME CHECK
+      // UNIVERSAL NAME CHECK (objects only)
       const hasNameKey = (obj) => {
-        if (obj && typeof obj === "object") {
+        if (Array.isArray(obj)) {
+          return obj.some(item => hasNameKey(item));
+        } else if (obj && typeof obj === "object" && !Array.isArray(obj)) {
           if ("name" in obj) return true;
-          for (const val of Object.values(obj)) {
-            if (hasNameKey(val)) return true;
-          }
-        } else if (Array.isArray(obj)) {
-          for (const item of obj) {
-            if (hasNameKey(item)) return true;
-          }
+          return Object.values(obj).some(val => hasNameKey(val));
         }
-        return false;
+        return false; // strings, numbers, etc → invalid
       };
 
       if (!hasNameKey(playthroughs)) {
         throw new Error("Invalid save file: missing required 'name' fields");
       }
 
-      // ✅ Only assign after validation
+      // ✅ Commit after passing check
       GAME.playthroughs = playthroughs;
 
       saveGame();
@@ -420,5 +416,6 @@ document.getElementById("importJSON").addEventListener("change", e => {
 
 
 renderTable();
+
 
 
