@@ -329,6 +329,7 @@ document.querySelectorAll(".navbar .menu a").forEach(a => {
    ===================================================== */
 document.getElementById("exportBtn").addEventListener("click", () => {
   const saveData = {
+    id: GAME.id,
     version: 2,
     playthroughs: GAME.playthroughs
   };
@@ -361,6 +362,12 @@ document.getElementById("importJSON").addEventListener("change", e => {
   reader.onload = () => {
     try {
       const imported = JSON.parse(reader.result);
+
+      // 🔒 Verify game ID
+      if (imported.id !== GAME.id) {
+        throw new Error("This save file does not belong to this game");
+      }
+      
       let playthroughs;
 
       // NEW MULTI-PT FORMAT
@@ -375,20 +382,29 @@ document.getElementById("importJSON").addEventListener("change", e => {
         };
       }
 
-      // UNIVERSAL NAME CHECK (objects only)
-      const hasNameKey = (obj) => {
+      // UNIVERSAL STRICT NAME VALIDATION (allow extra fields)
+      const validateNames = (obj) => {
         if (Array.isArray(obj)) {
-          return obj.some(item => hasNameKey(item));
+          if (obj.length === 0) return false;
+          return obj.every(item => validateNames(item));
         } else if (obj && typeof obj === "object" && !Array.isArray(obj)) {
-          if ("name" in obj) return true;
-          return Object.values(obj).some(val => hasNameKey(val));
+          return "name" in obj;
         }
-        return false; // strings, numbers, etc → invalid
+        return false;
       };
 
-      if (!hasNameKey(playthroughs)) {
-        throw new Error("Invalid save file: missing required 'name' fields");
-      }
+      // Recursively check each array in playthroughs
+      const checkPlaythroughs = (obj) => {
+        if (Array.isArray(obj)) {
+          if (!validateNames(obj)) throw new Error("Invalid save: missing 'name'");
+        } else if (obj && typeof obj === "object") {
+          for (const val of Object.values(obj)) {
+            checkPlaythroughs(val);
+          }
+        }
+      };
+
+      checkPlaythroughs(playthroughs);
 
       // ✅ Commit after passing check
       GAME.playthroughs = playthroughs;
@@ -416,6 +432,5 @@ document.getElementById("importJSON").addEventListener("change", e => {
 
 
 renderTable();
-
 
 
