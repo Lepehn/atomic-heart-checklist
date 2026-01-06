@@ -1,11 +1,4 @@
 :root {
-  /* Core Colors*/
-  --background: #141414;
-  --card: #1E1E1E;
-  --card-inlay: #1a1a1a;
-  --button: #262626;
-  --hover: #383838;
-  --border: #222;
   --radius: 8px;
   
   /* Fonts */
@@ -14,10 +7,6 @@
   --font-size-medium: 16px;
   --font-size-large: 18px;
   --font-size-extra-large: 24px;
-
-  /* Text Colors */
-  --text: #fff;
-  --text-muted: #999;
 
   /* Status Colors */
   --status-completed: #278041;
@@ -43,7 +32,7 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 20px 40px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--button);
 }
 .navbar .logo { font-size: var(--font-size-extra-large); font-weight: bold;}
 .navbar .menu { display: flex; gap: 30px; }
@@ -81,7 +70,6 @@ body {
   background: var(--card);
   padding: 20px;
   border-radius: var(--radius);
-  border: 1px solid var(--border);
   box-shadow: 0 3px 10px rgba(0,0,0,0.06);
 }
 .card-header {
@@ -131,7 +119,7 @@ body {
 table { width: 100%; border-collapse: collapse; }
 table td, table th {
   padding: 12px 6px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--card-inlay);
   font-size: var(--font-size-small);
 }
 table th { color: var(--text-muted); text-align: left; }
@@ -157,7 +145,6 @@ ul li { margin-bottom: 8px; font-size: var(--font-size-medium); }
 .statusSelect {
   padding: 6px 12px;
   border-radius: var(--radius);
-  border: 1px solid var(--border);
   font-size: var(--font-size-small);
   background: var(--button);
   color: var(--text-muted);
@@ -179,8 +166,8 @@ ul li { margin-bottom: 8px; font-size: var(--font-size-medium); }
   padding: 6px 12px;
   border-radius: var(--radius);
   font-size: var(--font-size-small);
-  color:#aaa; 
-  background:#1a1a1a; 
+  color: var(--text-muted);
+  background: var(--card-inlay);
   margin-top:8px; 
   margin-bottom:8px; 
   display: block;
@@ -269,4 +256,4 @@ ul li { margin-bottom: 8px; font-size: var(--font-size-medium); }
   line-height: 0;
 }
 
-footer {text-align: center; margin-top: 240px;}
+footer {color: var(--text-muted); text-align: center; margin-top: 240px;}
