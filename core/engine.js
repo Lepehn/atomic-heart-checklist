@@ -90,7 +90,7 @@ function updateStats() {
     .trim();
 
   const textColor = getComputedStyle(document.documentElement)
-    .getPropertyValue("--text")
+    .getPropertyValue('--text-muted')
     .trim();
 
   Chart.defaults.color = textColor;
@@ -432,5 +432,3 @@ document.getElementById("importJSON").addEventListener("change", e => {
 
 
 renderTable();
-
-
