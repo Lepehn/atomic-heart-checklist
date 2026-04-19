@@ -8,14 +8,24 @@
   --font-size-large: 18px;
   --font-size-extra-large: 24px;
 
+  /* Colors */
+  --yellow: #E5C07B;
+  --blue: #61AFEF;
+  --red: #E06C75;
+  --green: #98C379;
+  --gray: #5C6370;
+  --orange: #D19A66;
+  --white: #E6E6E6;
+  --black: #1E1E1C;
+
   /* Status Colors */
-  --status-completed: #278041;
-  --status-inprogress: #1177a3;
-  --status-notstarted: #616161;
-  --status-onhold: #a62327;
-  --status-hundred: #689a2e;
-  --progressbar: #4caf50;
-  --status-text: var(--text);
+  --status-completed: var(--green);
+  --status-inprogress: var(--blue);
+  --status-notstarted: var(--gray);
+  --status-onhold: var(--red);
+  --status-hundred: var(--yellow);
+  --progressbar: var(--green);
+  --status-text: var(--black);
 }
 
 body {
@@ -33,8 +43,9 @@ body {
   align-items: center;
   padding: 20px 40px;
   border-bottom: 1px solid var(--button);
+  background-color: var(--navbar);
 }
-.navbar .logo { font-size: var(--font-size-extra-large); font-weight: bold;}
+.navbar .logo { color: var(--text-active);font-size: var(--font-size-extra-large); font-weight: bold;}
 .navbar .menu { display: flex; gap: 30px; }
 .navbar .menu a {
   color: var(--text-muted);
@@ -42,7 +53,7 @@ body {
   font-size: var(--font-size-medium);
   cursor: pointer;
 }
-.navbar .menu a.active { color: var(--text); }
+.navbar .menu a.active { color: var(--text-active); }
 
 /* Layout */
 .container {
@@ -73,6 +84,7 @@ body {
   box-shadow: 0 3px 10px rgba(0,0,0,0.06);
 }
 .card-header {
+  color: var(--text-active);
   display: flex;
   justify-content: space-between;
   align-items: center;
