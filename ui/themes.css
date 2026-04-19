@@ -1,125 +1,65 @@
- :root {
-  /* Carbon | Dark */
-  --background: #141414;
-  --card: #1E1E1E;
-  --card-inlay: #1a1a1a;
-  --button: #262626;
-  --hover: #383838;
+:root {
+  /* Dark */
+  --background: #090909;
+  --navbar: #090909;
+  --card: #151515;
+  --card-inlay: #0e0e0e;
+  --button: #222222;
+  --hover: #2e2e2e;
   --text: #E6E6E6;
+  --text-active:#D4A27F;
   --text-muted: #A0A0A0;
- }
-
-/* Ash | Light */
-body.ash-theme {
-  --background: #ECECEC;
-  --card: #F4F4F4;
-  --card-inlay: #E8E8E8;
-  --button: #DEDEDE;
-  --hover: #D2D2D2;
-  --text: #141414;
-  --text-muted: #5F5F5F;
 }
 
-/* Basalt | Dark */
-body.basalt-theme {
-  --background: #151718;
-  --card: #1F2224;
-  --card-inlay: #1A1D1F;
-  --button: #2A2E31;
-  --hover: #3A3F43;
-  --text: #E3E6E8;
-  --text-muted: #A1A7AC;
+/* Light */
+body.light-theme {
+  --background: #E0E0E0;
+  --navbar: #E0E0E0;
+  --card: #EBEBEB;
+  --card-inlay: #D8D8D8;
+  --button: #CCCCCC;
+  --hover: #BFBFBF;
+  --text: #333333;
+  --text-active: #8B5E3C;
+  --text-muted: #666666;
 }
 
-/* Limestone | Light */
-body.limestone-theme {
-  --background: #EEEDEB;
-  --card: #F6F5F3;
-  --card-inlay: #E9E7E4;
-  --button: #DEDBD7;
-  --hover: #D1CDC8;
-  --text: #1E1E1C;
-  --text-muted: #6E6A66;
+/* OLED */
+body.oled-theme {
+  --background: #000000;
+  --navbar: #000000;
+  --card: #050505;
+  --card-inlay: #1a1a1a;
+  --button: #202020;
+  --hover: #303030;
+  --text: #E6E6E6;
+  --text-active: #E6E6E6;
+  --text-muted: #A0A0A0;
 }
 
-/* Ember | Dark */
-body.ember-theme {
-  --background: #171413;
-  --card: #211C1A;
-  --card-inlay: #1C1816;
-  --button: #2E2622;
-  --hover: #40332E;
-  --text: #E6E2DF;
-  --text-muted: #A89F98;
-}
-
-/* Sand | Light */
-body.sand-theme {
-  --background: #EFE9E1;
-  --card: #F7F2EC;
-  --card-inlay: #EAE3DA;
-  --button: #DED6CB;
-  --hover: #D1C7BB;
-  --text: #1F1A17;
-  --text-muted: #6F6258;
-}
-
-/* Rust | Dark */
-body.rust-theme {
-  --background: #181311;
-  --card: #231A17;
-  --card-inlay: #1D1613;
-  --button: #31231F;
-  --hover: #46312B;
-  --text: #E6E2DF;
-  --text-muted: #A89F98;
-}
-
-/* Clay | Light */
-body.clay-theme {
-  --background: #EFE6DF;
-  --card: #F6EFE9;
-  --card-inlay: #E8DED6;
-  --button: #DACFC6;
-  --hover: #CDBFB4;
-  --text: #1F1A17;
-  --text-muted: #6F6258;
-}
-
-/* Cerulean Theme */
-body.alt-theme {
-  /* Core Colors */
-  --background: #0F1C23;
-  --card: #162933;
-  --card-inlay: #13262C;
-  --button: #1D3B48;
-  --hover: #2A4F63;
-  --border: #1A3642;
-  --radius: 8px;
-
-  /* Text Colors */
-  --text: #fff;
-  --text-muted: #999;
-  
-  /* Status Colors */
-  --status-text: var(--text);
-}
-
-/* Discord Theme */
+/* Discord */
 body.discord-theme {
-  /* Core Colors */
   --background: #121214;
+  --navbar: #1A1A1E;
   --card: #1A1A1E;
   --card-inlay: #17171B;
   --button: #212125;
   --hover: #323235;
   --border: #222;
-  --radius: 8px;
-
-  /* Text Colors */
   --text: #fff;
+  --text-active: #fff;
   --text-muted: #999;
-  
-  /* Status Colors */
-  --status-text: var(--text);
+}
+
+/* Steam */
+body.steam-theme {
+  --background: #2D333C;
+  --navbar: #171D25;
+  --card: #171D25;
+  --card-inlay: #23252A;
+  --button: #25272D;
+  --hover: #3E4047;
+  --text: #E6E6E6;
+  --text-active: #1A9FFF;
+  --text-muted: #A0A0A0;
 }
