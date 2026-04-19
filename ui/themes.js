@@ -26,53 +26,22 @@ document.querySelectorAll(".theme-btn").forEach(btn => {
   btn.addEventListener("click", () => {
     const theme = btn.dataset.theme;
 
-    if (theme === "ash") {
-      document.body.classList.add("ash-theme");
+    if (theme === "light") {
+      document.body.classList.add("light-theme");
     } else {
-      document.body.classList.remove("ash-theme");
+      document.body.classList.remove("light-theme");
     }
 
-   if (theme === "basalt") {
-      document.body.classList.add("basalt-theme");
+    if (theme === "oled") {
+      document.body.classList.add("oled-theme");
     } else {
-      document.body.classList.remove("basalt-theme");
+      document.body.classList.remove("oled-theme");
     }
 
-    if (theme === "limestone") {
-      document.body.classList.add("limestone-theme");
+    if (theme === "steam") {
+      document.body.classList.add("steam-theme");
     } else {
-      document.body.classList.remove("limestone-theme");
-    }
-
-    if (theme === "ember") {
-      document.body.classList.add("ember-theme");
-    } else {
-      document.body.classList.remove("ember-theme");
-    }
-
-     if (theme === "sand") {
-      document.body.classList.add("sand-theme");
-    } else {
-      document.body.classList.remove("sand-theme");
-    }
-
-    if (theme === "rust") {
-      document.body.classList.add("rust-theme");
-    } else {
-      document.body.classList.remove("rust-theme");
-    }
-
-    if (theme === "clay") {
-      document.body.classList.add("clay-theme");
-    } else {
-      document.body.classList.remove("clay-theme");
-    }
-     
-    // Legacy Themes
-    if (theme === "alt") {
-      document.body.classList.add("alt-theme");
-    } else {
-      document.body.classList.remove("alt-theme");
+      document.body.classList.remove("steam-theme");
     }
 
     if (theme === "discord-dark") {
@@ -86,39 +55,18 @@ document.querySelectorAll(".theme-btn").forEach(btn => {
 });
 
 // Load saved theme
-if (localStorage.getItem("theme") === "ash") {
-  document.body.classList.add("ash-theme");
+if (localStorage.getItem("theme") === "light") {
+  document.body.classList.add("Light-theme");
 }
 
-if (localStorage.getItem("theme") === "basalt") {
-  document.body.classList.add("basalt-theme");
-}
-
-if (localStorage.getItem("theme") === "limestone") {
-  document.body.classList.add("limestone-theme");
-}
-
-if (localStorage.getItem("theme") === "ember") {
-  document.body.classList.add("ember-theme");
-}
-
-if (localStorage.getItem("theme") === "sand") {
-  document.body.classList.add("sand-theme");
-}
-
-if (localStorage.getItem("theme") === "rust") {
-  document.body.classList.add("rust-theme");
-}
-
-if (localStorage.getItem("theme") === "clay") {
-  document.body.classList.add("clay-theme");
-}
-
-// Legacy Themes
-if (localStorage.getItem("theme") === "alt") {
-  document.body.classList.add("alt-theme");
+if (localStorage.getItem("theme") === "oled") {
+  document.body.classList.add("oled-theme");
 }
 
 if (localStorage.getItem("theme") === "discord-dark") {
   document.body.classList.add("discord-theme");
+}
+
+if (localStorage.getItem("theme") === "steam") {
+  document.body.classList.add("steam-theme");
 }
