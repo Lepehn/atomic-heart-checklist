@@ -56,7 +56,7 @@ document.querySelectorAll(".theme-btn").forEach(btn => {
 
 // Load saved theme
 if (localStorage.getItem("theme") === "light") {
-  document.body.classList.add("Light-theme");
+  document.body.classList.add("light-theme");
 }
 
 if (localStorage.getItem("theme") === "oled") {
