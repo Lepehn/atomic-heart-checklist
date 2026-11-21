@@ -1,5 +1,6 @@
 :root {
-  --radius: 8px;
+  --radius: 9999px;
+  --radius2: 24px;
   
   /* Fonts */
   --font-main: Arial, sans-serif;
@@ -31,9 +32,16 @@
 body {
   margin: 0;
   margin-bottom: 120px;
-  background: var(--background);
   font-family: var(--font-main);
-  color: var(--text);
+  color: var(--onsurface);
+  background-image: url(https://image.api.playstation.com/vulcan/img/rnd/202010/2614/O2Z66UWrZH8zcejxopwWxhGu.png?w=5000&thumb=false);
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+}
+
+h1 {
+  color: var(--primary);
 }
 
 /* Navigation */
@@ -41,19 +49,47 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 40px;
-  border-bottom: 1px solid var(--button);
-  background-color: var(--navbar);
+  padding: 1px 12px;
+  border-radius: var(--radius);
+  background-color: var(--surface);
+  margin-top: 12px;
+  margin-left: 120px;
+  margin-right: 120px;
+  backdrop-filter: blur(12px);
 }
-.navbar .logo { color: var(--text-active);font-size: var(--font-size-extra-large); font-weight: bold;}
-.navbar .menu { display: flex; gap: 30px; }
+.navbar .logo { 
+  color: var(--primary); 
+  font-size: var(--font-size-extra-large); 
+  font-weight: bold;
+  padding: 3px 12px;
+  margin: 4px 3px;
+  border-radius: var(--radius);
+}
+.navbar .menu { 
+  display: flex; 
+  gap: 30px; 
+  background: var(--surface-container);
+  padding: 3px 12px;
+  margin: 4px 3px;
+  border-radius: var(--radius);
+}
 .navbar .menu a {
-  color: var(--text-muted);
+  color: var(--onsurface);
   text-decoration: none;
   font-size: var(--font-size-medium);
   cursor: pointer;
+  background: var(--surface-container);
+  padding: 3px 12px;
+  margin: 4px 3px;
+  border-radius: var(--radius);
 }
-.navbar .menu a.active { color: var(--text-active); }
+.navbar .menu a.active { 
+  background: var(--secondary-container);
+  color: var(--onsecondary-container);
+  padding: 3px 12px;
+  margin: 4px 3px;
+  border-radius: var(--radius);
+}
 
 /* Layout */
 .container {
@@ -78,13 +114,14 @@ body {
 
 /* Cards */
 .card {
-  background: var(--card);
+  background: var(--surface-container);
   padding: 20px;
-  border-radius: var(--radius);
+  border-radius: var(--radius2);
   box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+  backdrop-filter: blur(12px);
 }
 .card-header {
-  color: var(--text-active);
+  color: var(--primary);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -111,31 +148,41 @@ body {
 /* Buttons */
 .button-report,
 .button-delete svg {
-  background: var(--button);
-  padding: 6px 12px;
+  background: var(--surface-container);
+  padding: 3px 12px;
+  margin: 4px 3px;
   margin-bottom: 6px;
   border-radius: var(--radius);
   font-size: var(--font-size-small);
   cursor: pointer;
-  color: var(--text);
+  color: var(--onsurface);
   display: inline-flex;
   align-items: center;
   gap: 8px;
 }
 .button-report:hover,
 .button-delete svg:hover {
-  background: var(--hover);
+  background: var(--secondary-container);
 }
 
 /* Table */
 table { width: 100%; border-collapse: collapse; }
 table td, table th {
   padding: 12px 6px;
-  border-bottom: 1px solid var(--card-inlay);
   font-size: var(--font-size-small);
 }
-table th { color: var(--text-muted); text-align: left; }
-
+table th { color: var(--onsurface-variant); text-align: left; }
+thead tr,
+tbody tr {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  align-items: center;
+  background: var(--surface-container);
+  border-radius: var(--radius);
+  margin-bottom: 12px;
+  padding: 3px 12px;
+  margin: 4px 3px;
+}
 /* Lists */
 ul { padding-left: 20px; }
 ul li { margin-bottom: 8px; font-size: var(--font-size-medium); }
@@ -146,23 +193,18 @@ ul li { margin-bottom: 8px; font-size: var(--font-size-medium); }
   margin-top: 12px;
   overflow-y: auto;
   padding-right: 8px;
-  scrollbar-color: var(--hover) var(--card-inlay);
+  scrollbar-color: var(--surface-container-low) var(--surface-container-high);
 }
 .scrollable-list-small { max-height: 160px; }
 .scrollable-list-large { max-height: 400px; }
-
-#gameSearch { padding:6px; width:300px; border-radius: var(--radius); border:1px solid var(--border); background: var(--card-inlay); color: var(--text); font-size:var(--font-size-small); }
+#gameSearch { padding:6px; width:300px; border-radius: var(--radius); border:1px solid var(--border); background: var(--surface-container-low); color: var(--onsurface); font-size:var(--font-size-small); }
 
 /* Selects */
 .statusSelect {
-  padding: 6px 12px;
+  padding: 1px 12px;
   border-radius: var(--radius);
   font-size: var(--font-size-small);
-  background: var(--button);
-  color: var(--text-muted);
-}
-
-.statusSelect {
+  background: var(--surface-container-low);
   color: var(--status-text);
 }
 
@@ -178,8 +220,8 @@ ul li { margin-bottom: 8px; font-size: var(--font-size-medium); }
   padding: 6px 12px;
   border-radius: var(--radius);
   font-size: var(--font-size-small);
-  color: var(--text-muted);
-  background: var(--card-inlay);
+  color: var(--onsurface-variant);
+  background: var(--surface-container-low);
   margin-top:8px; 
   margin-bottom:8px; 
   display: block;
@@ -190,7 +232,7 @@ ul li { margin-bottom: 8px; font-size: var(--font-size-medium); }
 
 /* Progress Bar */
 .progress-bar {
-  background: var(--card-inlay);
+  background: var(--surface-container-low);
   width: 100%;
   height: 8px;
   border-radius: 4px;
@@ -198,7 +240,7 @@ ul li { margin-bottom: 8px; font-size: var(--font-size-medium); }
   margin-top: 10px;
 }
 .progress-bar-fill {
-  background: var(--progressbar);
+  background: var(--primary);
   height: 100%;
   width: 0%;
   transition: width 0.4s ease;
@@ -212,29 +254,31 @@ ul li { margin-bottom: 8px; font-size: var(--font-size-medium); }
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.5);
+  background: var(--surface-container-low);
   justify-content: center;
   align-items: center;
   z-index: 40;
 }
 .modal-content {
-  background: var(--card);
+  background: var(--surface-container);
   padding: 20px;
-  border-radius: var(--radius);
+  border-radius: var(--radius2);
   width: 320px;
   max-width: 95%;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  backdrop-filter: blur(12px);
 }
 .modal-content select,
 .modal-content button {
-  padding: 8px;
+  padding: 3px 12px;
+  margin: 4px 3px;
   border-radius: var(--radius);
   border: none;
   font-size: var(--font-size-small);
-  background: var(--button);
-  color: var(--text);
+  background: var(--surface-container-high);
+  color: var(--onsurface);
 }
 #closeModal { background: var(--button); }
 
@@ -268,4 +312,4 @@ ul li { margin-bottom: 8px; font-size: var(--font-size-medium); }
   line-height: 0;
 }
 
-footer {color: var(--text-muted); text-align: center; margin-top: 240px;}
+footer {color: var(--onsurface); text-align: center; margin-top: 240px;}
