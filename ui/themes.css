@@ -1,65 +1,68 @@
 :root {
-  /* Dark */
-  --background: #090909;
-  --navbar: #090909;
-  --card: #151515;
-  --card-inlay: #0e0e0e;
-  --button: #222222;
-  --hover: #2e2e2e;
-  --text: #E6E6E6;
-  --text-active:#D4A27F;
-  --text-muted: #A0A0A0;
+
+  /* Default (Glass) */
+  --surface: rgb(16 20 24 / 80%);
+  --surface-container: rgb(28 32 36 / 80%);
+  --surface-container-low: rgb(11 15 18 / 80%);
+  --surface-container-high: rgb(49 53 57 / 80%);
+  --secondary-container: #394857;
+  --onsurface: #E0E2E8;
+  --onsurface-variant: #C2C7CE;
+  --onsecondary-container: #D4E4F6;
+  --primary: #99CCFA;
 }
 
 /* Light */
 body.light-theme {
-  --background: #E0E0E0;
-  --navbar: #E0E0E0;
-  --card: #EBEBEB;
-  --card-inlay: #D8D8D8;
-  --button: #CCCCCC;
-  --hover: #BFBFBF;
-  --text: #333333;
-  --text-active: #8B5E3C;
-  --text-muted: #666666;
+  --surface: rgb(247 249 255 / 70%);
+  --surface-container: rgb(235 238 243 / 70%);
+  --surface-container-low: rgb(241 244 249 / 70%);
+  --surface-container-high: rgb(224 226 232 / 70%);
+  --secondary-container: #D4E4F6;
+  --onsurface: #181C20;
+  --onsurface-variant: #42474E;
+  --onsecondary-container: #394857;
+  --primary: #2D638B;
 }
 
 /* OLED */
 body.oled-theme {
-  --background: #000000;
-  --navbar: #000000;
-  --card: #050505;
-  --card-inlay: #1a1a1a;
-  --button: #202020;
-  --hover: #303030;
-  --text: #E6E6E6;
-  --text-active: #E6E6E6;
-  --text-muted: #A0A0A0;
+  background: #000000;
+  --surface: #131314;
+  --surface-container: rgb(31 32 33 / 70%);
+  --surface-container-low: rgb(27 28 29 / 70%);
+  --surface-container-high: rgb(41 42 43 / 70%);
+  --secondary-container: #42474E;
+  --onsurface: #E4E2E3;
+  --onsurface-variant: #C8C6C7;
+  --onsecondary-container: #DEE3EB;
+  --primary: #BDC8D4;
 }
 
 /* Discord */
 body.discord-theme {
-  --background: #121214;
-  --navbar: #1A1A1E;
-  --card: #1A1A1E;
-  --card-inlay: #17171B;
-  --button: #212125;
-  --hover: #323235;
-  --border: #222;
-  --text: #fff;
-  --text-active: #fff;
-  --text-muted: #999;
+  background: #131318;
+  --surface: #0A0A0C;
+  --surface-container: rgb(28 30 34 / 70%);
+  --surface-container-low: rgb(16 16 19 / 70%);
+  --surface-container-high: rgb(54 55 61 / 70%);
+  --secondary-container: #242429;
+  --onsurface: #fff;
+  --onsurface-variant: #999;
+  --onsecondary-container: #4C57D4;
+  --primary: #fff;
 }
 
 /* Steam */
 body.steam-theme {
-  --background: #2D333C;
-  --navbar: #171D25;
-  --card: #171D25;
-  --card-inlay: #23252A;
-  --button: #25272D;
-  --hover: #3E4047;
-  --text: #E6E6E6;
-  --text-active: #1A9FFF;
-  --text-muted: #A0A0A0;
+  background: #292F39;
+  --surface: #101720;
+  --surface-container: rgb(28 32 36 / 50%);
+  --surface-container-low: rgb(11 15 18 / 50%);
+  --surface-container-high: rgb(49 53 57 / 50%);
+  --secondary-container: #40464F;
+  --onsurface: #DDDFE0;
+  --onsurface-variant: #A4ABBA;
+  --onsecondary-container: #13A0FF;
+  --primary: #13A0FF;
 }
