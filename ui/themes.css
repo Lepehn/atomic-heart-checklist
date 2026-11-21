@@ -1,15 +1,15 @@
 :root {
 
   /* Default (Glass) */
-  --surface: rgb(16 20 24 / 80%);
-  --surface-container: rgb(28 32 36 / 80%);
-  --surface-container-low: rgb(11 15 18 / 80%);
-  --surface-container-high: rgb(49 53 57 / 80%);
-  --secondary-container: #394857;
-  --onsurface: #E0E2E8;
-  --onsurface-variant: #C2C7CE;
-  --onsecondary-container: #D4E4F6;
-  --primary: #99CCFA;
+  --surface: rgb(14 21 20 / 80%);
+  --surface-container: rgb(26 33 32 / 80%);
+  --surface-container-low: rgb(22 29 28 / 80%);
+  --surface-container-high: rgb(37 43 43 / 80%);
+  --secondary-container: #324b4a;
+  --onsurface: #dde4e2;
+  --onsurface-variant: #bec9c7;
+  --onsecondary-container: #cce8e5;
+  --primary: #80d5d0;
 }
 
 /* Light */
