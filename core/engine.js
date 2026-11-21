@@ -86,15 +86,18 @@ function updateStats() {
   if (!ctx) return;
 
   const cardInlay = getComputedStyle(document.documentElement)
-    .getPropertyValue("--card-inlay")
+    .getPropertyValue("--surface-container-low")
     .trim();
 
   const textColor = getComputedStyle(document.documentElement)
-    .getPropertyValue('--text-muted')
+    .getPropertyValue('--onsurface-variant')
     .trim();
 
   Chart.defaults.color = textColor;
   if (categoryChart) categoryChart.destroy();
+
+  const barColor = name =>
+  getComputedStyle(document.body).getPropertyValue('--primary').trim();
 
   categoryChart = new Chart(ctx, {
     type: "bar",
@@ -103,7 +106,7 @@ function updateStats() {
       datasets: [{
         label: "Completion %",
         data: values,
-        backgroundColor: "#1177a3"
+        backgroundColor: barColor
       }]
     },
     options: {
