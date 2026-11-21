@@ -18,7 +18,7 @@
   --orange: #D19A66;
   --white: #E6E6E6;
   --black: #1E1E1C;
-
+  
   /* Status Colors */
   --status-completed: var(--green);
   --status-inprogress: var(--blue);
