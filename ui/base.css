@@ -63,6 +63,7 @@ h1 {
   backdrop-filter: blur(12px);
 }
 .navbar .logo { 
+  background: var(--surface-container);
   color: var(--primary); 
   font-size: var(--font-size-extra-large); 
   font-weight: bold;
@@ -147,7 +148,6 @@ h1 {
   width: 100% !important;
   max-height: 250px;
 }
-
 .card canvas {
   border-radius: var(--radius2);
   padding: 3px 12px;
@@ -269,6 +269,7 @@ ul li { margin-bottom: 8px; font-size: var(--font-size-medium); }
   justify-content: center;
   align-items: center;
   z-index: 40;
+  backdrop-filter: blur(12px);
 }
 .modal-content {
   background: var(--surface-container);
@@ -291,7 +292,9 @@ ul li { margin-bottom: 8px; font-size: var(--font-size-medium); }
   background: var(--surface-container-high);
   color: var(--onsurface);
 }
-#closeModal { background: var(--button); }
+#closeModal,
+#closeSettingsModal { background: var(--surface-container-high); }
+#closeSettingsModal:hover { background: var(--secondary-container); }
 
 /* Responsive */
 @media (max-width:900px){
@@ -315,6 +318,11 @@ ul li { margin-bottom: 8px; font-size: var(--font-size-medium); }
   font-size: 24px;
   vertical-align: bottom;
   line-height: 1;
+}
+
+.theme-btn:hover {
+  background: var(--secondary-container);
+  color: var(--onsecondary-container);
 }
 
 .menu .material-symbols-outlined {
