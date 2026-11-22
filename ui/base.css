@@ -34,10 +34,6 @@ body {
   margin-bottom: 120px;
   font-family: var(--font-main);
   color: var(--onsurface);
-  background-image: url(https://image.api.playstation.com/vulcan/ap/rnd/202209/2815/m87aqmwNT68F9plFgyNm0TqC.jpg?w=5000&thumb=false);
-  background-size: cover;
-  background-position: center top;
-  background-repeat: no-repeat;
 }
 
 h1 {
@@ -61,6 +57,7 @@ h1 {
   margin-left: 120px;
   margin-right: 120px;
   backdrop-filter: blur(12px);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
 }
 .navbar .logo { 
   background: var(--surface-container);
@@ -123,7 +120,7 @@ h1 {
   background: var(--surface-container);
   padding: 20px;
   border-radius: var(--radius2);
-  box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
   backdrop-filter: blur(12px);
 }
 .card-header {
@@ -281,6 +278,7 @@ ul li { margin-bottom: 8px; font-size: var(--font-size-medium); }
   flex-direction: column;
   gap: 10px;
   backdrop-filter: blur(12px);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
 }
 .modal-content select,
 .modal-content button {
