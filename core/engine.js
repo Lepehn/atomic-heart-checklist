@@ -106,7 +106,9 @@ function updateStats() {
       datasets: [{
         label: "Completion %",
         data: values,
-        backgroundColor: barColor
+        backgroundColor: barColor,
+        borderRadius: 6,
+        maxBarThickness: 64
       }]
     },
     options: {
@@ -115,7 +117,9 @@ function updateStats() {
         y: {
           beginAtZero: true,
           max: 100,
-          ticks: { callback: v => v + "%" }
+          // ticks: { callback: v => v + "%" }
+          ticks: { stepSize: 25, callback: v => v + "%" },
+          grid: { color: "rgb(255 255 255 / 8%)" }
         }
       },
       plugins: {
